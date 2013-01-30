@@ -1,6 +1,5 @@
 package service;
 
-import exception.AppException;
 import model.Ad;
 import model.Ad_;
 import model.Picture;
@@ -9,7 +8,6 @@ import model.Picture_;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -46,12 +44,8 @@ public class AdService implements Serializable {
         Root<Ad> adRoot = cq.from(Ad.class);
         cq.select(adRoot);
         cq.where(cb.equal(adRoot.get(Ad_.id), IdAd));
-        try {
-            return em.createQuery(cq).getSingleResult();
+        return em.createQuery(cq).getSingleResult();
 
-        } catch (NoResultException e) {
-            throw new AppException("No pics found for this Ad Id");
-        }
     }
 
 
@@ -62,12 +56,8 @@ public class AdService implements Serializable {
         Root<Picture> adRoot = cq.from(Picture.class);
         Join<Picture, Ad> pictureAdJoin = adRoot.join(Picture_.ad);
         //SELECT clause is omitted
-        try {
-            return em.createQuery(cq).getResultList();
+        return em.createQuery(cq).getResultList();
 
-        } catch (NoResultException e) {
-            throw new AppException("No pics found for that Ad Id");
-        }
 
     }
 
@@ -78,12 +68,7 @@ public class AdService implements Serializable {
         Root<Picture> pictureRoot = cq.from(Picture.class);
         Join<Picture, Ad> pictureAdJoin = pictureRoot.join(Picture_.ad);
         cq.select(pictureRoot.<String>get(Picture_.path));
-        try {
-            return em.createQuery(cq).getResultList();
-
-        } catch (NoResultException e) {
-            throw new AppException("No pics found");
-        }
+        return em.createQuery(cq).getResultList();
 
     }
 
@@ -95,12 +80,7 @@ public class AdService implements Serializable {
         Join<Picture, Ad> pictureAdJoin = pictureRoot.join(Picture_.ad);
         cq.select(pictureRoot.<String>get(Picture_.path));
         cq.where(cb.equal(pictureRoot.get(Picture_.ad).get(Ad_.id), AdId));
-        try {
-            return em.createQuery(cq).getResultList();
-
-        } catch (NoResultException e) {
-            throw new AppException("No paths found");
-        }
+        return em.createQuery(cq).getResultList();
 
     }
 
