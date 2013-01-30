@@ -50,7 +50,7 @@ public class AdService implements Serializable {
             return em.createQuery(cq).getSingleResult();
 
         } catch (NoResultException e) {
-            throw new AppException("No pics found for that Ad Id");
+            throw new AppException("No pics found for this Ad Id");
         }
     }
 
