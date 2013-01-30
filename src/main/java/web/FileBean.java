@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 public class FileBean implements Serializable {
 
     @Inject
-    private AdBean adBean;
+    AdBean adBean;
 
     @Inject
     Logger log;

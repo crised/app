@@ -1,5 +1,6 @@
 package service;
 
+import exception.AppException;
 import model.Ad;
 import model.Ad_;
 import model.Picture;
@@ -8,6 +9,7 @@ import model.Picture_;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -32,7 +34,7 @@ public class AdService implements Serializable {
         return ad;
     }
 
-    public Ad updateAd(Ad ad){
+    public Ad updateAd(Ad ad) {
         em.merge(ad);
         return ad;
     }
@@ -44,7 +46,12 @@ public class AdService implements Serializable {
         Root<Ad> adRoot = cq.from(Ad.class);
         cq.select(adRoot);
         cq.where(cb.equal(adRoot.get(Ad_.id), IdAd));
-        return em.createQuery(cq).getSingleResult();
+        try {
+            return em.createQuery(cq).getSingleResult();
+
+        } catch (NoResultException e) {
+            throw new AppException("No pics found for that Ad Id");
+        }
     }
 
 
@@ -54,7 +61,14 @@ public class AdService implements Serializable {
         CriteriaQuery<Picture> cq = cb.createQuery(Picture.class);
         Root<Picture> adRoot = cq.from(Picture.class);
         Join<Picture, Ad> pictureAdJoin = adRoot.join(Picture_.ad);
-        return em.createQuery(cq).getResultList(); //Falta el select pero igual funciona omitido
+        //SELECT clause is omitted
+        try {
+            return em.createQuery(cq).getResultList();
+
+        } catch (NoResultException e) {
+            throw new AppException("No pics found for that Ad Id");
+        }
+
     }
 
     public List<String> getAllImagePaths() {
@@ -64,7 +78,12 @@ public class AdService implements Serializable {
         Root<Picture> pictureRoot = cq.from(Picture.class);
         Join<Picture, Ad> pictureAdJoin = pictureRoot.join(Picture_.ad);
         cq.select(pictureRoot.<String>get(Picture_.path));
-        return em.createQuery(cq).getResultList();
+        try {
+            return em.createQuery(cq).getResultList();
+
+        } catch (NoResultException e) {
+            throw new AppException("No pics found");
+        }
 
     }
 
@@ -76,7 +95,12 @@ public class AdService implements Serializable {
         Join<Picture, Ad> pictureAdJoin = pictureRoot.join(Picture_.ad);
         cq.select(pictureRoot.<String>get(Picture_.path));
         cq.where(cb.equal(pictureRoot.get(Picture_.ad).get(Ad_.id), AdId));
-        return em.createQuery(cq).getResultList();
+        try {
+            return em.createQuery(cq).getResultList();
+
+        } catch (NoResultException e) {
+            throw new AppException("No paths found");
+        }
 
     }
 

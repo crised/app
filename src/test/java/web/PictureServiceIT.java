@@ -1,5 +1,8 @@
-package service;
+package web;
 
+import enums.City;
+import exception.AppException;
+import model.Ad;
 import model.Picture;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -8,9 +11,11 @@ import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import service.PictureService;
 import util.Resources;
 
 import javax.inject.Inject;
+import java.io.File;
 import java.util.logging.Logger;
 
 import static junit.framework.Assert.assertEquals;
@@ -19,19 +24,32 @@ import static junit.framework.Assert.assertEquals;
 @RunWith(Arquillian.class)
 public class PictureServiceIT {
 
-
     @Inject
-    private Logger log;
+    Logger logger;
 
     @Deployment
     public static WebArchive createDeployment() {
-        return ShrinkWrap.create(WebArchive.class, "PictureServiceIT.war").addPackage(PictureService.class.getPackage()).addPackage(Resources.class.getPackage()).
 
-                addPackage(Picture.class.getPackage()).addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml").
+        return ShrinkWrap.create(WebArchive.class, "PictureServiceIT.war").
+
+                //Can be resolved with MavenArtifact as well.
+                addAsLibraries(new File("/home/crised/.m2/repository/org/primefaces/primefaces/3.4.2/primefaces-3.4.2.jar"),
+                        new File("/home/crised/.m2/repository/commons-fileupload/commons-fileupload/1.2.1/commons-fileupload-1.2.1.jar"),
+                        new File("/home/crised/.m2/repository/commons-io/commons-io/1.4/commons-io-1.4.jar")).
+
+                addPackages(true,
+                        City.class.getPackage(),
+                        AppException.class.getPackage(),
+                        Ad.class.getPackage(),
+                        PictureUtil.class.getPackage(),
+                        PictureService.class.getPackage(),
+                        Resources.class.getPackage()).
+
+                addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml").
 
                 addAsResource("test-persistence.xml", "META-INF/persistence.xml").
 
-                addAsWebInfResource("primefaces1-ds.xml");
+                addAsWebInfResource("app-ds.xml");
 
     }
 
@@ -47,6 +65,7 @@ public class PictureServiceIT {
 
     }
 
+
     @Test
     public void shouldPersistPicture() {
 
@@ -59,7 +78,7 @@ public class PictureServiceIT {
         assertEquals("failed", pic2.getId(), pic.getId());
 
 
-        log.info("finish test shouldPersistPicture");
+        logger.info("finish test shouldPersistPicture");
 
     }
 

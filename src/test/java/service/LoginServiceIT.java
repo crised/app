@@ -42,7 +42,7 @@ public class LoginServiceIT {
 
                 addAsResource("test-persistence.xml", "META-INF/persistence.xml").
 
-                addAsWebInfResource("primefaces1-ds.xml");
+                addAsWebInfResource("app-ds.xml");
 
     }
 

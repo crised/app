@@ -1,5 +1,7 @@
 package service;
 
+import enums.City;
+import exception.AppException;
 import model.Ad;
 import model.Picture;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -9,9 +11,8 @@ import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import prime.PictureUtil;
-import util.Loggable;
-import web.AdBean;
+import util.Resources;
+import web.PictureUtil;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -29,13 +30,19 @@ public class AdServiceIT {
     public static WebArchive createDeployment() {
 
         return ShrinkWrap.create(WebArchive.class, "AdServiceIT.war").
-                addPackages(true, Ad.class.getPackage(), PictureUtil.class.getPackage(), Loggable.class.getPackage(), AdService.class.getPackage(), AdBean.class.getPackage()).
-                addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml").addAsResource("test-persistence.xml", "META-INF/persistence.xml").addAsWebInfResource("primefaces1-ds.xml");
-
+                addPackages(true,
+                        City.class.getPackage(),
+                        AppException.class.getPackage(),
+                        Ad.class.getPackage(),
+                        PictureService.class.getPackage(),
+                        Resources.class.getPackage()).
+                addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml").
+                addAsResource("test-persistence.xml", "META-INF/persistence.xml").
+                addAsWebInfResource("app-ds.xml");
     }
 
     @Inject
-    private AdService adService;
+    AdService adService;
 
     @Test
     public void shouldReturnAd() {
@@ -56,20 +63,20 @@ public class AdServiceIT {
         }
 
 
-        List<String> pathsById =adService.getByIdImagePaths(30);
+        List<String> pathsById = adService.getByIdImagePaths(30);
 
-        for (String p : pathsById){
+        for (String p : pathsById) {
             log.info(p);
         }
 
-        pathsById =adService.getByIdImagePaths(40);
+        pathsById = adService.getByIdImagePaths(40);
 
-        for (String p : pathsById){
+        for (String p : pathsById) {
             log.warning(p);
         }
 
 
-        assertEquals("failed", new Integer(30), ad.getId());
+        assertEquals("This is a failed test", new Integer(30), ad.getId());
 
 
     }

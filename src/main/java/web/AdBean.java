@@ -3,7 +3,6 @@ package web;
 import model.Ad;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
-import prime.PictureUtil;
 import service.AdService;
 
 import javax.annotation.PostConstruct;
@@ -24,16 +23,16 @@ public class AdBean implements Serializable {
     private Integer counter;
 
     @Inject
-    private Logger log;
+    Logger log;
 
     @Inject
-    private AdService adService;
+    AdService adService;
 
     @Inject
-    private GalleriaBean galleriaBean;
+    GalleriaBean galleriaBean;
 
     @Inject
-    private PictureUtil pictureUtil;
+    PictureUtil pictureUtil;
 
     @Inject
     Conversation conversation;

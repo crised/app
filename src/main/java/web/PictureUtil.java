@@ -1,4 +1,4 @@
-package prime;
+package web;
 
 import model.Ad;
 import model.Picture;
@@ -33,9 +33,9 @@ public class PictureUtil implements Serializable {
 
         pic = pictureService.newPic();
 
-        String imgPath = "C:\\Program Files (x86)\\Apache Software Foundation\\Apache2.2\\htdocs\\" + pic.getId() + ".jpg";
-        String imgPathTn = "C:\\Program Files (x86)\\Apache Software Foundation\\Apache2.2\\htdocs\\" + pic.getId() + "_tn" + ".jpg";
-        String webImgPath = "http://localhost/" + pic.getId() + ".jpg";
+        String imgPath = "/var/www/html/" + pic.getId() + ".jpg";
+        String imgPathTn = "/var/www/html/" + pic.getId() + "_tn" + ".jpg";
+        String webImgPath = "http://192.168.1.10/" + pic.getId() + ".jpg";  // absolute path
 
         BufferedImage img = compressWriteImage(uploadedFile, Paths.get(imgPath));
 
@@ -55,7 +55,7 @@ public class PictureUtil implements Serializable {
             ImageIO.write(bimg, "jpg", path.toFile());
 
         } catch (Exception e) {
-            e.getStackTrace();
+            e.printStackTrace();
         }
         return bimg;
 
