@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
+    <title>#{msgs.title}</title>
+    <h:outputStylesheet name="css/style.css">
+    </h:outputStylesheet>
+</h:head>
+
+<h:body>
+
+
+    <div class="wrapper">
+
+        <div class="header">
+            <h:outputText value="Testing..."/>
+        </div>
+
+        <div class="content">
+
+            <h:outputText value="#{bean.hello}"/>
+
+
+            <h:form id="inputform" enctype="multipart/form-data">
+                <h:panelGrid columns="1">
+                    <h:outputText value="#{msgs.viewAdId}  #{adBean.ad.id}"/>
+                    <h:outputText value="#{msgs.viewShortDescription}  #{adBean.ad.shortDescription}"/>
+                    <h:outputText value="#{msgs.viewLongDescription}  #{adBean.ad.longDescription}"/>
+                    <h:outputText value="#{msgs.viewPrice}  #{adBean.ad.price}"/>
+                    <h:outputText value="#{msgs.viewCity}  #{adBean.ad.city}"/>
+                </h:panelGrid>
+
+                <h:outputText value="#{msgs.upload}"/>
+                <p:fileUpload fileUploadListener="#{adBean.handleFileUpload}" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+                              update="button counter"/>
+
+
+                <h:panelGrid>
+                <h:outputText id="counter" value="Images Uploaded: #{adBean.counter}" />
+                <p:commandButton id="button" value="Publish!" action="#{adBean.finish}" disabled="#{adBean.disabled}"/>
+                </h:panelGrid>
+                <p:growl id="messages" showDetail="true"/>
+            </h:form>
+
+
+        </div>
+
+        <div class="footer">
+
+            <h:outputText value="Bye bye..."/>
+        </div>
+    </div>
+
+</h:body>
+
+</html>
+

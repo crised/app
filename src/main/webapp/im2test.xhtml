@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core">
+
+<f:metadata>
+    <f:viewParam name="adid" value="#{galleriaBean2.adId}"/>
+    <f:event type="preRenderView" listener="#{galleriaBean2.init}"/>
+</f:metadata>
+
+<h:head>
+    <title>#{msgs.title}</title>
+    <h:outputStylesheet name="css/style.css"></h:outputStylesheet>
+</h:head>
+
+<h:body>
+
+
+    <div class="wrapper">
+
+        <div class="header">
+            <!-- <h:graphicImage value="http://localhost/5.jpg" />-->
+        </div>
+
+        <div class="content">
+
+            <h:outputText value="#{galleriaBean2.adId}"/>
+
+            <p:galleria value="#{galleriaBean2.paths}" var="path">
+                <p:graphicImage value="#{path}"/>
+            </p:galleria>
+
+
+        </div>
+
+        <div class="footer">
+            <p:growl id="messages" showDetail="true"/>
+            <h:outputText value="Bye bye..."/>
+        </div>
+    </div>
+
+</h:body>
+
+
+</html>

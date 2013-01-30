@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
+    <title>ConversationScoped demo CDI(Component Dependency
+        Injection)</title>
+</h:head>
+
+<h:body>
+
+
+
+    <h3>This is the last page.The value still saved in conversation(until the end() method is called)</h3>
+
+    <h4><h:outputText value="#{ supportBB.someValue}" /></h4>
+
+    <h:form>
+        <h:outputText
+                value="Click finish to end the conversation(So saved values are disposed)" />
+        <h:commandButton value="Finish" action="#{ supportBB.onFinish}" />
+    </h:form>
+
+</h:body>
+</html>

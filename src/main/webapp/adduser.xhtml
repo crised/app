@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
+    <title>#{msgs.title}</title>
+    <h:outputStylesheet name="css/style.css">
+    </h:outputStylesheet>
+</h:head>
+
+<h:body>
+
+
+    <div class="wrapper">
+
+        <div class="header">
+            <h:link value="protected resource" outcome="/auth/success.xhtml"/>
+        </div>
+
+        <div class="content">
+
+            <h:outputText value="#{bean.hello}"/>
+
+
+            <h:form id="addUser">
+
+                <h:panelGrid columns="2">
+
+                    <h:outputText value="#{msgs.addUserName}"/>
+                    <p:inputTextarea value="#{auth.user.name}" required="true"/>
+
+                    <h:outputText value="#{msgs.addUserLogin}"/>
+                    <p:inputText  value="#{auth.user.login}" required="true"/>
+
+                    <h:outputText value="#{msgs.addUserPassword}"/>
+                    <p:inputText value="#{auth.password1}" required="true"/>
+
+                    <h:outputText value="#{msgs.addUserPasswordAgain}"/>
+                    <p:inputText  value="#{auth.password2}" required="true"/>
+
+                </h:panelGrid>
+
+                <p:commandButton id="button" value="Submit" action="#{auth.action}"/>
+            </h:form>
+
+
+        </div>
+
+        <div class="footer">
+
+            <h:outputText value="Bye bye..."/>
+        </div>
+    </div>
+
+</h:body>
+
+</html>
+

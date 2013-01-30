@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
+    <title>#{msgs.title}</title>
+    <h:outputStylesheet name="css/style.css">
+    </h:outputStylesheet>
+</h:head>
+
+<h:body>
+
+
+    <div class="wrapper">
+
+        <div class="header">
+            <h:outputText value="Testing..."/>
+        </div>
+
+        <div class="content">
+
+            <h:outputText value="#{bean.hello}"/>
+
+            <h2>Log in:</h2>
+
+            <form method="post" action="j_security_check">
+
+                <h:panelGrid columns="2" role="presentation">
+                    <h:outputLabel for="j_username" value="Please type your username"/>
+                    <h:inputText id="j_username" autocomplete="off" size="20"/>
+
+                    <h:outputLabel for="j_password" value="Type Password: "/>
+                    <h:inputSecret id="j_password" autocomplete="off" size="20"/>
+                </h:panelGrid>
+
+                <h:panelGroup>
+                    <h:commandButton type="submit" value="Submit"/>
+                    <h:commandButton type="reset" value="Reset"/>
+                </h:panelGroup>
+
+            </form>
+
+
+            <!-- <h:form id="inputform" enctype="multipart/form-data">
+        <h:panelGrid columns="2">
+            <h:outputText value="#{msgs.shortDescription}"/>
+            <p:inputText id="inputtext" value="#{adBean.ad.shortDescription}" required="true"/>
+            <h:outputText value="#{msgs.longDescription}"/>
+            <p:inputText value="#{adBean.ad.longDescription}" required="true"/>
+
+        </h:panelGrid>
+
+        <p:commandButton id="button" value="Submit" action="#{.next}"/>
+            </h:form>   -->
+
+
+        </div>
+
+        <div class="footer">
+
+            <h:outputText value="Bye bye..."/>
+        </div>
+    </div>
+
+</h:body>
+
+</html>
+

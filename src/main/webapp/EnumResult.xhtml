@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
+    <title>#{msgs.title}</title>
+    <h:outputStylesheet library="css" name="style.css"/>
+    <h:outputScript library="js" name="test.js" target="body"/>
+</h:head>
+
+<h:body>
+
+
+    <div class="wrapper">
+
+        <div class="header">
+
+        </div>
+
+        <div class="content">
+
+            <h:panelGrid columns="2">
+
+                <h:outputText value="Your Choice was: "/>
+
+                <h:outputText value="#{enumBeanStatus.selectedRegion}"/>
+
+                <h:outputText value="the above is enum value, not label :)"/>
+
+
+
+            </h:panelGrid>
+
+            <p id="HW"></p>
+
+        </div>
+
+        <div class="footer">
+            <p:growl id="messages" showDetail="true"/>
+            <h:outputText value="Bye bye..."/>
+        </div>
+    </div>
+
+</h:body>
+
+
+</html>
