@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 
 <server xmlns="urn:jboss:domain:1.2">
+
     <extensions>
         <extension module="org.jboss.as.clustering.infinispan"/>
         <extension module="org.jboss.as.configadmin"/>
@@ -26,6 +27,7 @@
         <extension module="org.jboss.as.webservices"/>
         <extension module="org.jboss.as.weld"/>
     </extensions>
+
     <management>
         <security-realms>
             <security-realm name="ManagementRealm">
@@ -48,6 +50,7 @@
             </http-interface>
         </management-interfaces>
     </management>
+
     <profile>
         <subsystem xmlns="urn:jboss:domain:logging:1.1">
             <console-handler name="CONSOLE">
@@ -111,10 +114,8 @@
             </session-bean>
             <pools>
                 <bean-instance-pools>
-                    <strict-max-pool name="slsb-strict-max-pool" max-pool-size="20" instance-acquisition-timeout="5"
-                                     instance-acquisition-timeout-unit="MINUTES"/>
-                    <strict-max-pool name="mdb-strict-max-pool" max-pool-size="20" instance-acquisition-timeout="5"
-                                     instance-acquisition-timeout-unit="MINUTES"/>
+                    <strict-max-pool name="slsb-strict-max-pool" max-pool-size="20" instance-acquisition-timeout="5" instance-acquisition-timeout-unit="MINUTES"/>
+                    <strict-max-pool name="mdb-strict-max-pool" max-pool-size="20" instance-acquisition-timeout="5" instance-acquisition-timeout-unit="MINUTES"/>
                 </bean-instance-pools>
             </pools>
             <caches>
@@ -190,14 +191,13 @@
         <subsystem xmlns="urn:jboss:domain:naming:1.1"/>
         <subsystem xmlns="urn:jboss:domain:osgi:1.2" activation="lazy">
             <properties>
-                <!-- Specifies the beginning start level of the framework -->
-                <property name="org.osgi.framework.startlevel.beginning">1</property>
+                <property name="org.osgi.framework.startlevel.beginning">
+                    1
+                </property>
             </properties>
             <capabilities>
-                <!-- modules registered with the OSGi layer on startup -->
                 <capability name="javax.servlet.api:v25"/>
                 <capability name="javax.transaction.api"/>
-                <!-- bundles started in startlevel 1 -->
                 <capability name="org.apache.felix.log" startlevel="1"/>
                 <capability name="org.jboss.osgi.logging" startlevel="1"/>
                 <capability name="org.apache.felix.configadmin" startlevel="1"/>
@@ -218,10 +218,8 @@
                             <module-option name="password-stacking" value="useFirstPass"/>
                         </login-module>
                         <login-module code="RealmUsersRoles" flag="required">
-                            <module-option name="usersProperties"
-                                           value="${jboss.server.config.dir}/application-users.properties"/>
-                            <module-option name="rolesProperties"
-                                           value="${jboss.server.config.dir}/application-roles.properties"/>
+                            <module-option name="usersProperties" value="${jboss.server.config.dir}/application-users.properties"/>
+                            <module-option name="rolesProperties" value="${jboss.server.config.dir}/application-roles.properties"/>
                             <module-option name="realm" value="ApplicationRealm"/>
                             <module-option name="password-stacking" value="useFirstPass"/>
                         </login-module>
@@ -240,9 +238,9 @@
                 <security-domain name="login_form" cache-type="default">
                     <authentication>
                         <login-module code="Database" flag="required">
-                            <module-option name="dsJndiName" value="java:jboss/datasources/primefaces1"/>
+                            <module-option name="dsJndiName" value="java:jboss/datasources/app"/>
                             <module-option name="principalsQuery" value="SELECT password FROM users WHERE login = ?"/>
-                            <module-option name="rolesQuery" value="SELECT role,'Roles' FROM roles WHERE login = ?"/>
+                            <module-option name="rolesQuery" value="SELECT role,'Roles' FROM users         INNER JOIN roles ON (users.role_id = roles.id)          WHERE login = ?"/>
                             <module-option name="hashAlgorithm" value="MD5"/>
                             <module-option name="hashEncoding" value="base64"/>
                             <module-option name="hashUserPassword" value="true"/>
@@ -273,32 +271,27 @@
             <wsdl-host>${jboss.bind.address:127.0.0.1}</wsdl-host>
             <endpoint-config name="Standard-Endpoint-Config"/>
             <endpoint-config name="Recording-Endpoint-Config">
-                <pre-handler-chain name="recording-handlers"
-                                   protocol-bindings="##SOAP11_HTTP ##SOAP11_HTTP_MTOM ##SOAP12_HTTP ##SOAP12_HTTP_MTOM">
+                <pre-handler-chain name="recording-handlers" protocol-bindings="##SOAP11_HTTP ##SOAP11_HTTP_MTOM ##SOAP12_HTTP ##SOAP12_HTTP_MTOM">
                     <handler name="RecordingHandler" class="org.jboss.ws.common.invocation.RecordingServerHandler"/>
                 </pre-handler-chain>
             </endpoint-config>
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:weld:1.0"/>
     </profile>
+
     <interfaces>
         <interface name="management">
-            <inet-address value="${jboss.bind.address.management:127.0.0.1}"/>
+            <inet-address value="${jboss.bind.address.management:0.0.0.0}"/>
         </interface>
         <interface name="public">
             <inet-address value="${jboss.bind.address:0.0.0.0}"/>
         </interface>
-        <!-- TODO - only show this if the jacorb subsystem is added  -->
         <interface name="unsecure">
-            <!--
-              ~  Used for IIOP sockets in the standard configuration.
-              ~                  To secure JacORB you need to setup SSL 
-              -->
-            <inet-address value="${jboss.bind.address.unsecure:127.0.0.1}"/>
+            <inet-address value="${jboss.bind.address.unsecure:0.0.0.0}"/>
         </interface>
     </interfaces>
-    <socket-binding-group name="standard-sockets" default-interface="public"
-                          port-offset="${jboss.socket.binding.port-offset:0}">
+
+    <socket-binding-group name="standard-sockets" default-interface="public" port-offset="${jboss.socket.binding.port-offset:0}">
         <socket-binding name="management-native" interface="management" port="${jboss.management.native.port:9999}"/>
         <socket-binding name="management-http" interface="management" port="${jboss.management.http.port:9990}"/>
         <socket-binding name="management-https" interface="management" port="${jboss.management.https.port:9443}"/>
@@ -313,4 +306,10 @@
             <remote-destination host="localhost" port="25"/>
         </outbound-socket-binding>
     </socket-binding-group>
+
+    <deployments>
+        <deployment name="app-1.0.war" runtime-name="app-1.0.war">
+            <fs-archive path="/home/crised/IdeaProjects/app/target/app-1.0.war"/>
+        </deployment>
+    </deployments>
 </server>

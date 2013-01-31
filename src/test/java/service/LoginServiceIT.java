@@ -53,9 +53,9 @@ public class LoginServiceIT {
         user.setLogin("crised@gmail.com");
         user.setName("Cristian");
         user.storeHashPassword("admin");
-        Role role = new Role();
-        role.setRole(Roles.REGISTERED);
-        user.setRole(role);
+        //Role role = new Role();
+        //role.setRole(Roles.REGISTERED);
+        //user.setRole(role);
         return user;
 
     }
@@ -91,8 +91,9 @@ public class LoginServiceIT {
     public void shouldReadUserRole() {
 
         User readUser = loginService.findAll().get(0);
-        Roles roles = readUser.getRole().getRole(); //Enum then Entity
-        assertEquals("failed", roles, Roles.REGISTERED);
+        log.warning(readUser.toString());
+        //Roles roles = readUser.getRole().getRole(); //Enum then Entity
+        assertEquals("failed", readUser.getRole().getRole(), Roles.REGISTERED);
     }
 
     @Test

@@ -54,7 +54,7 @@
         </web-resource-collection>
 
         <auth-constraint>
-            <role-name>registered</role-name>
+            <role-name>REGISTERED</role-name>
         </auth-constraint>
 
 
@@ -73,7 +73,7 @@
 
 
     <security-role>
-        <role-name>registered</role-name>
+        <role-name>REGISTERED</role-name>
     </security-role>
 
 

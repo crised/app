@@ -11,7 +11,8 @@ public class Role implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-     private Integer id;
+    private Integer id;
+
 
     //@NotNull
     @Enumerated(EnumType.STRING)
@@ -20,13 +21,10 @@ public class Role implements Serializable {
     public Role() {
     }
 
-    public Integer getId() {
-        return id;
+    public Role(Roles roles){
+        setRole(roles);
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public Roles getRole() {
         return role;

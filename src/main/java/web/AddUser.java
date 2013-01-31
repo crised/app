@@ -24,8 +24,9 @@ public class AddUser {
     public String action() {
 
         if (password1.equals(password2) && password1 !=null && password2 !=null) {
+            user.storeHashPassword(password1);
             loginService.createUser(user);
-            return "auth/sucess?faces-redirect=true";
+            return "auth/success?faces-redirect=true";
         }
 
         FacesContext facesContext = FacesContext.getCurrentInstance();

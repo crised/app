@@ -1,5 +1,7 @@
 package model;
 
+import enums.Roles;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.security.MessageDigest;
@@ -31,7 +33,10 @@ public class User implements Serializable {
 
 
     public User() {
+        Role roleEntity = new Role(Roles.REGISTERED);
+        this.role = roleEntity;
     }
+
 
     public void storeHashPassword(String plainPassword) {
 
