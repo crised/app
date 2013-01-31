@@ -8,6 +8,7 @@ import model.Picture_;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -37,6 +38,15 @@ public class AdService implements Serializable {
         return ad;
     }
 
+    public List<Ad> getAll(){
+
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Ad> cq = cb.createQuery(Ad.class);
+        Root<Ad> adRoot = cq.from(Ad.class);
+        cq.select(adRoot);
+        return em.createQuery(cq).getResultList();
+    }
+
     public Ad getAdById(int IdAd) {
 
         CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -45,6 +55,8 @@ public class AdService implements Serializable {
         cq.select(adRoot);
         cq.where(cb.equal(adRoot.get(Ad_.id), IdAd));
         return em.createQuery(cq).getSingleResult();
+
+
 
     }
 
