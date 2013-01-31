@@ -11,23 +11,25 @@ import javax.inject.Named;
 
 @Named
 @RequestScoped
-public class Auth {
+public class AddUser {
 
     @Inject
     private LoginService loginService;
 
+    @Inject
     private User user;
+
     private String password1, password2;
 
     public String action() {
 
-        if (password1.equals(password2)) {
+        if (password1.equals(password2) && password1 !=null && password2 !=null) {
             loginService.createUser(user);
             return "auth/sucess?faces-redirect=true";
         }
 
         FacesContext facesContext = FacesContext.getCurrentInstance();
-        FacesMessage facesMessage = new FacesMessage("Passwords are different!");
+        FacesMessage facesMessage = new FacesMessage("Passwords are different!", "password1!=password2");
         facesContext.addMessage(null, facesMessage);
         return null;
 

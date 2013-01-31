@@ -17,11 +17,12 @@
 
         <div class="header">
             <h:link value="protected resource" outcome="/auth/success.xhtml"/>
+            <h:message for="addUser"/>
         </div>
 
         <div class="content">
 
-            <h:outputText value="#{bean.hello}"/>
+            <h:outputText value="cam"/>
 
 
             <h:form id="addUser">
@@ -29,21 +30,25 @@
                 <h:panelGrid columns="2">
 
                     <h:outputText value="#{msgs.addUserName}"/>
-                    <p:inputTextarea value="#{auth.user.name}" required="true"/>
+                    <p:inputText value="#{addUser.user.name}"   required="true"/>
 
                     <h:outputText value="#{msgs.addUserLogin}"/>
-                    <p:inputText  value="#{auth.user.login}" required="true"/>
+                    <p:inputText  value="#{addUser.user.login}" required="true"/>
 
                     <h:outputText value="#{msgs.addUserPassword}"/>
-                    <p:inputText value="#{auth.password1}" required="true"/>
+                    <h:inputSecret value="#{addUser.password1}" required="true"/>
 
                     <h:outputText value="#{msgs.addUserPasswordAgain}"/>
-                    <p:inputText  value="#{auth.password2}" required="true"/>
+                    <h:inputSecret  value="#{addUser.password2}" required="true"/>
 
                 </h:panelGrid>
 
-                <p:commandButton id="button" value="Submit" action="#{auth.action}"/>
+                <p:commandButton id="submitButton" value="Submit" action="#{addUser.action}"/>
+                <h:messages rendered="true" errorStyle="color:red" globalOnly="true"/>  /
+
             </h:form>
+
+
 
 
         </div>
