@@ -50,7 +50,7 @@ public class AdServiceIT {
 
         try {
 
-            ad = adService.getAll().get(0); // Takes first of the list.
+            ad = adService.getAll().get(0); // Takes first ad of the list.
 
 
             List<Picture> pictures = adService.getPicsbyAdId();

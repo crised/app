@@ -13,6 +13,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import java.util.List;
 import java.util.logging.Logger;
 
 @Stateless
@@ -27,7 +28,7 @@ public class LoginService {
 
     public User createUser(User user) {
 
-        if (!DoesLoginAlreadyExists(user.getLogin())) {
+        if (!DoesLoginAlreadyExists(user)) {
             em.persist(user);
             return user; // Becomes Managed therefore grabs an id.
         } else {
@@ -35,17 +36,18 @@ public class LoginService {
         }
     }
 
-    private Boolean DoesLoginAlreadyExists(String login) {
+    public Boolean DoesLoginAlreadyExists(User user) {
 
-        if (login == null) throw new AppException("Null Login");
+        if (user == null) throw new AppException("Null Login");
 
         try {
-            findUserByLogin(login);
+            findUserByLogin(user.getLogin());
             return true;
         } catch (NoResultException e) {
             return false;
         }
     }
+
 
     public User findUserById(Integer Id) {
 
@@ -60,6 +62,18 @@ public class LoginService {
         return user;
 
     }
+
+    public List<User> findAll(){
+
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<User>  cq = cb.createQuery(User.class);
+        Root<User> userRoot = cq.from(User.class);
+        cq.select(userRoot);
+        return em.createQuery(cq).getResultList();
+
+
+    }
+
 
     public User findUserByLogin(String login) {
 
