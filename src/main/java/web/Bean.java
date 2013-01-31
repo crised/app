@@ -2,6 +2,7 @@ package web;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
 @Named
@@ -12,8 +13,13 @@ public class Bean {
 
 
     @PostConstruct
-    public void start(){
-        hello = "start";
+    public void start() {
+
+        String login = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
+        if (login == null) {
+            hello = "Hello Guest!";
+        } else hello = "Hello " + login + "!";
+
     }
 
     public String getHello() {

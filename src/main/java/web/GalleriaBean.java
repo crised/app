@@ -31,6 +31,8 @@ public class GalleriaBean implements Serializable {
     public void getAllPathsImages() {
 
         log.info("Galleria Bean Created");
+        allPaths = adService.getAllImagePaths();
+
 
 
 
@@ -47,7 +49,6 @@ public class GalleriaBean implements Serializable {
     public void getPathImagebyAdId() {
 
         ad = adService.getAdById(adId);
-        allPaths = adService.getAllImagePaths();
         paths = adService.getByIdImagePaths(adId);
     }
 

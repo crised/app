@@ -16,7 +16,11 @@
     <div class="wrapper">
 
         <div class="header">
-            <h:outputText value="Testing..."/>
+            <h:panelGrid columns="2">
+                <h:link value="Protected Resources" outcome="/auth/success.xhtml"/>
+                <h:link value="Register" outcome="/adduser.xhtml"/>
+                <h:link value="Add ad" outcome="/auth/addad"/>
+            </h:panelGrid>
         </div>
 
         <div class="content">
@@ -24,9 +28,12 @@
             You've logged in!
 
             <h:panelGrid columns="1">
-            <h:outputText value="#{userInfo.s1}"/>
-            <h:outputText value="#{userInfo.s2}"/>
-            <h:outputText value="#{userInfo.s3}"/>
+                <h:outputText value="#{userInfo.s1}"/>
+                <h:outputText value="#{userInfo.s2}"/>
+                <h:outputText value="#{userInfo.s3}"/>
+                <h:form>
+                    <h:commandLink value="Logout?!" action="#{addUser.logout}"/>
+                </h:form>
             </h:panelGrid>
 
 

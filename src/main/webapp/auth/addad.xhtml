@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
+    <title>#{msgs.title}</title>
+    <h:outputStylesheet name="css/style.css">
+    </h:outputStylesheet>
+</h:head>
+
+<h:body>
+
+
+    <div class="wrapper">
+
+        <div class="header">
+            <h:panelGrid columns="2">
+                <h:link value="Home" outcome="/index.xhtml"/>
+            </h:panelGrid>
+        </div>
+
+        <div class="content">
+
+            <h:outputText value="#{bean.hello}"/>
+
+
+            <h:form id="inputform" enctype="multipart/form-data">
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{msgs.shortDescription}"/>
+                    <p:inputText id="inputtext" value="#{adBean.ad.shortDescription}" required="true"/>
+                    <h:outputText value="#{msgs.longDescription}"/>
+                    <p:inputTextarea value="#{adBean.ad.longDescription}" required="true"/>
+                    <h:outputText value="#{msgs.price}"/>
+                    <p:inputText value="#{adBean.ad.price}" required="true"/>
+                    <h:outputText value="#{msgs.selectCity}"/>
+
+                    <h:selectOneMenu value="#{enumRegistration.selectedRegion}">
+                        <f:selectItems value="#{enumRegistration.regionList}"/>
+                        <f:ajax listener="#{enumRegistration.selectCity}" render="citiesmenu"/>
+                    </h:selectOneMenu>
+
+                    <h:outputText value="#{msgs.selectRegion}"/>
+
+                    <h:selectOneMenu id="citiesmenu" value="#{adBean.ad.city}" required="true">
+                        <f:selectItems value="#{enumRegistration.cityList}" var="city"
+                                       itemLabel="#{city.label}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+
+                <p:commandButton id="button" value="Submit" action="#{adBean.next}"/>
+            </h:form>
+
+
+        </div>
+
+        <div class="footer">
+
+            <h:outputText value="Bye bye..."/>
+        </div>
+    </div>
+
+</h:body>
+
+</html>
+

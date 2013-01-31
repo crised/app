@@ -2,7 +2,6 @@ package web;
 
 
 import enums.Roles;
-
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
@@ -16,14 +15,8 @@ import java.io.Serializable;
 @RequestScoped
 public class UserInfo implements Serializable {
 
-   /* @Inject
-    @SessionScoped
-    private transient LoginContext lc;  */
 
     String s1,s2,s3;
-
-
-
 
     @PostConstruct
     public void info(){

@@ -2,12 +2,15 @@ package model;
 
 import enums.City;
 
+import javax.annotation.PostConstruct;
 import javax.persistence.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 @Entity
-public class Ad {
+public class Ad implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -19,21 +22,33 @@ public class Ad {
 
     private BigDecimal price;
 
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateRegistered;
+
     @Enumerated(EnumType.STRING)
     private City city;
 
     @OneToMany(mappedBy = "ad")
     private List<Picture> pictureList;
 
+    @ManyToOne
+    private User user;
+
     public Ad() {
     }
 
-    public Ad(String shortDescription, String longDescription, BigDecimal price, City city){
+    public Ad(String shortDescription, String longDescription, BigDecimal price, City city) {
         this.shortDescription = shortDescription;
         this.longDescription = longDescription;
         this.price = price;
         this.city = city;
 
+    }
+
+    @PostConstruct
+    public void init() {
+
+        setDateRegistered(new Date());
     }
 
     public Integer getId() {
@@ -82,5 +97,21 @@ public class Ad {
 
     public void setCity(City city) {
         this.city = city;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Date getDateRegistered() {
+        return dateRegistered;
+    }
+
+    public void setDateRegistered(Date dateRegistered) {
+        this.dateRegistered = dateRegistered;
     }
 }

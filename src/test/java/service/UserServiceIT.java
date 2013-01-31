@@ -4,14 +4,12 @@ import enums.City;
 import enums.Roles;
 import exception.AppException;
 import model.Ad;
-import model.Role;
 import model.User;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import util.Resources;
@@ -23,7 +21,7 @@ import static junit.framework.Assert.*;
 
 
 @RunWith(Arquillian.class)
-public class LoginServiceIT {
+public class UserServiceIT {
 
     @Inject
     private Logger log;
@@ -45,7 +43,7 @@ public class LoginServiceIT {
     }
 
     @Inject
-    LoginService loginService;
+    UserService userService;
 
     private User createUser() {
 
@@ -53,9 +51,6 @@ public class LoginServiceIT {
         user.setLogin("crised@gmail.com");
         user.setName("Cristian");
         user.storeHashPassword("admin");
-        //Role role = new Role();
-        //role.setRole(Roles.REGISTERED);
-        //user.setRole(role);
         return user;
 
     }
@@ -68,7 +63,7 @@ public class LoginServiceIT {
 
         log.info(user.getLogin());
         try {
-           loginService.createUser(user);
+           userService.createUser(user);
             assertNotNull(user.getId());
 
         } catch (Exception e) {
@@ -82,7 +77,7 @@ public class LoginServiceIT {
     @Test
     public void shouldReadUser() {
 
-        User readUser = loginService.findAll().get(0);
+        User readUser = userService.findAll().get(0);
         assertNotNull(readUser.getId());
 
     }
@@ -90,7 +85,7 @@ public class LoginServiceIT {
     @Test
     public void shouldReadUserRole() {
 
-        User readUser = loginService.findAll().get(0);
+        User readUser = userService.findAll().get(0);
         log.warning(readUser.toString());
         //Roles roles = readUser.getRole().getRole(); //Enum then Entity
         assertEquals("failed", readUser.getRole().getRole(), Roles.REGISTERED);
@@ -99,7 +94,7 @@ public class LoginServiceIT {
     @Test
     public void shouldFindUserByLogin() {
 
-        User readUser = loginService.findUserByLogin("crised@gmail.com");
+        User readUser = userService.findUserByLogin("crised@gmail.com");
         assertEquals("fail", readUser.getLogin(), "crised@gmail.com");
     }
 

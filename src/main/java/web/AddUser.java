@@ -1,7 +1,7 @@
 package web;
 
 import model.User;
-import service.LoginService;
+import service.UserService;
 
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
@@ -14,7 +14,7 @@ import javax.inject.Named;
 public class AddUser {
 
     @Inject
-    private LoginService loginService;
+    private UserService userService;
 
     @Inject
     private User user;
@@ -25,7 +25,7 @@ public class AddUser {
 
         if (password1.equals(password2) && password1 != null && password2 != null) {
             user.storeHashPassword(password1);
-            loginService.createUser(user);
+            userService.createUser(user);
             return "auth/success?faces-redirect=true";
         }
 
@@ -35,6 +35,11 @@ public class AddUser {
         return null;
 
 
+    }
+
+    public String logout(){
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        return "/index?faces-redirect=true";
     }
 
     public User getUser() {

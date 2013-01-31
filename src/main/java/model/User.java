@@ -5,6 +5,8 @@ import enums.Roles;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.security.MessageDigest;
+import java.util.Date;
+import java.util.List;
 
 
 @Entity
@@ -24,12 +26,15 @@ public class User implements Serializable {
     //@NotNull
     private String name; //real person name
 
-    //@Temporal(TemporalType.TIMESTAMP)
-    //private Date dateRegistered;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateRegistered;
 
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn
     private Role role;
+
+    @OneToMany(mappedBy = "user")
+    private List<Ad> ad;
 
 
     public User() {
@@ -89,5 +94,21 @@ public class User implements Serializable {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public List<Ad> getAd() {
+        return ad;
+    }
+
+    public void setAd(List<Ad> ad) {
+        this.ad = ad;
+    }
+
+    public Date getDateRegistered() {
+        return dateRegistered;
+    }
+
+    public void setDateRegistered(Date dateRegistered) {
+        this.dateRegistered = dateRegistered;
     }
 }

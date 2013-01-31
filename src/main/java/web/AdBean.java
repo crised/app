@@ -1,14 +1,17 @@
 package web;
 
 import model.Ad;
+import model.User;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 import service.AdService;
+import service.UserService;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -18,9 +21,11 @@ import java.util.logging.Logger;
 @ConversationScoped
 public class AdBean implements Serializable {
 
-    private Ad ad;
     private Boolean disabled;
     private Integer counter;
+
+    @Inject
+    Ad ad;
 
     @Inject
     Logger log;
@@ -33,6 +38,12 @@ public class AdBean implements Serializable {
 
     @Inject
     PictureUtil pictureUtil;
+
+    @Inject
+    UserService userService;
+
+    @Inject
+    User loggedUser;
 
     @Inject
     Conversation conversation;
@@ -74,7 +85,7 @@ public class AdBean implements Serializable {
 
         conversation.end();
         galleriaBean.setAdId(ad.getId()); //ViewParam will be taken from this object
-        return "imview?faces-redirect=true&amp;includeViewParams=true";
+        return "/auth/imview?faces-redirect=true&amp;includeViewParams=true";
         //return "imview?aid=" + ad.getId() + "?faces-redirect=true";
 
     }
@@ -83,13 +94,19 @@ public class AdBean implements Serializable {
     public String next() {
 
         //updateAd(shortDescription, longDescription, price, city); //En este method se persiste el Ad..
+
+        loggedUser = userService.findUserByLogin(
+                FacesContext.getCurrentInstance().getExternalContext().getRemoteUser());
+
+        ad.setUser(loggedUser);
+
         ad = adService.createAd(ad);
         log.info(ad.getPrice().toString());
         disabled = true;
         counter = 0;
         conversation.begin();
 
-        return "next?faces-redirect=true&amp;includeViewParams=true";
+        return "/auth/next?faces-redirect=true&amp;includeViewParams=true";
         //return "imview?faces-redirect=true&amp;includeViewParams=true";
 
     }
