@@ -28,7 +28,7 @@ public class Ad implements Serializable {
     @Enumerated(EnumType.STRING)
     private City city;
 
-    @OneToMany(mappedBy = "ad")
+    @OneToMany(mappedBy = "ad", fetch = FetchType.EAGER)
     private List<Picture> pictureList;
 
     @ManyToOne

@@ -4,6 +4,7 @@ import enums.City;
 import exception.AppException;
 import model.Ad;
 import model.Picture;
+import model.User;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -52,7 +53,7 @@ public class AdServiceIT {
 
             ad = adService.getAll().get(0); // Takes first ad of the list.
 
-
+            /*
             List<Picture> pictures = adService.getPicsbyAdId();
 
             for (Picture p : pictures) {
@@ -78,6 +79,24 @@ public class AdServiceIT {
             for (String p : pathsById) {
                 log.warning(p);
             }
+
+            */
+
+            User user = new User();
+            user.setId(31);
+
+            List<Ad> ads = adService.getAdsByUser(user);
+
+            for (Ad p : ads){
+                log.info(p.getId().toString());
+
+                for(Picture pic : p.getPictureList()){
+                    log.info(pic.getPath());
+                }
+            }
+
+
+
         } catch (Throwable cause) {
             log.severe(cause.getMessage());
             log.severe("no result found");

@@ -85,7 +85,7 @@ public class AdBean implements Serializable {
 
         conversation.end();
         galleriaBean.setAdId(ad.getId()); //ViewParam will be taken from this object
-        return "/auth/imview?faces-redirect=true&amp;includeViewParams=true";
+        return "/auth/imviewadid?faces-redirect=true&amp;includeViewParams=true";
         //return "imview?aid=" + ad.getId() + "?faces-redirect=true";
 
     }

@@ -1,9 +1,6 @@
 package service;
 
-import model.Ad;
-import model.Ad_;
-import model.Picture;
-import model.Picture_;
+import model.*;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -55,8 +52,16 @@ public class AdService implements Serializable {
         cq.select(adRoot);
         cq.where(cb.equal(adRoot.get(Ad_.id), IdAd));
         return em.createQuery(cq).getSingleResult();
+    }
 
+    public List<Ad> getAdsByUser(User user){
 
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Ad> cq = cb.createQuery(Ad.class);
+        Root<Ad> adRoot = cq.from(Ad.class);
+        cq.select(adRoot);
+        cq.where(cb.equal(adRoot.get(Ad_.user), user));
+        return em.createQuery(cq).getResultList();
 
     }
 
