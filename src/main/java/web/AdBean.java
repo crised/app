@@ -50,12 +50,12 @@ public class AdBean implements Serializable {
 
 
     public AdBean() {
-        ad = new Ad();
+        //ad = new Ad();
     }
 
 
     @PostConstruct
-    public void init() {
+    public void postConstruct() {
         log.info("AdBean Created");
     }
 
@@ -66,9 +66,7 @@ public class AdBean implements Serializable {
 
     public void handleFileUpload(FileUploadEvent event) {
 
-
         fileUpload(event.getFile());
-
 
     }
 
@@ -80,36 +78,39 @@ public class AdBean implements Serializable {
 
     }
 
+    public String initConversation() {
+
+        conversation.begin();
+        return "/auth/addad";
+
+    }
+
+    public String next() {
+
+
+        loggedUser = userService.findUserByLogin(
+                FacesContext.getCurrentInstance().getExternalContext().getRemoteUser());
+
+        ad.setUser(loggedUser);
+        ad = adService.createAd(ad);
+        log.info(ad.getPrice().toString());
+        disabled = true;
+        counter = 0;
+        //conversation.begin();
+
+        return "/auth/next?faces-redirect=true&amp;includeViewParams=true";
+
+    }
+
 
     public String finish() {
 
         conversation.end();
         galleriaBean.setAdId(ad.getId()); //ViewParam will be taken from this object
         return "/auth/imviewadid?faces-redirect=true&amp;includeViewParams=true";
-        //return "imview?aid=" + ad.getId() + "?faces-redirect=true";
 
     }
 
-
-    public String next() {
-
-        //updateAd(shortDescription, longDescription, price, city); //En este method se persiste el Ad..
-
-        loggedUser = userService.findUserByLogin(
-                FacesContext.getCurrentInstance().getExternalContext().getRemoteUser());
-
-        ad.setUser(loggedUser);
-
-        ad = adService.createAd(ad);
-        log.info(ad.getPrice().toString());
-        disabled = true;
-        counter = 0;
-        conversation.begin();
-
-        return "/auth/next?faces-redirect=true&amp;includeViewParams=true";
-        //return "imview?faces-redirect=true&amp;includeViewParams=true";
-
-    }
 
     public Ad getAd() {
         return ad;
