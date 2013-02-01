@@ -23,9 +23,12 @@
             <h:panelGrid columns="2">
                 <h:link value="Protected Resources" outcome="/auth/success.xhtml"/>
                 <h:link value="Register" outcome="/adduser.xhtml"/>
+
                 <h:form>
-                <h:commandLink value="Add ad" actionListener="" action="#{adBean.initConversation}"/>
+                    <h:commandLink value="Add ad" action="#{adBean.initConversation}"/>
                 </h:form>
+
+
             </h:panelGrid>
         </div>
 

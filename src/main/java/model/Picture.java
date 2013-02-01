@@ -1,6 +1,8 @@
 package model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Picture {
@@ -17,6 +19,19 @@ public class Picture {
     private String path;
 
     public Picture() {
+    }
+
+    public static List<String> getThumbnailspaths(List<String> paths) {
+
+        // Convert http://192.168.1.10/14.jpg --> http://192.168.1.10/14_tn.jpg
+        List<String> thumbpaths = new ArrayList<>();
+        for (String path : paths) {
+            if (path.endsWith(".jpg")) {
+                StringBuilder sb = new StringBuilder(path);
+                thumbpaths.add(sb.insert(sb.lastIndexOf(".jpg"), "_tn").toString());
+            }
+        }
+        return thumbpaths;
     }
 
     public Integer getId() {

@@ -20,14 +20,18 @@ import java.util.logging.Logger;
 public class GalleriaBean implements Serializable {
 
     private List<String> paths;
+    private List<String> paths_tn;
     private List<String> allPaths;
     private List<Ad> adsByUser;
-    private Ad ad;
-    private int adId;
     private List<String> picsPathsByUser;
+
+
+    @Inject
+    Ad ad;
 
     @Inject
     User user;
+
 
     @Inject
     AdService adService;
@@ -54,9 +58,12 @@ public class GalleriaBean implements Serializable {
     // Events from viewParam
     public void getPathImagebyAdId() {
 
-        ad = adService.getAdById(adId);
-        paths = adService.getByIdImagePaths(adId);
+        ad = adService.getAdById(ad.getId());
+        paths = adService.getByIdImagePaths(ad.getId());
+        paths_tn = Picture.getThumbnailspaths(paths);
     }
+
+
 
     // Events from viewParam
     public void getPathImagebyUserId() {
@@ -77,9 +84,9 @@ public class GalleriaBean implements Serializable {
 
         picsPathsByUser = new ArrayList<>();
 
-        for(Ad adfromlist : adsByUser){
-            if (adfromlist.equals(ad)){
-                for(Picture pic : adfromlist.getPictureList()){
+        for (Ad adFromList : adsByUser) {
+            if (adFromList.equals(ad)) {
+                for (Picture pic : adFromList.getPictureList()) {
                     picsPathsByUser.add(pic.getPath());
                 }
 
@@ -87,7 +94,6 @@ public class GalleriaBean implements Serializable {
         }
 
         return picsPathsByUser;
-
 
 
     }
@@ -118,14 +124,6 @@ public class GalleriaBean implements Serializable {
         this.ad = ad;
     }
 
-    public int getAdId() {
-        return adId;
-    }
-
-    public void setAdId(int adId) {
-        this.adId = adId;
-    }
-
     public User getUser() {
         return user;
     }
@@ -148,5 +146,13 @@ public class GalleriaBean implements Serializable {
 
     public void setPicsPathsByUser(List<String> picsPathsByUser) {
         this.picsPathsByUser = picsPathsByUser;
+    }
+
+    public List<String> getPaths_tn() {
+        return paths_tn;
+    }
+
+    public void setPaths_tn(List<String> paths_tn) {
+        this.paths_tn = paths_tn;
     }
 }

@@ -80,8 +80,11 @@ public class AdBean implements Serializable {
 
     public String initConversation() {
 
+        if(conversation.isTransient()){
         conversation.begin();
-        return "/auth/addad";
+        }
+
+        return "/auth/addad?faces-redirect=true&amp;includeViewParams=true";
 
     }
 
@@ -106,7 +109,7 @@ public class AdBean implements Serializable {
     public String finish() {
 
         conversation.end();
-        galleriaBean.setAdId(ad.getId()); //ViewParam will be taken from this object
+        galleriaBean.setAd(ad); //ViewParam will be taken from this object
         return "/auth/imviewadid?faces-redirect=true&amp;includeViewParams=true";
 
     }

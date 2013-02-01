@@ -44,6 +44,12 @@ public class PictureUtil implements Serializable {
         pic.setPath(webImgPath);
         pic.setAd(ad);
         pictureService.updatePicture(pic);
+        try{
+            Thread.sleep(10000);
+        } catch(InterruptedException e){
+            log.severe(e.getMessage());
+        }
+
 
     }
 
