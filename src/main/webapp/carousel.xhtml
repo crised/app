@@ -26,14 +26,28 @@
 
         <div class="content">
 
-            <h:panelGrid columns="1">
+            <h:panelGrid columns="2">
+                <h:form id="form">
 
-                <p:carousel value="#{galleriaBean.paths_tn}" var="img" itemStyle="width: 200px">
-                    <p:graphicImage value="#{img}"/>
-                </p:carousel>
+                    <p:carousel value="#{galleriaBean.paths_tn}" var="img" itemStyle="width: 200px">
+                        <p:graphicImage value="#{img}"/>
+                    </p:carousel>
+
+                    <p:commandLink value="Hola" update="hola1" oncomplete="dlg.show()">
+                        <f:setPropertyActionListener value="hola" target="#{galleriaBean.selected}"/>
+                    </p:commandLink>
+
+
+                    <p:dialog widgetVar="dlg">
+                    <h:outputText  id="hola1" value="#{galleriaBean.selected}"/>
+                    </p:dialog>
+
+
+                </h:form>
 
 
             </h:panelGrid>
+
 
         </div>
 

@@ -25,6 +25,8 @@ public class GalleriaBean implements Serializable {
     private List<Ad> adsByUser;
     private List<String> picsPathsByUser;
 
+    private String selected; //selected from carousel
+
 
     @Inject
     Ad ad;
@@ -44,6 +46,7 @@ public class GalleriaBean implements Serializable {
 
         log.info("Galleria Bean Created");
         allPaths = adService.getAllImagePaths();
+        selected = "none";
 
 
     }
@@ -154,5 +157,13 @@ public class GalleriaBean implements Serializable {
 
     public void setPaths_tn(List<String> paths_tn) {
         this.paths_tn = paths_tn;
+    }
+
+    public String getSelected() {
+        return selected;
+    }
+
+    public void setSelected(String selected) {
+        this.selected = selected;
     }
 }
