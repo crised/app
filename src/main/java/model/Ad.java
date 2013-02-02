@@ -22,6 +22,12 @@ public class Ad implements Serializable {
 
     private BigDecimal price;
 
+    private Boolean removed;
+
+
+    @Version
+    private long version;
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateRegistered;
 
@@ -113,5 +119,21 @@ public class Ad implements Serializable {
 
     public void setDateRegistered(Date dateRegistered) {
         this.dateRegistered = dateRegistered;
+    }
+
+    public long getVersion() {
+        return version;
+    }
+
+    protected void setVersion(long version) {     //not supposed to be called
+        this.version = version;
+    }
+
+    public Boolean getRemoved() {
+        return removed;
+    }
+
+    public void setRemoved(Boolean removed) {
+        this.removed = removed;
     }
 }

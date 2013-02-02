@@ -18,12 +18,21 @@ public class Picture {
 
     private String path;
 
+    private Boolean removed;
+
     public Picture() {
     }
 
-    public static List<String> getThumbnailspaths(List<String> paths) {
+    public String getPathThumbNail(){
 
-        // Convert http://192.168.1.10/14.jpg --> http://192.168.1.10/14_tn.jpg
+        StringBuffer sb = new StringBuffer(path);
+        sb.insert(sb.lastIndexOf(".jpg"),"_tn");
+        return sb.toString();
+    }
+
+    public List<String> getThumbnailspaths(List<String> paths) {
+
+        // Convert list http://192.168.1.10/14.jpg --> http://192.168.1.10/14_tn.jpg
         List<String> thumbpaths = new ArrayList<>();
         for (String path : paths) {
             if (path.endsWith(".jpg")) {
@@ -32,6 +41,15 @@ public class Picture {
             }
         }
         return thumbpaths;
+    }
+
+    public String getImagePathFromThumbnailPath(String thumbnailPath) {
+
+        // Convert Single http://192.168.1.10/14_tn.jpg --> http://192.168.1.10/14.jpg -->
+        if (thumbnailPath.endsWith(".jpg")) {
+            StringBuilder sb = new StringBuilder(thumbnailPath);
+            return sb.delete(sb.lastIndexOf("_tn"), sb.lastIndexOf("_tn") + 3).toString();
+        } else return null;
     }
 
     public Integer getId() {
@@ -66,4 +84,11 @@ public class Picture {
         this.path = path;
     }
 
+    public Boolean getRemoved() {
+        return removed;
+    }
+
+    public void setRemoved(Boolean removed) {
+        this.removed = removed;
+    }
 }

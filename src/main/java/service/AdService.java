@@ -41,6 +41,7 @@ public class AdService implements Serializable {
         CriteriaQuery<Ad> cq = cb.createQuery(Ad.class);
         Root<Ad> adRoot = cq.from(Ad.class);
         cq.select(adRoot);
+        cq.where(cb.isNull(adRoot.get(Ad_.removed)));
         return em.createQuery(cq).getResultList();
     }
 
@@ -51,6 +52,7 @@ public class AdService implements Serializable {
         Root<Ad> adRoot = cq.from(Ad.class);
         cq.select(adRoot);
         cq.where(cb.equal(adRoot.get(Ad_.id), IdAd));
+        cq.where(cb.isNull(adRoot.get(Ad_.removed)));
         return em.createQuery(cq).getSingleResult();
     }
 
@@ -61,35 +63,25 @@ public class AdService implements Serializable {
         Root<Ad> adRoot = cq.from(Ad.class);
         cq.select(adRoot);
         cq.where(cb.equal(adRoot.get(Ad_.user), user));
+        cq.where(cb.isNull(adRoot.get(Ad_.removed)));
         return em.createQuery(cq).getResultList();
 
     }
 
 
-    public List<Picture> getPicsbyAdId() {
-
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<Picture> cq = cb.createQuery(Picture.class);
-        Root<Picture> adRoot = cq.from(Picture.class);
-        Join<Picture, Ad> pictureAdJoin = adRoot.join(Picture_.ad);
-        //SELECT clause is omitted
-        return em.createQuery(cq).getResultList();
-
-
-    }
-
-    public List<String> getAllImagePaths() {
+    public List<String> getAllPicturePaths() {
 
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<String> cq = cb.createQuery(String.class);
         Root<Picture> pictureRoot = cq.from(Picture.class);
         Join<Picture, Ad> pictureAdJoin = pictureRoot.join(Picture_.ad);
         cq.select(pictureRoot.<String>get(Picture_.path));
+        cq.where(cb.isNull(pictureRoot.get(Picture_.removed)));
         return em.createQuery(cq).getResultList();
 
     }
 
-    public List<String> getByIdImagePaths(int AdId) {
+    public List<String> getImagePathsbyAdId(int AdId) {
 
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<String> cq = cb.createQuery(String.class);
@@ -97,7 +89,35 @@ public class AdService implements Serializable {
         Join<Picture, Ad> pictureAdJoin = pictureRoot.join(Picture_.ad);
         cq.select(pictureRoot.<String>get(Picture_.path));
         cq.where(cb.equal(pictureRoot.get(Picture_.ad).get(Ad_.id), AdId));
+        cq.where(cb.isNull(pictureRoot.get(Picture_.removed)));
         return em.createQuery(cq).getResultList();
+
+    }
+
+    public List<Picture> getListOfPicsbyAdId(int Adid) {
+
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Picture> cq = cb.createQuery(Picture.class);
+        Root<Picture> pictureRoot = cq.from(Picture.class);
+        Join<Picture, Ad> pictureAdJoin = pictureRoot.join(Picture_.ad);
+        cq.select(pictureRoot);
+        cq.where(cb.equal(pictureRoot.get(Picture_.ad).get(Ad_.id), Adid));
+        cq.where(cb.isNull(pictureRoot.get(Picture_.removed)));
+        return em.createQuery(cq).getResultList();
+
+
+    }
+
+    public List<Picture> getListOfPicsAll() {
+
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Picture> cq = cb.createQuery(Picture.class);
+        Root<Picture> pictureRoot = cq.from(Picture.class);
+        Join<Picture, Ad> pictureAdJoin = pictureRoot.join(Picture_.ad);
+        cq.select(pictureRoot);
+        cq.where(cb.isNull(pictureRoot.get(Picture_.removed)));
+        return em.createQuery(cq).getResultList();
+
 
     }
 

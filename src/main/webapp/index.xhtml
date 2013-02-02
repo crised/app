@@ -36,8 +36,8 @@
 
             <h:outputText value="#{bean.hello}"/>
 
-            <p:galleria value="#{galleriaBean.allPaths}" var="path">
-                <p:graphicImage value="#{path}"/>
+            <p:galleria value="#{galleriaBean.pictureAll}" var="path">
+                <p:graphicImage value="#{path.path}"/>
             </p:galleria>
 
 
@@ -45,7 +45,7 @@
 
         <div class="footer">
             <p:growl id="messages" showDetail="true"/>
-            <h:outputText value="Bye bye..."/>
+            <h:outputText value="Bydfffffffffe bye..."/>
         </div>
     </div>
 

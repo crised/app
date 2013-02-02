@@ -4,28 +4,27 @@ import model.Ad;
 import model.Picture;
 import model.User;
 import service.AdService;
+import service.PictureService;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import javax.enterprise.context.RequestScoped;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import javax.inject.Named;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-@Named
-@RequestScoped
+@ManagedBean
+@ViewScoped
 public class GalleriaBean implements Serializable {
 
-    private List<String> paths;
-    private List<String> paths_tn;
-    private List<String> allPaths;
+
     private List<Ad> adsByUser;
     private List<String> picsPathsByUser;
-
-    private String selected; //selected from carousel
+    private List<Picture> pictureList;
+    private List<Picture> pictureAll;
+    private Picture pictureSelected; //selected from carousel
 
 
     @Inject
@@ -39,14 +38,23 @@ public class GalleriaBean implements Serializable {
     AdService adService;
 
     @Inject
+    PictureService pictureService;
+
+    @Inject
     Logger log;
+
+    public GalleriaBean() {
+
+
+        // selected = "constructed";
+    }
 
     @PostConstruct
     public void getAllPathsImages() {
 
         log.info("Galleria Bean Created");
-        allPaths = adService.getAllImagePaths();
-        selected = "none";
+        pictureAll = adService.getListOfPicsAll();
+        //selected = "none";
 
 
     }
@@ -59,13 +67,12 @@ public class GalleriaBean implements Serializable {
     }
 
     // Events from viewParam
-    public void getPathImagebyAdId() {
+    public void ListPicturesByAdId() {
 
-        ad = adService.getAdById(ad.getId());
-        paths = adService.getByIdImagePaths(ad.getId());
-        paths_tn = Picture.getThumbnailspaths(paths);
+        //ad = adService.getAdById(ad.getId());
+        pictureList = adService.getListOfPicsbyAdId(ad.getId());
+
     }
-
 
 
     // Events from viewParam
@@ -73,67 +80,40 @@ public class GalleriaBean implements Serializable {
 
         adsByUser = adService.getAdsByUser(user);
 
-        /*picsPathsByUser = new ArrayList<>();
 
-        for (Ad ad : adsByUser) {
-            for (Picture pic : ad.getPictureList()) {
-                picsPathsByUser.add(pic.getPath());
-            }
-        }
-        */
     }
 
-    public List<String> getPathImageByAd(Ad ad) {
 
-        picsPathsByUser = new ArrayList<>();
+    public void deleteImage() {
+        log.info(pictureSelected.getPath());
+        int i = 0;
+        for (Picture p : pictureList) {
 
-        for (Ad adFromList : adsByUser) {
-            if (adFromList.equals(ad)) {
-                for (Picture pic : adFromList.getPictureList()) {
-                    picsPathsByUser.add(pic.getPath());
-                }
-
+            if (p == pictureSelected) {
+                pictureList.remove(i);
             }
+
+            i++;
         }
 
-        return picsPathsByUser;
+        i=0;
+        for (Picture p : pictureAll) {
+
+            if(p == pictureSelected){
+                pictureAll.remove(i);
+            }
+            i++;
+        }
+
+        pictureSelected.setRemoved(true);
+        pictureService.updatePicture(pictureSelected);
+
 
 
     }
 
 
-    public List<String> getPaths() {
-        return paths;
-    }
-
-    public void setPaths(List<String> paths) {
-        this.paths = paths;
-    }
-
-
-    public List<String> getAllPaths() {
-        return allPaths;
-    }
-
-    public void setAllPaths(List<String> allPaths) {
-        this.allPaths = allPaths;
-    }
-
-    public Ad getAd() {
-        return ad;
-    }
-
-    public void setAd(Ad ad) {
-        this.ad = ad;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
+    //faces-redirect o update carousel
 
     public List<Ad> getAdsByUser() {
         return adsByUser;
@@ -151,19 +131,43 @@ public class GalleriaBean implements Serializable {
         this.picsPathsByUser = picsPathsByUser;
     }
 
-    public List<String> getPaths_tn() {
-        return paths_tn;
+    public List<Picture> getPictureList() {
+        return pictureList;
     }
 
-    public void setPaths_tn(List<String> paths_tn) {
-        this.paths_tn = paths_tn;
+    public void setPictureList(List<Picture> pictureList) {
+        this.pictureList = pictureList;
     }
 
-    public String getSelected() {
-        return selected;
+    public List<Picture> getPictureAll() {
+        return pictureAll;
     }
 
-    public void setSelected(String selected) {
-        this.selected = selected;
+    public void setPictureAll(List<Picture> pictureAll) {
+        this.pictureAll = pictureAll;
+    }
+
+    public Picture getPictureSelected() {
+        return pictureSelected;
+    }
+
+    public void setPictureSelected(Picture pictureSelected) {
+        this.pictureSelected = pictureSelected;
+    }
+
+    public Ad getAd() {
+        return ad;
+    }
+
+    public void setAd(Ad ad) {
+        this.ad = ad;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

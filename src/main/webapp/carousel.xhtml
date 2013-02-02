@@ -8,7 +8,7 @@
 
 <f:metadata>
     <f:viewParam name="adid" value="#{galleriaBean.ad.id}"/>
-    <f:event type="preRenderView" listener="#{galleriaBean.getPathImagebyAdId}"/>
+    <f:event type="preRenderView" listener="#{galleriaBean.ListPicturesByAdId}"/>
 </f:metadata>
 
 <h:head>
@@ -26,21 +26,29 @@
 
         <div class="content">
 
-            <h:panelGrid columns="2">
-                <h:form id="form">
+            <h:panelGrid columns="1">
 
-                    <p:carousel value="#{galleriaBean.paths_tn}" var="img" itemStyle="width: 200px">
-                        <p:graphicImage value="#{img}"/>
+                <h:form id="form1">
+                    <p:carousel id="carousel" value="#{galleriaBean.pictureList}"
+                                var="img" itemStyle="width: 200px">
+                        <p:graphicImage value="#{img.pathThumbNail}"/>
+
+                        <p:commandLink id="here" update=":form1:hola1"
+                                       value="Delete" oncomplete="confirmation.show()">
+                            <f:setPropertyActionListener value="#{img}"
+                                                         target="#{galleriaBean.pictureSelected}"/>
+                        </p:commandLink>
+
+
                     </p:carousel>
 
-                    <p:commandLink value="Hola" update="hola1" oncomplete="dlg.show()">
-                        <f:setPropertyActionListener value="hola" target="#{galleriaBean.selected}"/>
-                    </p:commandLink>
+                    <p:confirmDialog id="hola1" message="Are you sure?" widgetVar="confirmation">
+                        <p:commandButton update="form1" value="sure" actionListener="#{galleriaBean.deleteImage}"
+                                         oncomplete="confirmation.hide()"/>
+                        <p:commandButton value="No" oncomplete="confirmation.hide()"/>
 
 
-                    <p:dialog widgetVar="dlg">
-                    <h:outputText  id="hola1" value="#{galleriaBean.selected}"/>
-                    </p:dialog>
+                    </p:confirmDialog>
 
 
                 </h:form>
@@ -53,7 +61,7 @@
 
         <div class="footer">
             <p:growl id="messages" showDetail="true"/>
-            <h:outputText value="Bye bye..."/>
+            <h:outputText value="Bye bkkye..."/>
         </div>
     </div>
 

@@ -10,6 +10,7 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import util.Resources;
@@ -45,6 +46,24 @@ public class AdServiceIT {
     AdService adService;
 
     @Test
+    public void shouldReturnListOfPicturesByAdId(){
+
+
+        Ad ad = adService.getAll().get(0);
+        log.severe(ad.getId().toString());
+        List<Picture> pictureList = adService.getListOfPicsbyAdId(ad.getId());
+        for(Picture p : pictureList){
+            log.info("Picture path: ");
+            log.info(p.getPath());
+            log.info("Picture by Ad Id: ");
+            log.info(p.getAd().getId().toString());
+        }
+        assertNotNull(pictureList);
+
+    }
+
+    @Test
+    @Ignore
     public void shouldReturnAd() {
 
         Ad ad = null;
@@ -61,20 +80,20 @@ public class AdServiceIT {
             }
 
 
-            List<String> paths = adService.getAllImagePaths();
+            List<String> paths = adService.getAllPicturePaths();
 
             for (String p : paths) {
                 log.info(p);
             }
 
 
-            List<String> pathsById = adService.getByIdImagePaths(30);
+            List<String> pathsById = adService.getImagePathsbyAdId(30);
 
             for (String p : pathsById) {
                 log.info(p);
             }
 
-            pathsById = adService.getByIdImagePaths(40);
+            pathsById = adService.getImagePathsbyAdId(40);
 
             for (String p : pathsById) {
                 log.warning(p);
