@@ -76,9 +76,9 @@ public class GalleriaBean implements Serializable {
 
 
     // Events from viewParam
-    public void getPathImagebyUserId() {
+    public void getPathImageByUserId() {
 
-        adsByUser = adService.getAdsByUser(user);
+        adsByUser = adService.getAdsByUser(user);  //Eager fetch (will fetch the pictures as well)
 
 
     }

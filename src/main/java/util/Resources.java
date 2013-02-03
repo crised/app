@@ -2,6 +2,10 @@ package util;
 
 import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.InjectionPoint;
+import javax.faces.component.behavior.FacesBehavior;
+import javax.faces.context.FacesContext;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import java.util.logging.Logger;
 
 public class Resources {
@@ -11,8 +15,9 @@ public class Resources {
         return Logger.getLogger(injectionPoint.getMember().getDeclaringClass().getName());
     }
 
-   /* @Produces
-    public ResourceBundle getResourceBundle() {
-        return ResourceBundle.getBundle("/messages", locale )
-    }  */
+
+   @Produces
+    public ResourceBundle producesResourceBundle() {
+        return ResourceBundle.getBundle("messages", Locale.getDefault());
+    }
 }

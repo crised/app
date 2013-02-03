@@ -20,9 +20,20 @@ public class Ad implements Serializable {
 
     private String longDescription;
 
-    private BigDecimal price;
+    private BigDecimal price;   // min 2000000
 
     private Boolean removed;
+
+    private Boolean waterRights; // Whether haves water rights registered
+
+    private Boolean facilities; // Whether haves constructions
+
+    private float latitude;  // Positive for N and E, negative for S and W
+
+
+    private float longitude;
+
+    private float surface; // Ha. (Acre) Only one decimal allowed. Min 2.
 
 
     @Version
@@ -135,5 +146,45 @@ public class Ad implements Serializable {
 
     public void setRemoved(Boolean removed) {
         this.removed = removed;
+    }
+
+    public Boolean getWaterRights() {
+        return waterRights;
+    }
+
+    public void setWaterRights(Boolean waterRights) {
+        this.waterRights = waterRights;
+    }
+
+    public float getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(float latitude) {
+        this.latitude = latitude;
+    }
+
+    public float getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(float longitude) {
+        this.longitude = longitude;
+    }
+
+    public Boolean getFacilities() {
+        return facilities;
+    }
+
+    public void setFacilities(Boolean facilities) {
+        this.facilities = facilities;
+    }
+
+    public float getSurface() {
+        return surface;
+    }
+
+    public void setSurface(float surface) {
+        this.surface = surface;
     }
 }

@@ -30,6 +30,8 @@ public class AdBean implements Serializable {
     @Inject
     Logger log;
 
+
+
     @Inject
     AdService adService;
 
