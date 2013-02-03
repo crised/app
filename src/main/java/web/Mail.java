@@ -25,26 +25,14 @@ public class Mail {
 
 
 
-
-
-
-
-
-
-
     @Resource(mappedName = "java:jboss/mail/gmail")
     javax.mail.Session mailSession;
 
-    /*Properties props = new Properties();
-    props.put("mail.smtp.auth", "true");
-    props.put("mail.smtp.starttls.enable", "true");
-    props.put("mail.smtp.host", "smtp.gmail.com");
-    props.put("mail.smtp.port", "587");    */
 
-    public void SendMail(){
+    public String SendMail(){
 
         log.info("hello");
-        log.info(resourceBundle.getObject("title)");
+        log.info(resourceBundle.getObject("title"));
         try {
 
 
@@ -63,5 +51,7 @@ public class Mail {
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }
+
+        return null;
     }
 }
