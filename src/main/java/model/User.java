@@ -14,11 +14,7 @@ import java.util.List;
 public class User implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Integer id;
-
-    @Column(unique = true)  //@Email
-    private String login; //e-mail - username
+    private String id; //e-mail - username
 
     //@NotNull
     private String password; //hashed password
@@ -62,20 +58,12 @@ public class User implements Serializable {
 
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
     }
 
     public String getName() {

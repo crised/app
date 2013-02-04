@@ -102,7 +102,7 @@ public class AdServiceIT {
             */
 
             User user = new User();
-            user.setId(31);
+            user.setId("admin");
 
             List<Ad> ads = adService.getAdsByUser(user);
 

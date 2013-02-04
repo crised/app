@@ -42,7 +42,7 @@ public class UserService implements Serializable {
         if (user == null) throw new AppException("Null Login");
 
         try {
-            findUserByLogin(user.getLogin());
+            findUserByLogin(user.getId());
             return true;
         } catch (NoResultException e) {
             return false;
@@ -82,7 +82,7 @@ public class UserService implements Serializable {
         CriteriaQuery<User> cq = cb.createQuery(User.class);
         Root<User> userRoot = cq.from(User.class);
         cq.select(userRoot);
-        cq.where(cb.equal(userRoot.get(User_.login), login));
+        cq.where(cb.equal(userRoot.get(User_.id), login));
         return em.createQuery(cq).getSingleResult();
 
 

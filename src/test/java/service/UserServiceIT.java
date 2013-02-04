@@ -48,7 +48,7 @@ public class UserServiceIT {
     private User createUser() {
 
         User user = new User();
-        user.setLogin("crised@gmail.com");
+        user.setId("crised@gmail.com");
         user.setName("Cristian");
         user.storeHashPassword("admin");
         return user;
@@ -61,7 +61,7 @@ public class UserServiceIT {
 
         User user = createUser();
 
-        log.info(user.getLogin());
+        log.info(user.getId());
         try {
            userService.createUser(user);
             assertNotNull(user.getId());
@@ -95,7 +95,7 @@ public class UserServiceIT {
     public void shouldFindUserByLogin() {
 
         User readUser = userService.findUserByLogin("crised@gmail.com");
-        assertEquals("fail", readUser.getLogin(), "crised@gmail.com");
+        assertEquals("fail", readUser.getId(), "crised@gmail.com");
     }
 
 

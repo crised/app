@@ -47,12 +47,10 @@
     </filter-mapping>
 
     <security-constraint>
-
         <web-resource-collection>
             <web-resource-name>protected</web-resource-name>
             <url-pattern>/auth/*</url-pattern>
         </web-resource-collection>
-
         <auth-constraint>
             <role-name>REGISTERED</role-name>
         </auth-constraint>
@@ -67,8 +65,6 @@
             <form-login-page>/login.xhtml</form-login-page>
             <form-error-page>/error.xhtml</form-error-page>
         </form-login-config>
-
-
     </login-config>
 
 
