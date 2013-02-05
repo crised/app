@@ -1,21 +1,23 @@
 package service;
 
 
-import exception.AppException;
+import exception.UserException;
 import model.User;
-import model.User_;
+import org.jboss.logging.Logger;
 
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.io.Serializable;
 import java.util.List;
-import java.util.logging.Logger;
+import java.util.ResourceBundle;
 
 @Stateless
 public class UserService implements Serializable {
@@ -24,66 +26,87 @@ public class UserService implements Serializable {
     private EntityManager em;
 
     @Inject
-    private Logger log;
+    ResourceBundle rB;
 
 
-    public User createUser(User user) {
+    static final Logger log = Logger.getLogger(UserService.class);
 
-        if (!DoesLoginAlreadyExists(user)) {
+    public User createUser(User user){
+
+        em.persist(user);
+        log.error("DO NOT USE THIS METHOD");
+        return user;
+
+    }
+
+    public User findUser(String id) {
+
+        return em.find(User.class, id);
+
+    }
+
+    @PermitAll
+    public User signUpUser(User user)
+            throws UserException {
+
+        User existingUser = em.find(User.class, user.getId());
+        String message = rB.getString("User.Duplicate");
+
+
+        if (existingUser != null) {
+
+            log.warn(message);
+            throw new UserException(message);
+
+        }
+
+        try {
             em.persist(user);
-            return user; // Becomes Managed therefore grabs an id.
-        } else {
-            throw new AppException("User already Exists");
-        }
-    }
-
-    public Boolean DoesLoginAlreadyExists(User user) {
-
-        if (user == null) throw new AppException("Null Login");
-
-        try {
-            findUserByLogin(user.getId());
-            return true;
-        } catch (NoResultException e) {
-            return false;
-        }
-    }
-
-
-    public User findUserById(Integer Id) {
-
-        User user = null;
-
-        try {
-            user = em.find(User.class, Id); //returns null if no user
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (EntityExistsException e) {
+            log.error(message, e);
+            throw new UserException(message);
         }
 
         return user;
 
     }
 
-    public List<User> findAll(){
+    @RolesAllowed({"REGISTERED"})
+    public User modifyPassword(User user) {
 
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<User>  cq = cb.createQuery(User.class);
-        Root<User> userRoot = cq.from(User.class);
-        cq.select(userRoot);
-        return em.createQuery(cq).getResultList();
+        User oldUser = em.find(User.class, user.getId());
 
+        if (oldUser.getMailConfirmed() != true) {
+            String message = rB.getString("user.notConfirmed");
+            log.warn(message);
+            throw new UserException(message);
+
+        }
+
+        if (oldUser == null) {
+            String message = rB.getString("user.notFoundChangePassword");
+            log.error(message);
+            throw new UserException(message);
+        }
+
+        if (oldUser.getPassword() == user.getPassword()) {
+            String message = rB.getString("user.samePassword");
+            log.warn(message);
+            throw new UserException(message);
+        }
+
+        return em.merge(em.find(User.class, user.getId()));
 
     }
 
 
-    public User findUserByLogin(String login) {
+    public List<User> findAll() {
 
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<User> cq = cb.createQuery(User.class);
         Root<User> userRoot = cq.from(User.class);
         cq.select(userRoot);
-        cq.where(cb.equal(userRoot.get(User_.id), login));
-        return em.createQuery(cq).getSingleResult();
+        return em.createQuery(cq).getResultList();
 
 
     }

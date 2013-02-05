@@ -94,7 +94,7 @@ public class UserServiceIT {
     @Test
     public void shouldFindUserByLogin() {
 
-        User readUser = userService.findUserByLogin("crised@gmail.com");
+        User readUser = userService.findUser("crised@gmail.com");
         assertEquals("fail", readUser.getId(), "crised@gmail.com");
     }
 

@@ -3,8 +3,9 @@ package web;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.event.AjaxBehaviorEvent;
+import javax.inject.Named;
 
-@ManagedBean
+@Named
 @RequestScoped
 public class AjaxBean {
 

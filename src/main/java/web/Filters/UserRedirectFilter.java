@@ -28,6 +28,7 @@ public class UserRedirectFilter implements Filter{
         if (httpRequest.getUserPrincipal() != null) {
 
             httpResponse.sendRedirect(contextPath + "/auth/HomePage.xhtml");
+            return; //Added not in Vineet Code
         }
 
         chain.doFilter(request, response);

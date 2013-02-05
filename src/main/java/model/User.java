@@ -1,8 +1,11 @@
 package model;
 
 import enums.Roles;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.security.MessageDigest;
 import java.util.Date;
@@ -14,14 +17,22 @@ import java.util.List;
 public class User implements Serializable {
 
     @Id
+    @Pattern(regexp = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+            + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$",
+    message = "{user.emailNotValid}")
     private String id; //e-mail - username
 
-    //@NotNull
+    @NotEmpty
     private String password; //hashed password
 
-    //@NotNull
+    @NotEmpty
+    @Size(min = 3, max = 50, message = "{user.nameTooLong}")
     private String name; //real person name
 
+    private Boolean isMailConfirmed;
+
+    @NotEmpty(message = "{user.BusinessNameBlank}")
+    @Size(min = 2,max=20,message = "{user.BusinessName}")
     private String businessName; // Corredora
 
     private String phoneNumber1;
@@ -45,16 +56,25 @@ public class User implements Serializable {
     }
 
 
-    public void storeHashPassword(String plainPassword) {
+    public static String getHashPassword(String plainPassword) {
 
         MessageDigest md = null;
+        String stringHash = null;
         try {
             md = MessageDigest.getInstance("MD5");
             byte[] hash = md.digest(plainPassword.getBytes());
-            setPassword(javax.xml.bind.DatatypeConverter.printBase64Binary(hash));
+            stringHash = javax.xml.bind.DatatypeConverter.printBase64Binary(hash);
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        return stringHash;
+
+    }
+
+    public void storeHashPassword(String plainPassword) {
+
+        setPassword(getHashPassword(plainPassword));
 
     }
 
@@ -128,5 +148,13 @@ public class User implements Serializable {
 
     public void setPhoneNumber2(String phoneNumber2) {
         this.phoneNumber2 = phoneNumber2;
+    }
+
+    public Boolean getMailConfirmed() {
+        return isMailConfirmed;
+    }
+
+    public void setMailConfirmed(Boolean mailConfirmed) {
+        isMailConfirmed = mailConfirmed;
     }
 }

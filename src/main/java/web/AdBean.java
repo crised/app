@@ -93,7 +93,7 @@ public class AdBean implements Serializable {
     public String next() {
 
 
-        loggedUser = userService.findUserByLogin(
+        loggedUser = userService.findUser(
                 FacesContext.getCurrentInstance().getExternalContext().getRemoteUser());
 
         ad.setUser(loggedUser);

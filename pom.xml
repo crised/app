@@ -16,6 +16,11 @@
             <url>http://repository.primefaces.org</url>
             <layout>default</layout>
         </repository>
+        <repository>
+            <id>repository.jboss.org</id>
+            <name>JBoss Repository</name>
+            <url>https://repository.jboss.org/nexus/content/groups/public/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -72,6 +77,20 @@
             <artifactId>jboss-logging</artifactId>
             <version>3.1.2.GA</version>
             <scope>provided</scope>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>4.2.0.Final</version>
+            <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
     </dependencies>

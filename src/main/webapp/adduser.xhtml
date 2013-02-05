@@ -16,7 +16,7 @@
     <div class="wrapper">
 
         <div class="header">
-            <h:link value="protected resource" outcome="/auth/success.xhtml"/>
+            <h:link value="protected resource" outcome="/auth/HomePage.xhtml"/>
             <h:message for="addUser"/>
         </div>
 
@@ -29,16 +29,24 @@
 
                 <h:panelGrid columns="2">
 
-                    <h:outputText value="#{msgs.addUserName}"/>
-                    <p:inputText value="#{addUser.user.name}"   required="true"/>
-
-                    <h:outputText value="#{msgs.addUserLogin}"/>
+                    <h:outputText value="#{msgs['user.enterEmail']}"/>
                     <p:inputText  value="#{addUser.user.id}" required="true"/>
 
-                    <h:outputText value="#{msgs.addUserPassword}"/>
+                    <h:outputText value="#{msgs['user.enterName']}"/>
+                    <p:inputText value="#{addUser.user.name}"   required="true"/>
+
+                    <h:outputText value="#{msgs['user.enterBusinessName']}"/>
+                    <p:inputText value="#{addUser.user.businessName}"   required="true"/>
+
+                    <h:outputText value="#{msgs['user.enterPhoneNumber1']}"/>
+                    <p:inputText value="#{addUser.user.phoneNumber1}"   required="true"/>
+
+
+
+                    <h:outputText value="#{msgs['user.enterPassword']}"/>
                     <h:inputSecret value="#{addUser.password1}" required="true"/>
 
-                    <h:outputText value="#{msgs.addUserPasswordAgain}"/>
+                    <h:outputText value="#{msgs['user.confirmPassword']}"/>
                     <h:inputSecret  value="#{addUser.password2}" required="true"/>
 
                 </h:panelGrid>

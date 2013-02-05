@@ -1,17 +1,23 @@
 package web;
 
 import model.User;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.jboss.logging.Logger;
 import service.UserService;
 
-import javax.enterprise.context.RequestScoped;
-import javax.faces.application.FacesMessage;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.io.Serializable;
 
 @Named
-@RequestScoped
-public class AddUser {
+@ViewScoped
+public class AddUser extends Messages implements Serializable {
 
     @Inject
     private UserService userService;
@@ -19,25 +25,39 @@ public class AddUser {
     @Inject
     private User user;
 
+    static final Logger log = Logger.getLogger(AddUser.class);
+
+
+    @Size(min = 7, max = 20, message = "{user.passwordLength}")
+    @NotEmpty(message = "{user.passwordError}")
     private String password1, password2;
 
     public String action() {
 
-        if (password1.equals(password2) && password1 != null && password2 != null) {
-            user.storeHashPassword(password1);
-            userService.createUser(user);
-            return "auth/success?faces-redirect=true";
+        if (!password1.equals(password2)) {
+            log.info("user.passwordDoNotMatch");
+            addSimpleMessage(rB.getString("user.passwordDoNotMatch"));
+            return null;
         }
 
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        FacesMessage facesMessage = new FacesMessage("Passwords are different!", "password1!=password2");
-        facesContext.addMessage(null, facesMessage);
-        return null;
 
+
+        try {
+            user.storeHashPassword(password1);
+            userService.signUpUser(user); // Check if user exists
+            return "auth/success?faces-redirect=true";
+        } catch (Exception e) {
+            log.error("user.passwordError", e);
+            addSimpleMessage(rB.getString("user.passwordError"));
+            return null;
+
+        }
 
     }
 
-    public String logout(){
+
+    public String logout() {
+        //Only works on FacesContext
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         return "/index?faces-redirect=true";
     }

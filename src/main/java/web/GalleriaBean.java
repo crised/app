@@ -11,11 +11,12 @@ import javax.annotation.PreDestroy;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Logger;
 
-@ManagedBean
+@Named
 @ViewScoped
 public class GalleriaBean implements Serializable {
 
