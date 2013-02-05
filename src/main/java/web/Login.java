@@ -34,11 +34,9 @@ public class Login {
 
         HttpServletRequest request = (HttpServletRequest) externalContext.getRequest();
 
-        String s1 = user.getId();
-        String s2 = user.getPassword();
 
         try{
-            request.login(s1,s2);
+            request.login(user.getId(),user.getPassword());
             log.info(externalContext.getRemoteUser());
         } catch(ServletException e){
             log.error("Failed to authenticate user",e);

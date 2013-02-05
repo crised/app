@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<html lang="es" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui">
 
 <h:head>
     <title>#{msgs.title}</title>
     <h:outputStylesheet name="css/style.css">
     </h:outputStylesheet>
+
 </h:head>
 
 <h:body>
@@ -16,55 +19,45 @@
     <div class="wrapper">
 
         <div class="header">
-            <h:outputText value="Testing..."/>
+
+            <h:panelGrid columns="2">
+                <h:link value="Index" outcome="/index.xhtml"/>
+
+            </h:panelGrid>
         </div>
 
         <div class="content">
 
-            <h:outputText value="#{bean.hello}"/>
+            <h:form id="addUser">
 
-            <h2>Log in:</h2>
-
-            <form method="post" action="j_security_check">
-
-                <h:panelGrid columns="2" role="presentation">
-                    <h:outputLabel for="j_username" value="Please type your username"/>
-                    <h:inputText id="j_username" autocomplete="off" size="20"/>
-
-                    <h:outputLabel for="j_password" value="Type Password: "/>
-                    <h:inputSecret id="j_password" autocomplete="off" size="20"/>
-                </h:panelGrid>
-
-                <h:panelGroup>
-                    <h:commandButton type="submit" value="Submit"/>
-                    <h:commandButton type="reset" value="Reset"/>
-                </h:panelGroup>
-
-            </form>
+            <h:panelGrid columns="2">
 
 
-            <!-- <h:form id="inputform" enctype="multipart/form-data">
-        <h:panelGrid columns="2">
-            <h:outputText value="#{msgs.shortDescription}"/>
-            <p:inputText id="inputtext" value="#{adBean.ad.shortDescription}" required="true"/>
-            <h:outputText value="#{msgs.longDescription}"/>
-            <p:inputText value="#{adBean.ad.longDescription}" required="true"/>
 
-        </h:panelGrid>
+                <h:outputText value="#{msgs['NewLogin.user']}"/>
+                <h:inputText  value="#{login.user.id}" required="true"/>
 
-        <p:commandButton id="button" value="Submit" action="#{.next}"/>
-            </h:form>   -->
+                <h:outputText value="#{msgs['NewLogin.password']}"/>
+                <h:inputSecret value="#{login.plainPassword}" required="true"/>
+
+
+            </h:panelGrid>
+
+            <h:commandButton id="submitButton" value="Submit" action="#{login.authenticate}"/>
+
+            </h:form>
+
+
 
 
         </div>
 
         <div class="footer">
-
-            <h:outputText value="Bye bye..."/>
+            <h:outputText value="Bydfffffffffe bye..."/>
         </div>
     </div>
 
 </h:body>
 
-</html>
 
+</html>
