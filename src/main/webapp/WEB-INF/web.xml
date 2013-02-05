@@ -64,12 +64,18 @@
     </filter-mapping>
 
 
+
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>protected</web-resource-name>
             <url-pattern>/*</url-pattern>
         </web-resource-collection>
     </security-constraint>
+
+    <servlet-mapping>
+        <servlet-name>javax.ws.rs.core.Application</servlet-name>
+        <url-pattern>/confirm/*</url-pattern>
+    </servlet-mapping>
 
 
 </web-app>
