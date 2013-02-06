@@ -1,6 +1,7 @@
 package web;
 
 
+import model.User;
 import org.jboss.logging.Logger;
 
 import javax.annotation.Resource;
@@ -14,14 +15,14 @@ import javax.mail.internet.MimeMessage;
 import java.util.ResourceBundle;
 
 
-@Named
+
 public class Mail {
 
 
     static final Logger log = Logger.getLogger(Mail.class);
 
     @Inject
-    private ResourceBundle resourceBundle;
+    private ResourceBundle rB;
 
 
 
@@ -29,24 +30,26 @@ public class Mail {
     javax.mail.Session mailSession;
 
 
-    public String SendMail(){
+    public String SendMail(User user, String link){
 
-        log.info("hello");
-        log.info(resourceBundle.getObject("title"));
+
         try {
 
 
             Message message = new MimeMessage(mailSession);
-            message.setFrom(new InternetAddress("crised@gmail.com")); //from
+            message.setFrom(new InternetAddress("admin@drip.cl")); //from
+
             message.setRecipients(Message.RecipientType.TO,
-                    InternetAddress.parse("crised@gmail.com"));
-            message.setSubject("Testing Subject");
-            message.setText("Dear Mail Crawler,"
-                    + "\n\n No spam to my email, please!");
+                    InternetAddress.parse(user.getId()));
+
+            message.setSubject(rB.getString("mail.confirmLink"));
+
+            message.setText(rB.getString("mail.message")
+            + "\n \n" + link);
 
             Transport.send(message);
 
-            System.out.println("Done");
+            log.info(rB.getString("mail.sent") + user.getId());
 
         } catch (MessagingException e) {
             throw new RuntimeException(e);

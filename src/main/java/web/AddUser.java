@@ -4,18 +4,19 @@ import model.User;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.jboss.logging.Logger;
 import service.UserService;
+import sun.swing.StringUIClientPropertyKey;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
-@Named
+@ManagedBean
 @ViewScoped
 public class AddUser extends Messages implements Serializable {
 
@@ -25,12 +26,19 @@ public class AddUser extends Messages implements Serializable {
     @Inject
     private User user;
 
+    @Inject
+    private Mail mail;
+
     static final Logger log = Logger.getLogger(AddUser.class);
 
 
     @Size(min = 7, max = 20, message = "{user.passwordLength}")
     @NotEmpty(message = "{user.passwordError}")
-    private String password1, password2;
+    private String password1;
+
+    @Size(min = 7, max = 20, message = "{user.passwordLength}")
+    @NotEmpty(message = "{user.passwordError}")
+    private String password2;
 
     public String action() {
 
@@ -41,11 +49,14 @@ public class AddUser extends Messages implements Serializable {
         }
 
 
-
         try {
             user.storeHashPassword(password1);
-            userService.signUpUser(user); // Check if user exists
-            return "auth/success?faces-redirect=true";
+            String link = getActivationLink();
+            user.setConfirmLink(link);
+            userService.signUpUser(user); // Check if user exists done in EJB
+            mail.SendMail(user,link);
+            return "addUserSucess.xhtml";
+
         } catch (Exception e) {
             log.error("user.passwordError", e);
             addSimpleMessage(rB.getString("user.passwordError"));
@@ -60,6 +71,23 @@ public class AddUser extends Messages implements Serializable {
         //Only works on FacesContext
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         return "/index?faces-redirect=true";
+    }
+
+    public String getActivationLink() {
+
+        return "http://localhost:8080/app-1.0/confirm/" +
+                User.getHashPassword(user.getId() + System.currentTimeMillis());
+
+    }
+
+    @PostConstruct
+    public void postConstruct(){
+        log.info("AddUser Constructed");
+    }
+
+    @PreDestroy
+    public void preDestroy(){
+        log.info("AddUser destroyed");
     }
 
     public User getUser() {

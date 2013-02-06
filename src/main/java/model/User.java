@@ -39,6 +39,9 @@ public class User implements Serializable {
 
     private String phoneNumber2;
 
+    @NotEmpty
+    private String confirmLink;
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateRegistered;
 
@@ -156,5 +159,13 @@ public class User implements Serializable {
 
     public void setMailConfirmed(Boolean mailConfirmed) {
         isMailConfirmed = mailConfirmed;
+    }
+
+    public String getConfirmLink() {
+        return confirmLink;
+    }
+
+    public void setConfirmLink(String confirmLink) {
+        this.confirmLink = confirmLink;
     }
 }
