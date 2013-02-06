@@ -28,10 +28,10 @@ public class Ad implements Serializable {
 
     private Boolean facilities; // Whether haves constructions
 
-    private float latitude;  // Positive for N and E, negative for S and W
+    private double latitude;  // Positive for N and E, negative for S and W
 
 
-    private float longitude;
+    private double longitude;
 
     private float surface; // Ha. (Acre) Only one decimal allowed. Min 2.
 
@@ -156,19 +156,19 @@ public class Ad implements Serializable {
         this.waterRights = waterRights;
     }
 
-    public float getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(float latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
-    public float getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(float longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 

@@ -108,6 +108,7 @@ public class UserService implements Serializable {
         Root<User> userRoot = cq.from(User.class);
         cq.select(userRoot);
         cq.where(cb.equal(userRoot.get(User_.confirmLink), link));
+        cq.where(cb.isNull(userRoot.get(User_.isMailConfirmed))); //Only no activated users
 
         User user = null;
 
