@@ -93,6 +93,12 @@
             </exclusions>
         </dependency>
 
+        <dependency>
+            <groupId>org.primefaces.themes</groupId>
+            <artifactId>redmond</artifactId>
+            <version>1.0.9</version>
+        </dependency>
+
     </dependencies>
 
     <profiles>
