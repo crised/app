@@ -4,6 +4,7 @@ import enums.City;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -16,25 +17,45 @@ public class Ad implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
 
+    @Size(min = 10, max = 50, message = "{ad.shortDescription.size}")
+    @NotNull
     private String shortDescription;
 
+    @Size(min = 100, max = 5_000, message = "{ad.shortDescription.size}")
+    @NotNull
     private String longDescription;
 
+    @Max(value = 10_000_000_000L, message = "{ad.price.max}")
+    @Min(value = 5_000_000, message = "{ad.price.min}")
+    @Digits(integer = 11, fraction = 0, message = "{ad.price.digits}")
+    @NotNull
     private BigDecimal price;   // min 2000000
 
-    private Boolean removed;
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    private City city;
 
-    private Boolean waterRights; // Whether haves water rights registered
-
-    private Boolean facilities; // Whether haves constructions
-
-    private double latitude;  // Positive for N and E, negative for S and W
-
-
-    private double longitude;
-
+    @Min(value = 2, message = "{ad.surface.min}")
+    @Digits(integer = 5, fraction = 1, message = "{ad.surface.digits}")
+    @Max(value = 9999, message = "{ad.surface.max")
+    @NotNull
     private float surface; // Ha. (Acre) Only one decimal allowed. Min 2.
 
+    @NotNull
+    private Boolean waterRights; // Whether haves water rights registered
+
+    @NotNull
+    private Boolean facilities; // Whether haves constructions
+
+    @NotNull
+    private double latitude;  // Positive for N and E, negative for S and W
+
+    @NotNull
+    private double longitude;
+
+    /* Automatic or Not Needed */
+
+    private Boolean removed;
 
     @Version
     private long version;
@@ -42,8 +63,7 @@ public class Ad implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateRegistered;
 
-    @Enumerated(EnumType.STRING)
-    private City city;
+
 
     @OneToMany(mappedBy = "ad", fetch = FetchType.EAGER)
     private List<Picture> pictureList;
@@ -54,13 +74,6 @@ public class Ad implements Serializable {
     public Ad() {
     }
 
-    public Ad(String shortDescription, String longDescription, BigDecimal price, City city) {
-        this.shortDescription = shortDescription;
-        this.longDescription = longDescription;
-        this.price = price;
-        this.city = city;
-
-    }
 
     @PostConstruct
     public void init() {

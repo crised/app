@@ -1,10 +1,10 @@
 package web;
 
+import exception.UserException;
 import model.User;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.jboss.logging.Logger;
 import service.UserService;
-import sun.swing.StringUIClientPropertyKey;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -12,7 +12,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-import javax.inject.Named;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
@@ -40,26 +39,31 @@ public class AddUser extends Messages implements Serializable {
     @NotEmpty(message = "{user.passwordError}")
     private String password2;
 
-    public String action() {
+    public void actionListener() {
 
         if (!password1.equals(password2)) {
             log.info("user.passwordDoNotMatch");
             addSimpleMessage(rB.getString("user.passwordDoNotMatch"));
-            return null;
         }
+
+    }
+
+
+    public String action() {
 
 
         try {
             user.storeHashPassword(password1);
             String link = getActivationLink();
             user.setConfirmLink(link);
-            userService.signUpUser(user); // Check if user exists done in EJB
-            mail.SendMail(user,link);
-            return "addUserSucess.xhtml";
+            userService.signUpUser(user); // Check if user exists verified in EJB
+            mail.SendMail(user, link);
+            return "addUserSuccess.xhtml?faces-redirect=true";
 
-        } catch (Exception e) {
-            log.error("user.passwordError", e);
-            addSimpleMessage(rB.getString("user.passwordError"));
+        } catch (UserException e) {
+
+            log.warn(e);
+            addSimpleMessage(e.getMessage());
             return null;
 
         }
@@ -81,12 +85,12 @@ public class AddUser extends Messages implements Serializable {
     }
 
     @PostConstruct
-    public void postConstruct(){
+    public void postConstruct() {
         log.info("AddUser Constructed");
     }
 
     @PreDestroy
-    public void preDestroy(){
+    public void preDestroy() {
         log.info("AddUser destroyed");
     }
 

@@ -6,7 +6,7 @@
 
 <h:head>
     <title>#{msgs.title}</title>
-    <h:outputStylesheet name="css/style.css">
+    <h:outputStylesheet name="css/bootstrap.css">
     </h:outputStylesheet>
 </h:head>
 
@@ -17,9 +17,9 @@
 
         <div class="header">
             <h:panelGrid columns="2">
-                <h:link value="Protected Resources" outcome="/auth/success.xhtml"/>
-                <h:link value="Register" outcome="/adduser.xhtml"/>
-                <h:link value="Add ad" outcome="/auth/addad"/>
+                <h:form>
+                    <h:commandLink value="Add ad" action="#{adBean.initConversation}"/>
+                </h:form>
             </h:panelGrid>
         </div>
 

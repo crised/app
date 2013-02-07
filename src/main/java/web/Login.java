@@ -9,6 +9,7 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.security.auth.login.FailedLoginException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
@@ -23,7 +24,7 @@ public class Login extends Messages {
     static final Logger log = Logger.getLogger(Login.class);
 
 
-    private String userId, plainPassword;
+    private String userId, plainPassword;  //User Entity Validations won't work here
 
     private Boolean showSendMailButton;
 
@@ -42,7 +43,7 @@ public class Login extends Messages {
 
         }
 
-        if (foundedUser.getMailConfirmed() != true) {
+        if (!Boolean.TRUE.equals(foundedUser.getMailConfirmed())) {
 
             String message = rB.getString("user.notConfirmed");
             log.info(message);
@@ -63,8 +64,9 @@ public class Login extends Messages {
             return "/auth/HomePage.xhtml";
 
         } catch (ServletException e) {
-            log.error("Failed to authenticate user", e);
-
+            String message = rB.getString("user.loginError");
+            log.info(message);
+            addSimpleMessage(message);
         }
 
 

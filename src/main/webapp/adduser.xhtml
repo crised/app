@@ -1,70 +1,47 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html>
+<ui:composition template="layout/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://java.sun.com/jsf/facelets">
 
-<html lang="es" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core">
+    <ui:define name="title">
+        <h:outputText value="#{msgs['user.title']}"/>
+    </ui:define>
 
-<h:head>
-    <title>#{msgs.title}</title>
-    <h:outputStylesheet name="css/style.css">
-    </h:outputStylesheet>
-</h:head>
+  <!--  <ui:define name="nav">
+        <h:link value="protected resource" outcome="/auth/HomePage.xhtml"/>
+    </ui:define> -->
 
-<h:body>
-
-
-    <div class="wrapper">
-
-        <div class="header">
-            <h:link value="protected resource" outcome="/auth/HomePage.xhtml"/>
-            <h:message for="addUser"/>
-        </div>
-
-        <div class="content">
-
-            <h:outputText value="cam"/>
-
-
+    <!--<ui:define name="container">
+        <p:panel id="panel" header="Add User">
             <h:form id="addUser">
-
                 <h:panelGrid columns="2">
 
-                    <h:outputText value="#{msgs['user.enterEmail']}"/>
-                    <p:inputText  value="#{addUser.user.id}" required="true"/>
+                    <h:outputLabel for="userIdInput" value="#{msgs['user.enterEmail']}"/>
+                    <p:inputText id="userIdInput" value="#{addUser.user.id}"/>
 
-                    <h:outputText value="#{msgs['user.enterName']}"/>
-                    <p:inputText value="#{addUser.user.name}"   required="true"/>
+                    <h:outputLabel for="userNameInput" value="#{msgs['user.enterName']}"/>
+                    <p:inputText id="userNameInput" value="#{addUser.user.name}"/>
 
-                    <h:outputText value="#{msgs['user.enterBusinessName']}"/>
-                    <p:inputText value="#{addUser.user.businessName}"   required="true"/>
+                    <h:outputLabel for="businessNameInput" value="#{msgs['user.enterBusinessName']}"/>
+                    <p:inputText id="businessNameInput" value="#{addUser.user.businessName}"/>
 
-                    <h:outputText value="#{msgs['user.enterPhoneNumber1']}"/>
-                    <p:inputText value="#{addUser.user.phoneNumber1}"   required="true"/>
+                    <h:outputLabel for="phoneNumber1Input" value="#{msgs['user.enterPhoneNumber1']}"/>
+                    <p:inputText id="phoneNumber1Input" value="#{addUser.user.phoneNumber1}"/>
 
 
+                    <h:outputLabel for="password1Input" value="#{msgs['user.enterPassword']}"/>
+                    <h:inputSecret id="password1Input" value="#{addUser.password1}"/>
 
-                    <h:outputText value="#{msgs['user.enterPassword']}"/>
-                    <h:inputSecret value="#{addUser.password1}" required="true"/>
-
-                    <h:outputText value="#{msgs['user.confirmPassword']}"/>
-                    <h:inputSecret  value="#{addUser.password2}" required="true"/>
+                    <h:outputLabel for="password2Input" value="#{msgs['user.confirmPassword']}"/>
+                    <h:inputSecret id="password2Input" value="#{addUser.password2}" />
 
                 </h:panelGrid>
 
-                <h:commandButton id="submitButton" value="Submit" action="#{addUser.action}"/>
+                <p:commandButton id="submitButton" value="Submit" actionListener="#{addUser.actionListener()}"
+                                 action="#{addUser.action}" update=":panel"/>
 
             </h:form>
-            <h:messages errorStyle="color:black" globalOnly="true"/>
-
-        </div>
-
-        <div class="footer">
-
-            <h:outputText value="Bye bye..."/>
-        </div>
-    </div>
-
-</h:body>
-
-</html>
-
+        </p:panel>
+    </ui:define>   -->
+</ui:composition>

@@ -4,11 +4,11 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:h="http://java.sun.com/jsf/html">
 
 <h:head>
     <title>#{msgs.title}</title>
-    <h:outputStylesheet library="css" name="style.css"/>
+    <h:outputStylesheet library="css" name="bootstrap.css"/>
 </h:head>
 
 <h:body>
@@ -23,30 +23,8 @@
         <div class="content">
 
 
-            <h:panelGrid columns="2">
+            <h:outputScript value="User registered!"/>
 
-                <h:outputText value="Enum2 Page"/>
-
-                <h:panelGrid columns="2"/>
-                <h:form prependId="false">
-
-                    <h:selectOneMenu value="#{enumBeanStatus.selectedRegion}">
-                        <f:selectItems id="selectItem" value="#{enumBean.regions}" var="region" itemLabel="#{region.label}"/>
-                        <f:ajax execute="selectItem" listener="#{enumBean.loadCities}" render="citiesmenu"/>
-                    </h:selectOneMenu>
-
-                    <h:selectOneMenu id="citiesmenu" value="#{enumBeanStatus.selectedCity}">
-                        <f:selectItems value="#{enumBean.cities}" var="city" itemLabel="#{city.label}"/>
-                    </h:selectOneMenu>
-
-                    <h:commandButton value="Submit" action="#{enumBeanStatus.navigate}"/>
-
-                </h:form>
-
-
-            </h:panelGrid>
-
-            <p id="HW"></p>
 
         </div>
 

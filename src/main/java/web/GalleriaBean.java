@@ -16,7 +16,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Logger;
 
-@Named
+@ManagedBean
 @ViewScoped
 public class GalleriaBean implements Serializable {
 

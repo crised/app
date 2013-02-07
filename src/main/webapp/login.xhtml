@@ -8,7 +8,7 @@
 
 <h:head>
     <title>#{msgs.title}</title>
-    <h:outputStylesheet name="css/style.css">
+    <h:outputStylesheet name="css/bootstrap.css">
     </h:outputStylesheet>
 
 </h:head>
@@ -28,31 +28,19 @@
 
         <div class="content">
 
-            <h:form id="addUser">
+            <p:panel id="panel" header="Login">
+                <h:form id="addUser">
+                    <h:panelGrid columns="2">
+                        <h:outputLabel for="login" value="#{msgs['NewLogin.user']}"/>
+                        <p:inputText id="login" value="#{login.userId}" required="true"/>
 
-            <h:panelGrid columns="2">
-
-
-
-                <h:outputText value="#{msgs['NewLogin.user']}"/>
-                <h:inputText  value="#{login.user.id}" required="true"/>
-
-                <h:outputText value="#{msgs['NewLogin.password']}"/>
-                <h:inputSecret value="#{login.plainPassword}" required="true"/>
-
-
-            </h:panelGrid>
-
-            <h:commandButton id="submitButton" value="Submit" action="#{login.authenticate}"/>
-
-            </h:form>
-
-            <h:messages errorStyle="color:black" globalOnly="true"/>
-
-            <h:form rendered=""
-
-
-
+                        <h:outputLabel for="password" value="#{msgs['NewLogin.password']}"/>
+                        <h:inputSecret id="password" value="#{login.plainPassword}" required="true"/>
+                    </h:panelGrid>
+                    <h:commandButton id="submitButton" value="Submit" action="#{login.authenticate}"/>
+                </h:form>
+                <p:growl id="messages" showDetail="true"/>
+            </p:panel>
 
 
         </div>

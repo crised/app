@@ -30,13 +30,8 @@ public class AdBean implements Serializable {
     @Inject
     Logger log;
 
-
-
     @Inject
     AdService adService;
-
-    @Inject
-    GalleriaBean galleriaBean;
 
     @Inject
     PictureUtil pictureUtil;
@@ -90,6 +85,7 @@ public class AdBean implements Serializable {
 
     }
 
+
     public String next() {
 
 
@@ -97,8 +93,7 @@ public class AdBean implements Serializable {
                 FacesContext.getCurrentInstance().getExternalContext().getRemoteUser());
 
         ad.setUser(loggedUser);
-        ad = adService.createAd(ad);
-        log.info(ad.getPrice().toString());
+        //ad = adService.createAd(ad); Will not pass validation!
         disabled = true;
         counter = 0;
         //conversation.begin();

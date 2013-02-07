@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>
+        <ui:insert name="title"></ui:insert>
+    </title>
+    <h:outputStylesheet name="css/bootstrap.css"/>
+    <h:outputStylesheet name="css/style.css"/>
+    <h:outputScript library="js" name="bootstrap.js"/>
+
+</h:head>
+
+<h:body>
+
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container">
+                <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+                <a class="brand" href="#">Project name</a>
+                <div class="nav-collapse collapse">
+                    <ul class="nav">
+                        <li class="active"><a href="#">Home</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div><!--/.nav-collapse -->
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container">
+
+        <h1>Bootstrap starter template</h1>
+        <p>Use this document as a way to quick start any new project.
+           All you get is this message and a barebones HTML document.</p>
+
+   <!--<p:growl id="messages" showDetail="false"/>-->
+        <ui:insert name="container"/>
+        <footer>Drip.cl</footer>
+    </div>
+
+
+</h:body>
+
+</html>
