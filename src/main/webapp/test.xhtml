@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
+    <title>#{msgs.title}</title>
+    <h:outputStylesheet name="css/bootstrap.css">
+    </h:outputStylesheet>
+</h:head>
+
+<h:body>
+
+
+    <div class="wrapper">
+
+        <div class="header">
+            <h:panelGrid columns="2">
+                <h:link value="Home" outcome="/index.xhtml"/>
+            </h:panelGrid>
+        </div>
+
+        <div class="content">
+
+            <p:panel id="panel" header="Create New Ad">
+                <p:growl id="messages" showDetail="false"/>
+
+                <h:form id="addAdForm" enctype="multipart/form-data">
+                    <h:panelGrid columns="3">
+
+                        <h:outputLabel for="shortDescriptionInput" value="#{msgs['ad.shortDescription']}"/>
+                        <p:inputText id="shortDescriptionInput" label="shortDescription"
+                                     value="#{adBean.ad.shortDescription}" size="50"/>
+                        <h:outputText value="#{msgs['ad.shortDescription.info']}"/>
+
+                        <h:outputLabel for="longDescriptionInput" value="#{msgs['ad.longDescription']}"/>
+                        <p:inputTextarea id="longDescriptionInput" value="#{adBean.ad.longDescription}"
+                                         rows="15" cols="50"/>
+                        <h:outputText value="#{msgs['ad.longDescription.info']}"/>
+
+                        <h:outputLabel for="priceInput" value="#{msgs['ad.price']}"/>
+                        <p:inputText id="priceInput" value="#{adBean.ad.price}"/>
+                        <h:outputText value="#{msgs['ad.price.info']}"/>
+
+                        <h:outputLabel for="surfaceInput" value="#{msgs['ad.surface']}"/>
+                        <p:inputText id="surfaceInput" value="#{adBean.ad.surface}"/>
+                        <h:outputText value="#{msgs['ad.surface.info']}"/>
+
+
+                        <h:outputLabel for="regionMenu" value="#{msgs['ad.selectRegion']}"/>
+                        <p:selectOneMenu id="regionMenu" value="#{enumRegistration.selectedRegion}">
+                            <f:selectItems value="#{enumRegistration.regionList}"/>
+                            <f:ajax listener="#{enumRegistration.selectCity}" render="citiesMenu"/>
+                        </p:selectOneMenu>
+                        <h:outputText value="#{msgs['ad.selectRegion.info']}"/>
+
+
+                        <h:outputLabel for="citiesMenu" value="#{msgs['ad.selectCity']}"/>
+                        <p:selectOneMenu id="citiesMenu" value="#{adBean.ad.city}">
+                            <f:selectItems value="#{enumRegistration.cityList}" var="city"
+                                           itemLabel="#{city.label}"/>
+                        </p:selectOneMenu>
+                        <h:outputText value="#{msgs['ad.selectCity.info']}"/>
+
+                        <h:outputLabel for="surfaceInput" value="#{msgs['ad.waterRights']}"/>
+                        <p:selectBooleanButton onLabel="Yes" offLabel="No" onIcon="ui-icon-check"
+                                               offIcon="ui-icon-close"
+                                               value="#{adBean.ad.waterRights}"/>
+                        <h:outputText value="#{msgs['ad.waterRights.info']}"/>
+
+                        <h:outputLabel for="surfaceInput" value="#{msgs['ad.facilities']}"/>
+                        <p:selectBooleanButton onLabel="Yes" offLabel="No" onIcon="ui-icon-check"
+                                               offIcon="ui-icon-close"
+                                               value="#{adBean.ad.facilities}"/>
+                        <h:outputText value="#{msgs['ad.facilities.info']}"/>
+
+                    </h:panelGrid>
+
+                    <p:commandButton id="button" update=":panel" value="Submit" actionListener="#{adBean.next}"/>
+                </h:form>
+
+            </p:panel>
+
+
+        </div>
+
+        <div class="footer">
+
+            <h:outputText value="Bye bye..."/>
+        </div>
+    </div>
+
+</h:body>
+
+</html>
+

@@ -6,8 +6,9 @@
 
 <h:head>
     <title>#{msgs.title}</title>
-    <h:outputStylesheet name="css/bootstrap.css">
-    </h:outputStylesheet>
+    <h:outputStylesheet name="css/bootstrap.css"/>
+    <h:outputStylesheet name="css/style.css"/>
+
 
     <h:outputScript library="js" name="gmap.js"/>
 </h:head>
@@ -16,7 +17,7 @@
 
     <p:growl id="messages" showDetail="true"/>
 
-    <p:gmap id="gmap" center="#{mapBean.mapCentered}" zoom="9" type="ROADMAP"
+    <p:gmap id="map_canvas" center="#{mapBean.mapCentered}" zoom="9" type="ROADMAP"
             style="width:600px;height:400px"
             model="#{mapBean.emptyModel}"
             onPointClick="#{mapBean.onPointClick}"
@@ -33,7 +34,7 @@
                 <f:facet name="footer">
                     <p:commandButton value="Yes"
                                      actionListener="#{mapBean.addMarker}"
-                                     update=":messages :gmap"
+                                     update=":messages :map_canvas"
                                      oncomplete="markerAddComplete()"/>
                     <p:commandButton value="Cancel" onclick="return cancel()"/>
                 </f:facet>

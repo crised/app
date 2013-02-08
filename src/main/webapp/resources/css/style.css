@@ -1,0 +1,13 @@
+body {
+    padding-top: 100px; /* 60px to make the container go all the way to the bottom of the topbar */
+}
+
+.ui-growl {
+    top: 80px; /*to make messages appear below navbar*/
+}
+
+.gmap {
+    margin: 20px;
+}
+
+

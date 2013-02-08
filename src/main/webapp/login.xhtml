@@ -1,57 +1,44 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html
-        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/layout/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://java.sun.com/jsf/facelets">
 
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui">
+    <ui:define name="title">
+        <h:outputText value="#{msgs['login.title']}"/>
+    </ui:define>
 
-<h:head>
-    <title>#{msgs.title}</title>
-    <h:outputStylesheet name="css/bootstrap.css">
-    </h:outputStylesheet>
-
-</h:head>
-
-<h:body>
+    <ui:define name="container">
 
 
-    <div class="wrapper">
-
-        <div class="header">
-
-            <h:panelGrid columns="2">
-                <h:link value="Index" outcome="/index.xhtml"/>
-
-            </h:panelGrid>
-        </div>
-
-        <div class="content">
-
-            <p:panel id="panel" header="Login">
-                <h:form id="addUser">
-                    <h:panelGrid columns="2">
+        <p:panel id="panel" header="Login">
+            <h:form id="addUser" styleClass="form-horizontal">
+                <div class="control-group">
+                    <div class="control-label">
                         <h:outputLabel for="login" value="#{msgs['NewLogin.user']}"/>
+                    </div>
+                    <div class="controls">
                         <p:inputText id="login" value="#{login.userId}" required="true"/>
+                    </div>
+                </div>
 
+                <div class="control-group">
+
+                    <div class="control-label">
                         <h:outputLabel for="password" value="#{msgs['NewLogin.password']}"/>
+                    </div>
+                    <div class="controls">
                         <h:inputSecret id="password" value="#{login.plainPassword}" required="true"/>
-                    </h:panelGrid>
-                    <h:commandButton id="submitButton" value="Submit" action="#{login.authenticate}"/>
-                </h:form>
-                <p:growl id="messages" showDetail="true"/>
-            </p:panel>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="controls">
+                        <p:commandButton id="submitButton" value="Submit" action="#{login.authenticate}"/>
+                    </div>
+                </div>
 
+            </h:form>
+        </p:panel>
 
-        </div>
-
-        <div class="footer">
-
-            <h:outputText value="Bydfffffffffe bye..."/>
-        </div>
-    </div>
-
-</h:body>
-
-
-</html>
+    </ui:define>
+</ui:composition>
