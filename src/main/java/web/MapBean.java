@@ -22,9 +22,7 @@ import java.io.Serializable;
  * Time: 1:35 PM
  */
 
-@ManagedBean
-@ViewScoped
-@Loggable
+
 public class MapBean implements Serializable {
 
     static final Logger log = Logger.getLogger(MapBean.class);

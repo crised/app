@@ -12,6 +12,8 @@
     <ui:define name="script">
         <h:outputScript library="js" name="gmap.js"/>
         <h:outputScript library="js" name="gmap_user.js"/>
+        <h:outputScript library="js" name="currency.js"/>
+
     </ui:define>
 
     <ui:define name="container">
@@ -23,12 +25,12 @@
 
                     <h4>#{msgs['ad.setMapPosition']}</h4>
 
-                    <p:gmap id="map_canvas" center="#{mapBean.mapCentered}" zoom="10" type="ROADMAP"
+                    <p:gmap id="map_canvas" center="#{adBean.mapBean.mapCentered}" zoom="10" type="ROADMAP"
                             style="width:800px;height:400px" styleClass="gmap"
                             model="#{mapBean.emptyModel}"
-                            onPointClick="#{mapBean.onPointClick}"
+                            onPointClick="#{adBean.mapBean.onPointClick}"
                             widgetVar="map">
-                        <p:ajax event="markerDrag" listener="#{mapBean.onMarkerDrag}" update="messages"/>
+                        <p:ajax event="markerDrag" listener="#{adBean.mapBean.onMarkerDrag}" update="messages"/>
                     </p:gmap>
 
 
@@ -40,22 +42,26 @@
 
                                 <f:facet name="footer">
                                     <p:commandButton value="Yes"
-                                                     actionListener="#{mapBean.addMarker}"
+                                                     actionListener="#{adBean.mapBean.addMarker}"
                                                      update=":messages :map_canvas"
                                                      oncomplete="markerAddComplete()"/>
                                     <p:commandButton value="Cancel" onclick="return cancel()"/>
                                 </f:facet>
                             </h:panelGrid>
 
-                            <h:inputHidden id="lat" value="#{mapBean.lat}"/>
-                            <h:inputHidden id="lng" value="#{mapBean.lng}"/>
+                            <h:inputHidden id="lat" value="#{adBean.mapBean.lat}"/>
+                            <h:inputHidden id="lng" value="#{adBean.mapBean.lng}"/>
                         </h:form>
                     </p:dialog>
 
                     <h4>#{msgs['ad.fillForm']}</h4>
 
 
+
+
                     <h:form id="addAdForm" styleClass="form-horizontal" enctype="multipart/form-data">
+
+
 
 
                         <div class="control-group">
@@ -80,7 +86,10 @@
                             <h:outputLabel for="priceInput" value="#{msgs['ad.price']}"
                                            styleClass="control-label"/>
                             <p:inputText id="priceInput" value="#{adBean.ad.price}"
-                                         title="#{msgs['ad.price.info']}" styleClass="controls"/>
+                                         title="#{msgs['ad.price.info']}" styleClass="controls">
+                                <f:convertNumber type="currency" locale="ES" maxFractionDigits="0"
+                                                 currencySymbol="$"/>
+                            </p:inputText>
                         </div>
 
                         <div class="control-group">

@@ -15,7 +15,7 @@ import java.util.ResourceBundle;
 abstract class Messages {
 
     @Inject
-    ResourceBundle rB;
+    transient ResourceBundle rB;
 
 
     protected void addSimpleMessage(String message){

@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 
 <html lang="es" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui">
 
 <h:head>
     <title>#{msgs.title}</title>
@@ -33,14 +33,21 @@
                     <h:outputText value="#{msgs.viewCity}  #{adBean.ad.city}"/>
                 </h:panelGrid>
 
-                <h:outputText value="#{msgs. ad.upload }"/>
-                <p:fileUpload fileUploadListener="#{adBean.handleFileUpload}" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
-                              update="button counter"/>
+                <h:outputText value="#{msgs['ad.upload']}"/>
+                <p:fileUpload fileUploadListener="#{adBean.handleFileUpload}"
+                              update="button counter"
+                              sizeLimit="5000000"
+                              allowTypes="/(\.|\/)(jpe?g)$/"
+                              fileLimit="15"
+                              invalidSizeMessage="#{msgs['ad.file.size']}"
+                              invalidFileMessage="#{msgs['ad.file.type']}"
+                              fileLimitMessage="#{msgs['ad.file.limit']}"/>
 
 
                 <h:panelGrid>
-                <h:outputText id="counter" value="Images Uploaded: #{adBean.counter}" />
-                <p:commandButton id="button" value="Publish!" action="#{adBean.finish}" disabled="#{adBean.disabled}"/>
+                    <h:outputText id="counter" value="Images Uploaded: #{adBean.counter}"/>
+                    <p:commandButton id="button" value="Publish!" action="#{adBean.finish}"
+                                     disabled="#{adBean.disabled}"/>
                 </h:panelGrid>
                 <p:growl id="messages" showDetail="true"/>
             </h:form>

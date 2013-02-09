@@ -21,7 +21,7 @@ public class Ad implements Serializable {
     @NotNull
     private String shortDescription;
 
-    @Size(min = 100, max = 5_000, message = "{ad.shortDescription.size}")
+    @Size(min = 100, max = 5_000, message = "{ad.longDescription.size}")
     @NotNull
     private String longDescription;
 

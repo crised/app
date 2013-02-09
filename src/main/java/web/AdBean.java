@@ -1,7 +1,9 @@
 package web;
 
+import exception.PictureException;
 import model.Ad;
 import model.User;
+import org.jboss.logging.Logger;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 import service.AdService;
@@ -15,20 +17,23 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.logging.Logger;
 
 @Named
 @ConversationScoped
-public class AdBean implements Serializable {
+public class AdBean extends Messages implements Serializable {
 
     private Boolean disabled;
     private Integer counter;
+
+    static final Logger log = Logger.getLogger(AdBean.class);
+
 
     @Inject
     Ad ad;
 
     @Inject
-    Logger log;
+    MapBean mapBean;
+
 
     @Inject
     AdService adService;
@@ -69,16 +74,21 @@ public class AdBean implements Serializable {
 
     public void fileUpload(UploadedFile file) {
 
-        pictureUtil.createImage(file, ad);
-        counter++;
-        if (disabled) setDisabled(false);
+        try {
+            pictureUtil.createImage(file, ad);
+            counter++;
+            if (disabled) setDisabled(false);
+        } catch (PictureException e) {
+            addSimpleMessage(e.getMessage());
+        }
+
 
     }
 
     public String initConversation() {
 
-        if(conversation.isTransient()){
-        conversation.begin();
+        if (conversation.isTransient()) {
+            conversation.begin();
         }
 
         return "/auth/addad?faces-redirect=true&amp;includeViewParams=true";
@@ -89,11 +99,23 @@ public class AdBean implements Serializable {
     public String next() {
 
 
+        if (mapBean.getLat() == 0 || mapBean.getLng() == 0) {
+
+            addSimpleMessage(rB.getString("ad.mapBean.noPosition"));
+            return null;
+
+        }
+
+        ad.setLatitude(mapBean.getLat());
+        ad.setLongitude(mapBean.getLng());
+
+
+
         loggedUser = userService.findUser(
                 FacesContext.getCurrentInstance().getExternalContext().getRemoteUser());
 
         ad.setUser(loggedUser);
-        //ad = adService.createAd(ad); Will not pass validation!
+        ad = adService.createAd(ad); //Will not pass validation!
         disabled = true;
         counter = 0;
         //conversation.begin();
@@ -133,5 +155,13 @@ public class AdBean implements Serializable {
 
     public void setCounter(Integer counter) {
         this.counter = counter;
+    }
+
+    public MapBean getMapBean() {
+        return mapBean;
+    }
+
+    public void setMapBean(MapBean mapBean) {
+        this.mapBean = mapBean;
     }
 }

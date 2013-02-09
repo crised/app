@@ -4,7 +4,7 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui">
+      xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core">
 
 <h:head>
     <title>#{msgs.title}</title>
@@ -19,6 +19,11 @@
     <div class="wrapper">
 
         <div class="header">
+
+            <h:outputText value="#{bean.test}">
+                <f:convertNumber type="currency" locale="ES" maxFractionDigits="0"
+                        currencySymbol="$"/>
+            </h:outputText>
 
             <h:panelGrid columns="2">
                 <h:link value="Protected Resources" outcome="/auth/HomePage.xhtml"/>
