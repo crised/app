@@ -1,98 +1,160 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html>
+<ui:composition template="/layout/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+        >
 
-<html lang="es" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://java.sun.com/jsf/core">
+    <ui:define name="title">
+        <h:outputText value="#{msgs['ad.title']}"/>
+    </ui:define>
 
-<h:head>
-    <title>#{msgs.title}</title>
-    <h:outputStylesheet name="css/bootstrap.css">
-    </h:outputStylesheet>
-</h:head>
+    <ui:define name="script">
+        <h:outputScript library="js" name="gmap.js"/>
+        <h:outputScript library="js" name="gmap_user.js"/>
 
-<h:body>
+    </ui:define>
+
+    <ui:define name="container">
+
+        <div class="row">
+
+            <div class="span12 show-grid1">
 
 
-    <div class="wrapper">
+                <!-- <p:panel id="panel" header="Add new Ad">   -->
 
-        <div class="header">
-            <h:panelGrid columns="2">
-                <h:link value="Home" outcome="/index.xhtml"/>
-            </h:panelGrid>
-        </div>
 
-        <div class="content">
+                <h4>#{msgs['ad.setMapPosition']}</h4>
 
-            <p:panel id="panel" header="Create New Ad">
-                <p:growl id="messages" showDetail="false"/>
+
+                <h4>#{msgs['ad.fillForm']}</h4>
+
+                <div class="row">
+                    <div class="span2 show-grid">Level 2</div>
+                    <div class="span8 show-grid">Level 2</div>
+                    <div class="span2 show-grid">Level 2</div>
+                </div>
+
 
                 <h:form id="addAdForm" enctype="multipart/form-data">
-                    <h:panelGrid columns="3">
 
-                        <h:outputLabel for="shortDescriptionInput" value="#{msgs['ad.shortDescription']}"/>
-                        <p:inputText id="shortDescriptionInput" label="shortDescription"
-                                     value="#{adBean.ad.shortDescription}" size="50"/>
-                        <h:outputText value="#{msgs['ad.shortDescription.info']}"/>
+                    <div class="row">
+                        <div class="span2 show-grid">
+                            <h:outputLabel for="shortDescriptionInput" value="#{msgs['ad.shortDescription']}"/>
+                        </div>
 
-                        <h:outputLabel for="longDescriptionInput" value="#{msgs['ad.longDescription']}"/>
+                            <div class="span8 show-grid">
+                                <p:inputText id="shortDescriptionInput" label="shortDescription"
+                                             value="#{adBean.ad.shortDescription}"
+                                             title="#{msgs['ad.shortDescription.info']}"/>
+                            </div>
+                            <div class="span2 show-grid">
+                                <p>Message</p>
+                            </div>
+
+                    </div>
+
+                    <!--
+                    <div class="control-group">
+                        <h:outputLabel for="longDescriptionInput" value="#{msgs['ad.longDescription']}"
+                                       styleClass="control-label"/>
                         <p:inputTextarea id="longDescriptionInput" value="#{adBean.ad.longDescription}"
-                                         rows="15" cols="50"/>
-                        <h:outputText value="#{msgs['ad.longDescription.info']}"/>
-
-                        <h:outputLabel for="priceInput" value="#{msgs['ad.price']}"/>
-                        <p:inputText id="priceInput" value="#{adBean.ad.price}"/>
-                        <h:outputText value="#{msgs['ad.price.info']}"/>
-
-                        <h:outputLabel for="surfaceInput" value="#{msgs['ad.surface']}"/>
-                        <p:inputText id="surfaceInput" value="#{adBean.ad.surface}"/>
-                        <h:outputText value="#{msgs['ad.surface.info']}"/>
+                                         rows="10" cols="100" title="#{msgs['ad.longDescription.info']}"
+                                         styleClass="controls"/>
+                    </div>
 
 
-                        <h:outputLabel for="regionMenu" value="#{msgs['ad.selectRegion']}"/>
-                        <p:selectOneMenu id="regionMenu" value="#{enumRegistration.selectedRegion}">
-                            <f:selectItems value="#{enumRegistration.regionList}"/>
-                            <f:ajax listener="#{enumRegistration.selectCity}" render="citiesMenu"/>
-                        </p:selectOneMenu>
-                        <h:outputText value="#{msgs['ad.selectRegion.info']}"/>
+
+                    <div class="row">
+                        <div class="span4">
+                            <div class="control-group">
+                                <h:outputLabel for="priceInput" value="#{msgs['ad.price']}"
+                                               styleClass="control-label"/>
+                            </div>
+                        </div>
+                        <div class="span4">
+                            <p:inputText id="priceInput" value="#{adBean.ad.price}"
+                                         title="#{msgs['ad.price.info']}" styleClass="controls">
+                                <p:ajax event="blur" update="output"/>
+                            </p:inputText>
+                        </div>
+
+                        <div class="span4">
+                           <span class="help-block">
+                    <h:outputText id="output" value="#{adBean.ad.price}">
+                        <f:convertNumber type="currency" locale="ES" maxFractionDigits="0"
+                                         currencySymbol="$"/>
+                    </h:outputText>
+                </div>
+            </div>
 
 
-                        <h:outputLabel for="citiesMenu" value="#{msgs['ad.selectCity']}"/>
-                        <p:selectOneMenu id="citiesMenu" value="#{adBean.ad.city}">
-                            <f:selectItems value="#{enumRegistration.cityList}" var="city"
-                                           itemLabel="#{city.label}"/>
-                        </p:selectOneMenu>
-                        <h:outputText value="#{msgs['ad.selectCity.info']}"/>
+            <div class="control-group">
+                <h:outputLabel for="surfaceInput" value="#{msgs['ad.surface']}"
+                               styleClass="control-label"/>
+                <p:inputText id="surfaceInput" value="#{adBean.ad.surface}"
+                             title="#{msgs['ad.surface.info']}"
+                             styleClass="controls"/>
+            </div>
 
-                        <h:outputLabel for="surfaceInput" value="#{msgs['ad.waterRights']}"/>
-                        <p:selectBooleanButton onLabel="Yes" offLabel="No" onIcon="ui-icon-check"
-                                               offIcon="ui-icon-close"
-                                               value="#{adBean.ad.waterRights}"/>
-                        <h:outputText value="#{msgs['ad.waterRights.info']}"/>
+            <div class="control-group">
+                <h:outputLabel for="regionMenu" value="#{msgs['ad.selectRegion']}"
+                               styleClass="control-label"/>
+                <p:selectOneMenu id="regionMenu" value="#{enumRegistration.selectedRegion}"
+                                 styleClass="controls">
+                    <f:selectItems value="#{enumRegistration.regionList}"/>
+                    <f:ajax listener="#{enumRegistration.selectCity}" render="citiesMenu"/>
+                </p:selectOneMenu>
+                <h:outputText value="#{msgs['ad.selectRegion.info']}"/>
+            </div>
 
-                        <h:outputLabel for="surfaceInput" value="#{msgs['ad.facilities']}"/>
-                        <p:selectBooleanButton onLabel="Yes" offLabel="No" onIcon="ui-icon-check"
-                                               offIcon="ui-icon-close"
-                                               value="#{adBean.ad.facilities}"/>
-                        <h:outputText value="#{msgs['ad.facilities.info']}"/>
+            <div class="control-group">
+                <h:outputLabel for="citiesMenu" value="#{msgs['ad.selectCity']}"
+                               styleClass="control-label"/>
+                <p:selectOneMenu id="citiesMenu" value="#{adBean.ad.city}" styleClass="controls">
+                    <f:selectItems value="#{enumRegistration.cityList}" var="city"
+                                   itemLabel="#{city.label}"/>
+                </p:selectOneMenu>
+                <h:outputText value="#{msgs['ad.selectCity.info']}"/>
+            </div>
 
-                    </h:panelGrid>
+            <div class="control-group">
+                <h:outputLabel for="surfaceInput" value="#{msgs['ad.waterRights']}"
+                               styleClass="control-label"/>
+                <p:selectBooleanButton onLabel="Yes" offLabel="No" onIcon="ui-icon-check"
+                                       offIcon="ui-icon-close"
+                                       value="#{adBean.ad.waterRights}"
+                                       styleClass="controls"/>
+                <h:outputText value="#{msgs['ad.waterRights.info']}"/>
+            </div>
 
-                    <p:commandButton id="button" update=":panel" value="Submit" actionListener="#{adBean.next}"/>
+            <div class="control-group">
+                <h:outputLabel for="surfaceInput" value="#{msgs['ad.facilities']}"
+                               styleClass="control-label"/>
+                <p:selectBooleanButton onLabel="Yes" offLabel="No" onIcon="ui-icon-check"
+                                       offIcon="ui-icon-close"
+                                       value="#{adBean.ad.facilities}"
+                                       styleClass="controls"/>
+                <h:outputText value="#{msgs['ad.facilities.info']}"/>
+            </div>
+
+            <div class="control-group">
+                <p:commandButton id="button" update="addAdForm :panel"
+                                 value="Submit" actionListener="#{adBean.next}"
+                                 styleClass="controls"/>
+            </div>
+            -->
                 </h:form>
 
-            </p:panel>
 
-
+                <!--  </p:panel>      -->
+            </div>
         </div>
 
-        <div class="footer">
+        <h:outputScript library="js" name="currency.js"/>
 
-            <h:outputText value="Bye bye..."/>
-        </div>
-    </div>
 
-</h:body>
+    </ui:define>
 
-</html>
-
+</ui:composition>

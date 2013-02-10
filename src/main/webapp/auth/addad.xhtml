@@ -12,16 +12,18 @@
     <ui:define name="script">
         <h:outputScript library="js" name="gmap.js"/>
         <h:outputScript library="js" name="gmap_user.js"/>
-        <h:outputScript library="js" name="currency.js"/>
 
     </ui:define>
 
     <ui:define name="container">
 
-        <p:panel id="panel" header="Add new Ad">
+        <div class="row">
 
-            <div class="row">
-                <div class="span9">
+            <div class="span12 show-grid1">
+
+
+                <p:panel id="panel" header="Add new Ad">
+
 
                     <h4>#{msgs['ad.setMapPosition']}</h4>
 
@@ -57,40 +59,54 @@
                     <h4>#{msgs['ad.fillForm']}</h4>
 
 
-
-
                     <h:form id="addAdForm" styleClass="form-horizontal" enctype="multipart/form-data">
-
-
 
 
                         <div class="control-group">
                             <h:outputLabel for="shortDescriptionInput" value="#{msgs['ad.shortDescription']}"
                                            styleClass="control-label"/>
+
+
                             <p:inputText id="shortDescriptionInput" label="shortDescription"
                                          value="#{adBean.ad.shortDescription}"
                                          title="#{msgs['ad.shortDescription.info']}"
-                                         styleClass="controls input-block-level"/>
-                            <p:tooltip for="shortDescriptionInput" showEvent="focus" hideEvent="blur"/>
+                                         styleClass="controls span7"/>
+
+
                         </div>
 
                         <div class="control-group">
                             <h:outputLabel for="longDescriptionInput" value="#{msgs['ad.longDescription']}"
                                            styleClass="control-label"/>
                             <p:inputTextarea id="longDescriptionInput" value="#{adBean.ad.longDescription}"
-                                             rows="10" cols="100" title="#{msgs['ad.longDescription.info']}"
-                                             styleClass="controls input-block-level"/>
+                                             title="#{msgs['ad.longDescription.info']}" rows="12"
+                                             styleClass="controls span7"/>
                         </div>
 
-                        <div class="control-group">
-                            <h:outputLabel for="priceInput" value="#{msgs['ad.price']}"
-                                           styleClass="control-label"/>
-                            <p:inputText id="priceInput" value="#{adBean.ad.price}"
-                                         title="#{msgs['ad.price.info']}" styleClass="controls">
-                                <f:convertNumber type="currency" locale="ES" maxFractionDigits="0"
-                                                 currencySymbol="$"/>
-                            </p:inputText>
+
+                        <div class="row">
+                            <div class="span8">
+                                <div class="control-group">
+                                    <h:outputLabel for="priceInput" value="#{msgs['ad.price']}"
+                                                   styleClass="control-label"/>
+
+                                    <p:inputText id="priceInput" value="#{adBean.ad.price}"
+                                                 title="#{msgs['ad.price.info']}" styleClass="controls">
+                                        <p:ajax event="blur" update="output"/>
+                                    </p:inputText>
+                                </div>
+                            </div>
+
+                            <div class="span2">
+                                <span class="help-block">
+                                <h:outputText id="output" value="#{adBean.ad.price}">
+                                    <f:convertNumber type="currency" locale="ES" maxFractionDigits="0"
+                                                     currencySymbol="$"/>
+                                </h:outputText>
+                                </span>
+                            </div>
                         </div>
+
 
                         <div class="control-group">
                             <h:outputLabel for="surfaceInput" value="#{msgs['ad.surface']}"
@@ -146,11 +162,15 @@
                                              value="Submit" actionListener="#{adBean.next}"
                                              styleClass="controls"/>
                         </div>
-                    </h:form>
-                </div>
-            </div>
 
-        </p:panel>
+                    </h:form>
+
+
+                </p:panel>
+            </div>
+        </div>
+        <h:outputScript library="js" name="currency.js"/>
+
 
     </ui:define>
 
