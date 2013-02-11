@@ -5,7 +5,6 @@ import model.Ad;
 import model.User;
 import org.jboss.logging.Logger;
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.UploadedFile;
 import service.AdService;
 import service.UserService;
 
@@ -22,7 +21,6 @@ import java.io.Serializable;
 @ConversationScoped
 public class AdBean extends Messages implements Serializable {
 
-    private Boolean disabled;
     private Integer counter;
 
     static final Logger log = Logger.getLogger(AdBean.class);
@@ -66,18 +64,12 @@ public class AdBean extends Messages implements Serializable {
         log.info("AdBean Destroyed");
     }
 
+
     public void handleFileUpload(FileUploadEvent event) {
 
-        fileUpload(event.getFile());
-
-    }
-
-    public void fileUpload(UploadedFile file) {
-
         try {
-            pictureUtil.createImage(file, ad);
+            pictureUtil.createImage(event.getFile(), ad);
             counter++;
-            if (disabled) setDisabled(false);
         } catch (PictureException e) {
             addSimpleMessage(e.getMessage());
         }
@@ -98,34 +90,36 @@ public class AdBean extends Messages implements Serializable {
 
     public String next() {
 
-
         if (mapBean.getLat() == 0 || mapBean.getLng() == 0) {
 
             addSimpleMessage(rB.getString("ad.mapBean.noPosition"));
+            log.info(rB.getString("ad.mapBean.noPosition"));
             return null;
 
         }
 
         ad.setLatitude(mapBean.getLat());
         ad.setLongitude(mapBean.getLng());
-
-
-
         loggedUser = userService.findUser(
-                FacesContext.getCurrentInstance().getExternalContext().getRemoteUser());
-
+                FacesContext.getCurrentInstance().
+                        getExternalContext().getRemoteUser());
         ad.setUser(loggedUser);
         ad = adService.createAd(ad); //Will not pass validation!
-        disabled = true;
         counter = 0;
-        //conversation.begin();
-
         return "/auth/next?faces-redirect=true&amp;includeViewParams=true";
 
     }
 
 
     public String finish() {
+
+        if (counter.equals(0)) {
+            addSimpleMessage(rB.getString("ad.uploadNoUpload"));
+            return null;
+        }
+
+        ad.setPublished(Boolean.TRUE);
+        adService.updateAd(ad);
 
         conversation.end();
         return "/index?faces-redirect=true&amp;includeViewParams=true";
@@ -139,14 +133,6 @@ public class AdBean extends Messages implements Serializable {
 
     public void setAd(Ad ad) {
         this.ad = ad;
-    }
-
-    public Boolean getDisabled() {
-        return disabled;
-    }
-
-    public void setDisabled(Boolean disabled) {
-        this.disabled = disabled;
     }
 
     public Integer getCounter() {

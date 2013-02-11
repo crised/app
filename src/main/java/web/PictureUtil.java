@@ -34,7 +34,7 @@ public class PictureUtil implements Serializable {
     private Picture thumb;
 
 
-    public void createImage(UploadedFile uploadedFile, Ad ad) {
+    public void createImage(UploadedFile uploadedFile, Ad ad) throws PictureException {
 
         pic = pictureService.newPic();
 
@@ -59,7 +59,7 @@ public class PictureUtil implements Serializable {
         try {
             bimg = ImageIO.read(uploadedFile.getInputstream());
 
-            if(bimg.getWidth()<= 300 || bimg.getHeight() <=200){
+            if (bimg.getWidth() <= 300 || bimg.getHeight() <= 200) {
                 throw new PictureException(rB.getString("pictureUtil.imageSmall"));
             }
 
@@ -69,7 +69,7 @@ public class PictureUtil implements Serializable {
             // read & write
             log.warn(e.getMessage());
             throw new PictureException(rB.getString("pictureUtil.IOException"));
-        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
             // read & write - If it is null
             log.warn(e.getMessage());
             throw new PictureException(rB.getString("pictureUtil.IllegalArgumentException"));

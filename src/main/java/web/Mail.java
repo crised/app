@@ -30,7 +30,7 @@ public class Mail {
     javax.mail.Session mailSession;
 
 
-    public String SendMail(User user, String link){
+    public String SendMail(User user, String link){  //should be static method
 
 
         try {

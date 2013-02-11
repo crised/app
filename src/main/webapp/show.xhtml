@@ -3,24 +3,25 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
-        >
+                xmlns:f="http://java.sun.com/jsf/core">
 
     <ui:define name="title">
         <h:outputText value="#{msgs['ad.title']}"/>
     </ui:define>
 
-
-    <ui:define name="container">
-
+    <ui:define name="script">
+        <h:outputScript library="js" name="gmap.js"/>
+        <h:outputScript library="js" name="gmap_user.js"/>
         <script type="text/javascript"
                 src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAdc_l79WVIxJZjkZf7bsE78mxNDk3U7gs&amp;sensor=false">
         </script>
+    </ui:define>
 
-        <p:gmap center="36.890257,30.707417" zoom="13" type="HYBRID"
-                style="width:600px;height:400px"
-                model="#{mapBean2.simpleModel}" />
+    <ui:define name="container">
 
-
+       <p:panel>
+           <h2>Show Images</h2>
+       </p:panel>
 
     </ui:define>
 

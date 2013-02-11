@@ -6,15 +6,13 @@ import org.primefaces.model.map.DefaultMapModel;
 import org.primefaces.model.map.LatLng;
 import org.primefaces.model.map.MapModel;
 import org.primefaces.model.map.Marker;
-import util.Loggable;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.inject.Named;
 import java.io.Serializable;
 
 /**
@@ -37,12 +35,16 @@ public class MapBean implements Serializable {
 
     private String mapCentered;
 
+    public MapBean() {
+        emptyModel = new DefaultMapModel();
+    }
+
 
     @PostConstruct
     public void postConstruct() {
         log.info("MapBean Created");
-        onPointClick= "handlePointClick(event);";
-        mapCentered="-33.43, -70.64";
+        onPointClick = "handlePointClick(event);";
+        mapCentered = "-33.43, -70.64";
     }
 
     @PreDestroy
@@ -56,9 +58,10 @@ public class MapBean implements Serializable {
         marker.setDraggable(true);
         //marker.setTitle();
         emptyModel.addOverlay(marker);
-        onPointClick=null;
+        onPointClick = null;
         mapCentered = lat + ", " + lng;
-        log.info(mapCentered);
+
+        log.info(emptyModel.getMarkers().get(0).getLatlng().toString());
 
 
         addMessage(new FacesMessage(FacesMessage.SEVERITY_INFO,
@@ -68,7 +71,7 @@ public class MapBean implements Serializable {
     public void onMarkerDrag(MarkerDragEvent event) {
 
         Marker marker = event.getMarker();
-        lat =  marker.getLatlng().getLat();
+        lat = marker.getLatlng().getLat();
         lng = marker.getLatlng().getLng();
         log.info(marker.getLatlng());
         addMessage(new FacesMessage(FacesMessage.SEVERITY_INFO,
@@ -80,14 +83,12 @@ public class MapBean implements Serializable {
     }
 
 
-
-
-    public MapBean() {
-        emptyModel = new DefaultMapModel();
-    }
-
     public MapModel getEmptyModel() {
         return emptyModel;
+    }
+
+    public void setEmptyModel(MapModel emptyModel) {
+        this.emptyModel = emptyModel;
     }
 
     public double getLat() {

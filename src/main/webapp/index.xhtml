@@ -29,10 +29,13 @@
                 <h:link value="Protected Resources" outcome="/auth/HomePage.xhtml"/>
                 <h:link value="Register" outcome="/adduser.xhtml"/>
                 <h:link value="Login" outcome="/login.xhtml"/>
+                <h:link value="Show" outcome="/show.xhtml"/>
 
                 <h:form>
                     <h:commandLink value="Add ad" action="#{adBean.initConversation}"/>
                 </h:form>
+
+
 
                 <h:form>
                     <h:commandButton value="Send Mail" action="#{mail.SendMail}"/>

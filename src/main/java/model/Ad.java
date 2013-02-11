@@ -17,12 +17,13 @@ public class Ad implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
 
-    @Size(min = 10, max = 50, message = "{ad.shortDescription.size}")
+    @Size(min = 10, max = 30, message = "{ad.shortDescription.size}")
     @NotNull
     private String shortDescription;
 
     @Size(min = 100, max = 5_000, message = "{ad.longDescription.size}")
     @NotNull
+    @Lob
     private String longDescription;
 
     @Max(value = 10_000_000_000L, message = "{ad.price.max}")
@@ -57,12 +58,15 @@ public class Ad implements Serializable {
 
     private Boolean removed;
 
+    private Boolean published;
+
+
+
     @Version
     private long version;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateRegistered;
-
 
 
     @OneToMany(mappedBy = "ad", fetch = FetchType.EAGER)
@@ -199,5 +203,13 @@ public class Ad implements Serializable {
 
     public void setSurface(float surface) {
         this.surface = surface;
+    }
+
+    public Boolean getPublished() {
+        return published;
+    }
+
+    public void setPublished(Boolean published) {
+        this.published = published;
     }
 }

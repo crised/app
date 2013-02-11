@@ -36,7 +36,8 @@
         <dependency>
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
-            <version>3.4.2</version>
+            <version>3.5</version>
+            <!--<version>3.4.2</version> -->
         </dependency>
 
 
@@ -97,6 +98,13 @@
             <groupId>org.primefaces.themes</groupId>
             <artifactId>redmond</artifactId>
             <version>1.0.9</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.infinispan</groupId>
+            <artifactId>infinispan-core</artifactId>
+            <version>5.1.7.Final</version>
+            <scope>provided</scope>
         </dependency>
 
     </dependencies>

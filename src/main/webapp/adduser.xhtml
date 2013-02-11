@@ -14,74 +14,65 @@
         <p:panel id="panel" header="Add User">
 
 
-
             <h:form id="addUser" styleClass="form-horizontal">
 
-                <!-- <h:panelGrid columns="2">-->
 
                 <div class="control-group">
-                    <div class="control-label">
-                        <h:outputLabel for="userIdInput" value="#{msgs['user.enterEmail']}"/>
-                    </div>
-                    <div class="controls">
-                        <p:inputText id="userIdInput" value="#{addUser.user.id}"/>
-                    </div>
+                    <h:outputLabel for="userIdInput" value="#{msgs['user.enterEmail']}"
+                                   styleClass="control-label"/>
+                    <p:inputText id="userIdInput" value="#{addUser.user.id}"
+                                 styleClass="controls"/>
+                </div>
+
+                <div class="control-group">
+                    <h:outputLabel for="userRewriteEmailInput" value="#{msgs['user.rewriteEmail']}"
+                                   styleClass="control-label"/>
+                    <p:inputText id="userRewriteEmailInput" value="#{addUser.checkMail}"
+                                 styleClass="controls"/>
                 </div>
 
                 <!-- add email confirmation -->
 
                 <div class="control-group">
-                    <div class="control-label">
-                        <h:outputLabel for="userNameInput" value="#{msgs['user.enterName']}"/>
-                    </div>
-                    <div class="controls">
-                        <p:inputText id="userNameInput" value="#{addUser.user.name}"/>
-                    </div>
+                    <h:outputLabel for="userNameInput" value="#{msgs['user.enterName']}"
+                                   styleClass="control-label"/>
+                    <p:inputText id="userNameInput" value="#{addUser.user.name}" styleClass="controls"/>
                 </div>
 
                 <div class="control-group">
-                    <div class="control-label">
-                        <h:outputLabel for="businessNameInput" value="#{msgs['user.enterBusinessName']}"/>
-                    </div>
-                    <div class="controls">
-                        <p:inputText id="businessNameInput" value="#{addUser.user.businessName}"/>
-                    </div>
+                    <h:outputLabel for="businessNameInput" value="#{msgs['user.enterBusinessName']}"
+                                   styleClass="control-label"/>
+
+                    <p:inputText id="businessNameInput" value="#{addUser.user.businessName}" styleClass="controls"/>
+
                 </div>
 
                 <div class="control-group">
-                    <div class="control-label">
-                        <h:outputLabel for="phoneNumber1Input" value="#{msgs['user.enterPhoneNumber1']}"/>
-                    </div>
-                    <div class="controls">
-                        <p:inputText id="phoneNumber1Input" value="#{addUser.user.phoneNumber1}"/>
-                    </div>
+                    <h:outputLabel for="phoneNumber1Input" value="#{msgs['user.enterPhoneNumber1']}"
+                                   styleClass="control-label"/>
+
+                    <p:inputText id="phoneNumber1Input" value="#{addUser.user.phoneNumber1}" styleClass="controls"/>
+
                 </div>
 
                 <div class="control-group">
-                    <div class="control-label">
-                        <h:outputLabel for="password1Input" value="#{msgs['user.enterPassword']}"/>
-                    </div>
-                    <div class="controls">
-                        <h:inputSecret id="password1Input" value="#{addUser.password1}"/>
-                    </div>
+                    <h:outputLabel for="password1Input" value="#{msgs['user.enterPassword']}"
+                                   styleClass="control-label"/>
+
+                    <h:inputSecret id="password1Input" value="#{addUser.password1}" styleClass="controls"/>
                 </div>
 
                 <div class="control-group">
-                    <div class="control-label">
-                        <h:outputLabel for="password2Input" value="#{msgs['user.confirmPassword']}"/>
-                    </div>
-                    <div class="controls">
-                        <h:inputSecret id="password2Input" value="#{addUser.password2}"/>
-                    </div>
+                        <h:outputLabel for="password2Input" value="#{msgs['user.confirmPassword']}"
+                                styleClass="control-label"/>
+                        <h:inputSecret id="password2Input" value="#{addUser.password2}"
+                                styleClass="controls"/>
                 </div>
-                <!--   </h:panelGrid>-->
 
                 <div class="control-group">
-                    <div class="controls">
                         <p:commandButton id="submitButton" value="Submit"
-                                         actionListener="#{addUser.actionListener()}"
+                                         styleClass="controls"
                                          action="#{addUser.action}" update=":panel :messages"/>
-                    </div>
                 </div>
             </h:form>
 

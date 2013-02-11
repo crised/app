@@ -12,7 +12,9 @@
     <ui:define name="script">
         <h:outputScript library="js" name="gmap.js"/>
         <h:outputScript library="js" name="gmap_user.js"/>
-
+        <script type="text/javascript"
+                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAdc_l79WVIxJZjkZf7bsE78mxNDk3U7gs&amp;sensor=false">
+        </script>
     </ui:define>
 
     <ui:define name="container">
@@ -20,16 +22,13 @@
         <div class="row">
 
             <div class="span12 show-grid1">
-
-
                 <p:panel id="panel" header="Add new Ad">
-
 
                     <h4>#{msgs['ad.setMapPosition']}</h4>
 
                     <p:gmap id="map_canvas" center="#{adBean.mapBean.mapCentered}" zoom="10" type="ROADMAP"
                             style="width:800px;height:400px" styleClass="gmap"
-                            model="#{mapBean.emptyModel}"
+                            model="#{adBean.mapBean.emptyModel}"
                             onPointClick="#{adBean.mapBean.onPointClick}"
                             widgetVar="map">
                         <p:ajax event="markerDrag" listener="#{adBean.mapBean.onMarkerDrag}" update="messages"/>
@@ -40,8 +39,6 @@
                         <h:form prependId="false">
                             <h:panelGrid columns="1">
                                 <h:outputLabel value="Are you sure?"/>
-
-
                                 <f:facet name="footer">
                                     <p:commandButton value="Yes"
                                                      actionListener="#{adBean.mapBean.addMarker}"
@@ -50,16 +47,16 @@
                                     <p:commandButton value="Cancel" onclick="return cancel()"/>
                                 </f:facet>
                             </h:panelGrid>
-
-                            <h:inputHidden id="lat" value="#{adBean.mapBean.lat}"/>
+                            <h:inputHidden id="lat" value="#{adBean.mapBean.lat}"/> <!--Set by JS-->
                             <h:inputHidden id="lng" value="#{adBean.mapBean.lng}"/>
                         </h:form>
                     </p:dialog>
 
+
                     <h4>#{msgs['ad.fillForm']}</h4>
 
 
-                    <h:form id="addAdForm" styleClass="form-horizontal" enctype="multipart/form-data">
+                    <h:form id="addAdForm" enctype="multipart/form-data">
 
 
                         <div class="control-group">
@@ -79,7 +76,7 @@
                             <h:outputLabel for="longDescriptionInput" value="#{msgs['ad.longDescription']}"
                                            styleClass="control-label"/>
                             <p:inputTextarea id="longDescriptionInput" value="#{adBean.ad.longDescription}"
-                                             title="#{msgs['ad.longDescription.info']}" rows="12"
+                                             title="#{msgs['ad.longDescription.info']}" rows="12" autoResize="FALSE"
                                              styleClass="controls span7"/>
                         </div>
 
@@ -157,21 +154,19 @@
                             <h:outputText value="#{msgs['ad.facilities.info']}"/>
                         </div>
 
+
                         <div class="control-group">
                             <p:commandButton id="button" update="addAdForm :panel"
-                                             value="Submit" actionListener="#{adBean.next}"
-                                             styleClass="controls"/>
+                                             value="Submit" action="#{adBean.next}"
+                                             styleClass="controls"
+                                             onclick="setTimeout('document.getElementById(\'' + this.id + '\').disabled=true;', 50);"/>
                         </div>
 
+
                     </h:form>
-
-
                 </p:panel>
             </div>
         </div>
-        <h:outputScript library="js" name="currency.js"/>
-
-
     </ui:define>
 
 </ui:composition>
