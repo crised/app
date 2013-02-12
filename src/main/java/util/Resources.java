@@ -1,5 +1,9 @@
 package util;
 
+import org.infinispan.manager.EmbeddedCacheManager;
+
+import javax.annotation.Resource;
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.InjectionPoint;
 import javax.faces.component.behavior.FacesBehavior;
@@ -20,4 +24,9 @@ public class Resources {
     public ResourceBundle producesResourceBundle() {
         return ResourceBundle.getBundle("messages", Locale.getDefault());
     }
+
+    @Produces
+    @ApplicationScoped
+    @Resource(lookup = "java:jboss/infinispan/container/appcache")
+    private EmbeddedCacheManager cacheManager;
 }

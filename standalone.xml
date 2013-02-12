@@ -123,8 +123,10 @@
             </session-bean>
             <pools>
                 <bean-instance-pools>
-                    <strict-max-pool name="slsb-strict-max-pool" max-pool-size="20" instance-acquisition-timeout="5" instance-acquisition-timeout-unit="MINUTES"/>
-                    <strict-max-pool name="mdb-strict-max-pool" max-pool-size="20" instance-acquisition-timeout="5" instance-acquisition-timeout-unit="MINUTES"/>
+                    <strict-max-pool name="slsb-strict-max-pool" max-pool-size="20" instance-acquisition-timeout="5"
+                                     instance-acquisition-timeout-unit="MINUTES"/>
+                    <strict-max-pool name="mdb-strict-max-pool" max-pool-size="20" instance-acquisition-timeout="5"
+                                     instance-acquisition-timeout-unit="MINUTES"/>
                 </bean-instance-pools>
             </pools>
             <caches>
@@ -163,6 +165,13 @@
                     <eviction strategy="NONE"/>
                 </local-cache>
             </cache-container>
+            <cache-container name="appcache" default-cache="pagination">
+                <local-cache name="pagination">
+                    <transaction mode="NONE"/>
+                    <eviction strategy="NONE"/>
+                    <expiration max-idle="10000"/>
+                </local-cache>
+            </cache-container>
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:jaxrs:1.0"/>
         <subsystem xmlns="urn:jboss:domain:jca:1.1">
@@ -193,7 +202,7 @@
             <jpa default-datasource=""/>
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:mail:1.0">
-            <mail-session jndi-name="java:jboss/mail/gmail" debug="true">
+            <mail-session jndi-name="java:jboss/mail/gmail">
                 <smtp-server ssl="true" outbound-socket-binding-ref="mail-gmail-smtp">
                     <login name="admin@drip.cl" password="parlante"/>
                 </smtp-server>
@@ -252,8 +261,10 @@
                     <authentication>
                         <login-module code="Database" flag="required">
                             <module-option name="dsJndiName" value="java:jboss/datasources/app"/>
-                            <module-option name="principalsQuery" value="SELECT password FROM users WHERE users.id = ?"/>
-                            <module-option name="rolesQuery" value="SELECT role,'Roles' FROM users INNER JOIN roles ON (users.role_id = roles.id) WHERE users.id = ?"/>
+                            <module-option name="principalsQuery"
+                                           value="SELECT password FROM users WHERE ismailconfirmed=TRUE AND users.id = ?"/>
+                            <module-option name="rolesQuery"
+                                           value="SELECT role,'Roles' FROM users INNER JOIN roles ON (users.role_id = roles.id) WHERE users.id = ?"/>
                         </login-module>
                     </authentication>
                 </security-domain>
@@ -281,7 +292,8 @@
             <wsdl-host>${jboss.bind.address:127.0.0.1}</wsdl-host>
             <endpoint-config name="Standard-Endpoint-Config"/>
             <endpoint-config name="Recording-Endpoint-Config">
-                <pre-handler-chain name="recording-handlers" protocol-bindings="##SOAP11_HTTP ##SOAP11_HTTP_MTOM ##SOAP12_HTTP ##SOAP12_HTTP_MTOM">
+                <pre-handler-chain name="recording-handlers"
+                                   protocol-bindings="##SOAP11_HTTP ##SOAP11_HTTP_MTOM ##SOAP12_HTTP ##SOAP12_HTTP_MTOM">
                     <handler name="RecordingHandler" class="org.jboss.ws.common.invocation.RecordingServerHandler"/>
                 </pre-handler-chain>
             </endpoint-config>
@@ -301,7 +313,8 @@
         </interface>
     </interfaces>
 
-    <socket-binding-group name="standard-sockets" default-interface="public" port-offset="${jboss.socket.binding.port-offset:0}">
+    <socket-binding-group name="standard-sockets" default-interface="public"
+                          port-offset="${jboss.socket.binding.port-offset:0}">
         <socket-binding name="management-native" interface="management" port="${jboss.management.native.port:9999}"/>
         <socket-binding name="management-http" interface="management" port="${jboss.management.http.port:9990}"/>
         <socket-binding name="management-https" interface="management" port="${jboss.management.https.port:9443}"/>
@@ -320,9 +333,4 @@
         </outbound-socket-binding>
     </socket-binding-group>
 
-    <deployments>
-        <deployment name="app-1.0.war" runtime-name="app-1.0.war">
-            <fs-archive path="/home/crised/IdeaProjects/app/target/app-1.0.war"/>
-        </deployment>
-    </deployments>
 </server>
