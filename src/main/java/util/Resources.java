@@ -25,8 +25,8 @@ public class Resources {
         return ResourceBundle.getBundle("messages", Locale.getDefault());
     }
 
+    /*
     @Produces
-    @ApplicationScoped
     @Resource(lookup = "java:jboss/infinispan/container/appcache")
-    private EmbeddedCacheManager cacheManager;
+    private EmbeddedCacheManager cacheManager; **/
 }

@@ -1,24 +1,25 @@
 package web;
 
 import org.infinispan.Cache;
-import org.infinispan.manager.DefaultCacheManager;
 import org.infinispan.manager.EmbeddedCacheManager;
 import org.jboss.logging.Logger;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import javax.annotation.Resource;
 import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
-import java.util.concurrent.TimeUnit;
+import java.io.Serializable;
 
 
 @Named
-@RequestScoped
-public class Pagination {
+@SessionScoped
+public class Pagination implements Serializable {
 
 
-    @Inject
-    EmbeddedCacheManager cacheManager;
+    @Resource(lookup = "java:jboss/infinispan/container/appcache")
+    private EmbeddedCacheManager cacheManager;
 
     Cache cache;
 
@@ -28,22 +29,42 @@ public class Pagination {
     int counter;
 
 
-    @PostConstruct
-    public void method() {
+    public void init() {
 
-        cache = cacheManager.getCache("pagination",false);
 
-        cache.put(0, "Hello");
+        log.info(cacheManager.isDefaultRunning());
+
+        cache = cacheManager.getCache("pagination", false);
+        try {
+            cache.put(0, "Hello");
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+
     }
 
-    public void log(){
+    @PreDestroy
+    public void destroyed(){
+        log.info("Pagination destroyed");
+    }
 
-        if(cache.get(0)==null){
 
-            cache.put(0, "Refreshed: " + counter + "times");
-            counter++;
+    public void log() {
 
+        try{
+
+            if (cache.get(0) == null) {
+
+                cache.put(0, "Refreshed: " + counter + " times");
+                counter++;
+                log.info(cache.get(0));
+
+            }
+
+        }         catch(Exception e){
+            log.error(e.getMessage());
         }
+
 
         log.info(cache.get(0));
 
