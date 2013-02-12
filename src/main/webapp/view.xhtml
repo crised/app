@@ -1,0 +1,21 @@
+<ui:composition template="/layout/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <ui:define name="title">
+        <h:outputText value="#{msgs['login.title']}"/>
+    </ui:define>
+
+    <ui:define name="container">
+
+        <ul>
+            <ui:repeat value="#{viewBean.adSubList}" var="adSubList">
+                <li><h:outputText value="#{adSubList.shortDescription}" /></li>
+            </ui:repeat>
+        </ul>
+
+
+    </ui:define>
+</ui:composition>
