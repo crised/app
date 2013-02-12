@@ -177,7 +177,14 @@
                 <version>2.1.1</version>
                 <configuration>
                     <webXml>src\main\webapp\WEB-INF\web.xml</webXml>
+                   <!--<archive>
+                        <addMavenDescriptor>false</addMavenDescriptor>
+                        <manifestEntries>
+                            <Dependencies>org.infinispan export</Dependencies>
+                        </manifestEntries>
+                    </archive>-->
                 </configuration>
+
             </plugin>
 
             <plugin>

@@ -1,0 +1,3 @@
+Manifest-Version: 1.0
+Dependencies: org.infinispan export
+Build-Jdk: 1.7.0_11
