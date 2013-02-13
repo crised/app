@@ -11,10 +11,11 @@
     <ui:define name="container">
 
         <ul>
-            <ui:repeat value="#{viewBean.adSubList}" var="adSubList">
+            <ui:repeat value="#{viewBean.getCompleteList()}" var="adSubList">
                 <li><h:outputText value="#{adSubList.shortDescription}" /></li>
             </ui:repeat>
         </ul>
+                        3
 
 
     </ui:define>

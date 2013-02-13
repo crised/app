@@ -2,12 +2,10 @@ package web;
 
 import model.Ad;
 import org.infinispan.Cache;
-import org.infinispan.manager.EmbeddedCacheManager;
 import org.jboss.logging.Logger;
 import service.AdService;
 import util.Loggable;
 
-import javax.annotation.Resource;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,9 +18,14 @@ import java.util.List;
 @Loggable
 public abstract class CacheService {
 
-    @Resource(lookup = "java:jboss/infinispan/container/appcache")
-    private EmbeddedCacheManager cacheManager;
+    /*@Resource(lookup = "java:jboss/infinispan/container/appcache")
+    private EmbeddedCacheManager cacheManager; */
 
+    /*
+    @Inject
+    private EmbeddedCacheManager cacheManager; */
+
+    @Inject
     private Cache<Integer, Ad> cache;
 
 
@@ -32,7 +35,7 @@ public abstract class CacheService {
     static final Logger log = Logger.getLogger(CacheService.class);
 
     public void initCache() {
-        cache = cacheManager.getCache("pagination", true);
+       /* cache = cacheManager.getCacheMethod("pagination", true);   */
 
     }
 
@@ -51,14 +54,28 @@ public abstract class CacheService {
 
     public List<Ad> getCompleteList() {
 
-        log.info("Cache List Size from getCompleteList(): " + getCache().size());
-        return new ArrayList<>(getCache().values());
+        log.info("In getCompleteList():");
+
+        return new ArrayList<>(getCacheMethod().values());
+
 
     }
 
-    public List<Ad> getSubList(int fromIndex, int toIndex) {
 
-        log.info("Cache List Size from getSublist: " + getCache().size());
+    public Cache<Integer, Ad> getCacheMethod() {
+
+        if (cache.get(adService.getAll().get(0).getId())==null) {
+            log.info("cache is Empty, so calling populate()");
+            populateCache();
+            return cache;
+        }
+
+        return cache;
+    }
+    /*
+      public List<Ad> getSubList(int fromIndex, int toIndex) {
+
+        log.info("Cache List Size from getSublist: " + getCacheMethod().size());
         log.info("Complete List Size from getSublist:" + getCompleteList().size());
 
 
@@ -71,22 +88,5 @@ public abstract class CacheService {
         return getCompleteList().subList(fromIndex, toIndex);
 
     }
-
-    public Cache<Integer, Ad> getCache() {
-
-        if (cache == null) {
-            log.info("cache is null, so calling init() then populate()");
-            initCache();
-            populateCache();
-            return cache;
-        }
-
-        if (cache.isEmpty()) {
-            log.info("cache is Empty, so calling populate()");
-            populateCache();
-            return cache;
-        }
-
-        return cache;
-    }
+     */
 }

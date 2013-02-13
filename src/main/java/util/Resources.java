@@ -1,32 +1,41 @@
 package util;
 
+import model.Ad;
+import org.infinispan.Cache;
 import org.infinispan.manager.EmbeddedCacheManager;
 
 import javax.annotation.Resource;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.InjectionPoint;
-import javax.faces.component.behavior.FacesBehavior;
-import javax.faces.context.FacesContext;
+import java.io.Serializable;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
 
-public class Resources {
+public class Resources implements Serializable {
+
+    @Resource(lookup = "java:jboss/infinispan/container/appcache")
+    private EmbeddedCacheManager cacheManager;
 
     @Produces
-    public Logger produceLog(InjectionPoint injectionPoint){
+    public Logger produceLog(InjectionPoint injectionPoint) {
         return Logger.getLogger(injectionPoint.getMember().getDeclaringClass().getName());
     }
 
 
-   @Produces
+    @Produces
     public ResourceBundle producesResourceBundle() {
         return ResourceBundle.getBundle("messages", Locale.getDefault());
     }
 
-    /*
-    @Produces
+    /*@Produces
     @Resource(lookup = "java:jboss/infinispan/container/appcache")
-    private EmbeddedCacheManager cacheManager; **/
+    private EmbeddedCacheManager cacheManager;   */
+
+    @Produces
+    @ApplicationScoped
+    public Cache<Integer,Ad> producesCache(){
+        return cacheManager.getCache("pagination",true);
+    }
 }

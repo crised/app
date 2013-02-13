@@ -23,17 +23,19 @@ public class ViewBean extends CacheService {
     private List<Ad> adSubList;
 
 
-    @PostConstruct
+    //@PostConstruct
     public void init() {
 
         //adSubList = getSubList(0,5); // Get the first 6
-        adSubList = getCompleteList();
+        //adSubList = getCompleteList();
         //log2.info("ViewBean Created");
 
     }
 
 
-    @PreDestroy
+
+
+    //@PreDestroy
     public void destroy() {
        // log2.info("ViewBean Destroyed");
     }
