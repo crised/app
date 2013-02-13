@@ -64,8 +64,10 @@ public abstract class CacheService {
 
     public Cache<Integer, Ad> getCacheMethod() {
 
-        if (cache.get(adService.getAll().get(0).getId())==null) {
-            log.info("cache is Empty, so calling populate()");
+        if (cache.get(adService.getAll().get(0).getId())==null) // Only way to check! cache.size is a bad way!
+        {
+
+            log.info("cache should be  Empty, but it's not cache size: " + cache.size());
             populateCache();
             return cache;
         }
