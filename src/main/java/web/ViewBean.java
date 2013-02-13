@@ -1,13 +1,10 @@
 package web;
 
 import model.Ad;
-import org.infinispan.Cache;
-import org.infinispan.manager.EmbeddedCacheManager;
 import org.jboss.logging.Logger;
-import util.Loggable;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
+import javax.annotation.PreDestroy;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 import java.util.List;
@@ -26,18 +23,19 @@ public class ViewBean extends CacheService {
     private List<Ad> adSubList;
 
 
-
     @PostConstruct
-    public void init(){
+    public void init() {
 
-        adSubList = getSubList(0,5); // Get the first 6
-        log2.info("ViewBean Created");
+        //adSubList = getSubList(0,5); // Get the first 6
+        adSubList = getCompleteList();
+        //log2.info("ViewBean Created");
 
     }
 
 
-    public void destroy(){
-        log2.info("ViewBean Destroyed");
+    @PreDestroy
+    public void destroy() {
+       // log2.info("ViewBean Destroyed");
     }
 
     public List<Ad> getAdSubList() {

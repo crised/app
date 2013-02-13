@@ -7,7 +7,6 @@ import org.jboss.logging.Logger;
 import service.AdService;
 import util.Loggable;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -32,38 +31,27 @@ public abstract class CacheService {
 
     static final Logger log = Logger.getLogger(CacheService.class);
 
-    @PostConstruct
     public void initCache() {
-        cache = cacheManager.getCache("pagination", false);
+        cache = cacheManager.getCache("pagination", true);
 
     }
 
 
     public void populateCache() {
 
+        log.info("Entering populateCache");
         List<Ad> adList = adService.getAll();
 
-
-        if (cache != null) {
-
-            log.info(cacheManager.isDefaultRunning());
-
-            for (Ad ad : adList) {
-                if (cache == null) log.warn("cache is null");
-                cache.put(ad.getId(), ad);
-            }
-
-        } else log.error("cache is null");
-
-        log.info(cache.size());
-
+        for (Ad ad : adList) {
+            if (cache == null) log.warn("cache is null");
+            cache.put(ad.getId(), ad);
+        }
 
     }
 
     public List<Ad> getCompleteList() {
 
         log.info("Cache List Size from getCompleteList(): " + getCache().size());
-
         return new ArrayList<>(getCache().values());
 
     }
@@ -72,7 +60,6 @@ public abstract class CacheService {
 
         log.info("Cache List Size from getSublist: " + getCache().size());
         log.info("Complete List Size from getSublist:" + getCompleteList().size());
-
 
 
         if (getCompleteList().size() >= 1) {
@@ -88,15 +75,16 @@ public abstract class CacheService {
     public Cache<Integer, Ad> getCache() {
 
         if (cache == null) {
+            log.info("cache is null, so calling init() then populate()");
             initCache();
             populateCache();
             return cache;
         }
 
         if (cache.isEmpty()) {
+            log.info("cache is Empty, so calling populate()");
             populateCache();
             return cache;
-
         }
 
         return cache;
