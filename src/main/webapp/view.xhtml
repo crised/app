@@ -10,12 +10,16 @@
 
     <ui:define name="container">
 
+
+
         <ul>
-            <ui:repeat value="#{viewBean.getCompleteList()}" var="adSubList">
+            <ui:repeat value="#{cacheView.adList}" var="adSubList">
                 <li><h:outputText value="#{adSubList.shortDescription}" /></li>
             </ui:repeat>
         </ul>
-                        3
+
+
+
 
 
     </ui:define>

@@ -45,6 +45,7 @@ public class AdService implements Serializable {
         return em.createQuery(cq).getResultList();
     }
 
+
     public Ad getAdById(int IdAd) {
 
         CriteriaBuilder cb = em.getCriteriaBuilder();

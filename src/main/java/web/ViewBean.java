@@ -3,8 +3,6 @@ package web;
 import model.Ad;
 import org.jboss.logging.Logger;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 import java.util.List;
@@ -16,7 +14,7 @@ import java.util.List;
 
 @Named
 @RequestScoped
-public class ViewBean extends CacheService {
+public class ViewBean extends CacheView {
 
     static final Logger log2 = Logger.getLogger(ViewBean.class);
 
@@ -27,7 +25,7 @@ public class ViewBean extends CacheService {
     public void init() {
 
         //adSubList = getSubList(0,5); // Get the first 6
-        //adSubList = getCompleteList();
+        //adSubList = completeList();
         //log2.info("ViewBean Created");
 
     }

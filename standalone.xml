@@ -169,7 +169,7 @@
                 <local-cache name="pagination" start="EAGER">
                     <transaction mode="NONE"/>
                     <eviction strategy="NONE"/>
-                    <expiration lifespan="10000" max-idle="-1"/>
+                    <expiration lifespan="10000" max-idle="-1" interval="200"/>
                 </local-cache>
             </cache-container>
         </subsystem>
