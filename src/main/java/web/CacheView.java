@@ -4,10 +4,12 @@ import model.Ad;
 import org.jboss.logging.Logger;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.Conversation;
+import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,7 +18,7 @@ import java.util.List;
  */
 
 @Named
-@RequestScoped
+@ConversationScoped
 public class CacheView implements Serializable {
 
     static final Logger log = Logger.getLogger(CacheView.class);
@@ -24,15 +26,49 @@ public class CacheView implements Serializable {
     @Inject
     CacheBean cacheBean;
 
+    @Inject
+    private Conversation conversation;
+
+    private String adString;
+
     private List<Ad> adList;
+
+    private List<Integer> adViewedList;
 
 
     @PostConstruct //After injection is done.
     public void init() {
-
-        adList = cacheBean.completeList();
-
+        adList = cacheBean.getSixAds();
+        buildString();
     }
+
+    public void buildString() {
+        adString = "";
+        for (Ad ad : adList) {
+            adString = adString + " " + ad.getId();
+        }
+        log.info("Render List: " + adString);
+    }
+
+    public void readString() {
+        String[] strings = adString.trim().split("\\s+");
+        int counter = 0;
+        adViewedList = new ArrayList<>();
+        for (String s : strings) {
+            adViewedList.add(counter, new Integer(s));
+        }
+        log.info("Viewed Ads id: ");
+
+        for (Integer i : adViewedList) {
+            log.info(i);
+        }
+
+        if (conversation.isTransient())
+            conversation.begin();
+
+        adList = cacheBean.getSixDifferentAds(adViewedList);
+    }
+
 
     public List<Ad> getAdList() {
         return adList;
@@ -42,7 +78,13 @@ public class CacheView implements Serializable {
         this.adList = adList;
     }
 
+    public String getAdString() {
+        return adString;
+    }
 
+    public void setAdString(String adString) {
+        this.adString = adString;
+    }
 }
 
  /*

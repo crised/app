@@ -21,7 +21,7 @@ public class Ad implements Serializable {
     @NotNull
     private String shortDescription;
 
-    @Size(min = 100, max = 5_000, message = "{ad.longDescription.size}")
+    @Size(min = 80, max = 5_000, message = "{ad.longDescription.size}")
     @NotNull
     @Lob
     private String longDescription;
@@ -38,7 +38,7 @@ public class Ad implements Serializable {
 
     @Min(value = 2, message = "{ad.surface.min}")
     @Digits(integer = 5, fraction = 1, message = "{ad.surface.digits}")
-    @Max(value = 9999, message = "{ad.surface.max")
+    @Max(value = 15000, message = "{ad.surface.max")
     @NotNull
     private float surface; // Ha. (Acre) Only one decimal allowed. Min 2.
 

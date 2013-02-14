@@ -1,8 +1,9 @@
 <ui:composition template="/layout/template.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:p="http://primefaces.org/ui"
-                xmlns:ui="http://java.sun.com/jsf/facelets">
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
 
     <ui:define name="title">
         <h:outputText value="#{msgs['login.title']}"/>
@@ -10,16 +11,37 @@
 
     <ui:define name="container">
 
-
-
-        <ul>
-            <ui:repeat value="#{cacheView.adList}" var="adSubList">
-                <li><h:outputText value="#{adSubList.shortDescription}" /></li>
+        <h:panelGroup id="adlist">
+        <ul class="thumbnails">
+            <ui:repeat value="#{cacheView.adList}" var="list">
+                <li class="span4">
+                    <div class="thumbnail">
+                        <h:graphicImage value="#{list.pictureList.get(0).path}"/>
+                        <h5><h:outputText value="#{list.shortDescription}"/></h5>
+                        <h6><h:outputText value="#{list.surface}">
+                            <f:convertNumber locale="ES"/>
+                        </h:outputText> Ha</h6>
+                        <h6><h:outputText value="#{list.city.getLabel()}"/></h6>
+                        <h6><h:outputText value="#{list.price}">
+                            <f:convertNumber type="currency" locale="ES"
+                                             maxFractionDigits="0"
+                                             currencySymbol="$"/>
+                        </h:outputText>
+                        </h6>
+                    </div>
+                </li>
             </ui:repeat>
         </ul>
+        </h:panelGroup>
+
+        <h:outputText value="#{cacheView.adString}"/>
 
 
 
+       <h:form>
+            <h:inputHidden value="#{cacheView.adString}" />
+            <p:commandButton id="updatebutton" value="next" update=":adlist" actionListener="#{cacheView.readString}"/>
+        </h:form>
 
 
     </ui:define>

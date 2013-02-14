@@ -11,7 +11,10 @@ import javax.annotation.Resource;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Date: 2/14/13
@@ -42,7 +45,9 @@ public class CacheBean implements Serializable {
         cache = cacheManager.getCache("pagination", false);
     }
 
-    /* Never use cache.values()! */
+    /* Never use cache.values()!
+       Values are stored in a list and in the cached
+       directly from CriteriaQuery.*/
 
 
     public List<Ad> refreshCache() {
@@ -64,6 +69,30 @@ public class CacheBean implements Serializable {
         return adList;
     }
 
+    public List<Ad> getSixAds() {
+
+        List<Ad> sixAdsList = completeList();
+        Collections.shuffle(completeList());
+        return sixAdsList.subList(0, 6);
+    }
+
+    public List<Ad> getSixDifferentAds(List<Integer> adViewedList) {
+
+        Cache<Integer,Ad> temp = getCache();
+
+        for(Integer adId : adViewedList){
+            temp.remove(adId);
+        }
+
+        List<Ad> sixDiffAdsList = new ArrayList<>(temp.values());
+
+        if (sixDiffAdsList.size() >= 6) {
+            return sixDiffAdsList.subList(0, 6);
+        }
+
+        return sixDiffAdsList;
+    }
+
     public Cache<Integer, Ad> getCache() {
         if (!cache.containsKey(-1))
             refreshCache();
@@ -73,8 +102,11 @@ public class CacheBean implements Serializable {
 
     }
 
+    /*List<Ad> sixDiffAdsList = completeList();
+        for (Integer adId : adViewedList) {
+            for (Ad ad : sixDiffAdsList) {
+                if (ad.getId() == adId) sixDiffAdsList.remove(ad);
+            }
+        }*/
 
-
-    /*if (cache.containsKey(-1)) cache.remove(-1);
-        adList = new ArrayList<>(cache.values());*/
 }
