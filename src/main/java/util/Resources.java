@@ -17,15 +17,15 @@ import java.util.logging.Logger;
 public class Resources implements Serializable {
 
 
-    @Produces
-    @Resource(lookup = "java:jboss/infinispan/container/appcache")
-    private EmbeddedCacheManager cacheManager;
+    @Resource(lookup = "java:jboss/infinispan/cache/appcache/pagination")
+    private Cache<Integer, Ad> cache;
 
-    /*@Produces
+
+    @Produces
     @ApplicationScoped
     public Cache<Integer,Ad> producesCache(){
-        return cacheManager.getCache("pagination",false);
-    }*/
+        return this.cache;
+    }
 
     @Produces
     public Logger produceLog(InjectionPoint injectionPoint) {

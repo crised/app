@@ -35,11 +35,17 @@ public class CacheView implements Serializable {
 
     private List<Integer> adViewedList;
 
+    private boolean nextRendered;
+
+    private String button;
+
 
     @PostConstruct //After injection is done.
     public void init() {
         adList = cacheBean.getSixAds();
         buildString();
+        nextRendered=Boolean.TRUE;
+        button = "#{cacheView.readString}";
     }
 
     public void buildString() {
@@ -67,6 +73,13 @@ public class CacheView implements Serializable {
             conversation.begin();
 
         adList = cacheBean.getSixDifferentAds(adViewedList);
+
+        button
+
+    }
+
+    public void continueConversation(){
+
     }
 
 
@@ -84,6 +97,14 @@ public class CacheView implements Serializable {
 
     public void setAdString(String adString) {
         this.adString = adString;
+    }
+
+    public Boolean getNextRendered() {
+        return nextRendered;
+    }
+
+    public void setNextRendered(Boolean nextRendered) {
+        this.nextRendered = nextRendered;
     }
 }
 

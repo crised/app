@@ -2,19 +2,16 @@ package web;
 
 import model.Ad;
 import org.infinispan.Cache;
-import org.infinispan.manager.EmbeddedCacheManager;
 import org.jboss.logging.Logger;
 import service.AdService;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Date: 2/14/13
@@ -24,13 +21,13 @@ import java.util.Map;
 @ApplicationScoped
 public class CacheBean implements Serializable {
 
-    @Resource(lookup = "java:jboss/infinispan/container/appcache")
-    private EmbeddedCacheManager cacheManager;
+
+    @Inject
+    Cache<Integer, Ad> cache;
 
     @Inject
     AdService adService;
 
-    private Cache<Integer, Ad> cache;
     private List<Ad> adList;
 
     static final Logger log = Logger.getLogger(CacheBean.class);
@@ -42,7 +39,6 @@ public class CacheBean implements Serializable {
     @PostConstruct
     public void initCaches() {
         log.info("CacheBean AppScoped constructed");
-        cache = cacheManager.getCache("pagination", false);
     }
 
     /* Never use cache.values()!
@@ -78,9 +74,9 @@ public class CacheBean implements Serializable {
 
     public List<Ad> getSixDifferentAds(List<Integer> adViewedList) {
 
-        Cache<Integer,Ad> temp = getCache();
+        Cache<Integer, Ad> temp = getCache();
 
-        for(Integer adId : adViewedList){
+        for (Integer adId : adViewedList) {
             temp.remove(adId);
         }
 
