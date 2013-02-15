@@ -94,8 +94,7 @@ public class CacheView implements Serializable {
 
         if(adList.size()<5){
             disableButton=true;
-            conversation.end();
-
+            conversation.setTimeout(300000); //300 seconds, 5 minutes
         }
 
     }

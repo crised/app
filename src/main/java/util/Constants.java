@@ -1,6 +1,8 @@
 package util;
 
-public final class Constants { //Final Class can't be inherited
+public final class Constants {
+
+    private String label;
 
     private Constants() {
 

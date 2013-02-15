@@ -1,5 +1,6 @@
 package web;
 
+import enums.Price;
 import model.Ad;
 import org.jboss.logging.Logger;
 
@@ -27,6 +28,7 @@ public class ViewBean extends CacheView {
         //adSubList = getSubList(0,5); // Get the first 6
         //adSubList = completeList();
         //log2.info("ViewBean Created");
+
 
     }
 

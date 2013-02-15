@@ -135,9 +135,11 @@
                         </div>
 
                         <div class="control-group">
-                            <h:outputLabel for="surfaceInput" value="#{msgs['ad.waterRights']}"
+                            <h:outputLabel for="waterRights" value="#{msgs['ad.waterRights']}"
                                            styleClass="control-label"/>
-                            <p:selectBooleanButton onLabel="Yes" offLabel="No" onIcon="ui-icon-check"
+                            <p:selectBooleanButton id="waterRights"
+                                                   onLabel="Yes" offLabel="No"
+                                                   onIcon="ui-icon-check"
                                                    offIcon="ui-icon-close"
                                                    value="#{adBean.ad.waterRights}"
                                                    styleClass="controls"/>
@@ -145,9 +147,10 @@
                         </div>
 
                         <div class="control-group">
-                            <h:outputLabel for="surfaceInput" value="#{msgs['ad.facilities']}"
+                            <h:outputLabel for="facilities" value="#{msgs['ad.facilities']}"
                                            styleClass="control-label"/>
-                            <p:selectBooleanButton onLabel="Yes" offLabel="No" onIcon="ui-icon-check"
+                            <p:selectBooleanButton id="facilities"
+                                                   onLabel="Yes" offLabel="No" onIcon="ui-icon-check"
                                                    offIcon="ui-icon-close"
                                                    value="#{adBean.ad.facilities}"
                                                    styleClass="controls"/>
