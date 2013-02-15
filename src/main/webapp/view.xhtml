@@ -22,8 +22,12 @@
                                        style="width:100%"/>
                         <p:selectOneMenu id="price"
                                          value="#{enumRegistration.selectedRegion}"
-                                         style="width:100%">
-                            <f:selectItems value="#{enumRegistration.regionList}"/>
+                                         style="width:100%"
+                                converter="surfaceConverter">
+                            <f:selectItems value="#{enum.surfaceArray}"
+                                           var="surface"
+                                           itemValue="#{surface.higherSurface}"
+                                           itemLabel="#{surface.label}"/>
                         </p:selectOneMenu>
                     </div>
 
@@ -36,9 +40,9 @@
                     </div>
 
                     <div class="span3 offset-special">
-                        <h:outputLabel for="surface" value="#{msgs['cacheView.region']}"
+                        <h:outputLabel for="region" value="#{msgs['cacheView.region']}"
                                        style="width:100%"/>
-                        <p:selectOneMenu id="surface" value="#{enumRegistration.selectedRegion}"
+                        <p:selectOneMenu id="region" value="#{enumRegistration.selectedRegion}"
                                          style="width:100%">
                             <f:selectItems value="#{enumRegistration.regionList}"/>
                             <f:ajax listener="#{enumRegistration.selectCity}" render="citiesMenu"/>
