@@ -4,6 +4,7 @@ import model.Ad;
 import org.jboss.logging.Logger;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
@@ -35,17 +36,21 @@ public class CacheView implements Serializable {
 
     private List<Integer> adViewedList;
 
-    private boolean nextRendered;
+    private boolean switchButton, disableButton;
 
-    private String button;
+
 
 
     @PostConstruct //After injection is done.
     public void init() {
         adList = cacheBean.getSixAds();
         buildString();
-        nextRendered=Boolean.TRUE;
-        button = "#{cacheView.readString}";
+        log.info("CacheView Constructed");
+    }
+
+    @PreDestroy
+    public void destroy(){
+        log.info("CacheView Destroyed");
     }
 
     public void buildString() {
@@ -56,7 +61,7 @@ public class CacheView implements Serializable {
         log.info("Render List: " + adString);
     }
 
-    public void readString() {
+    public String readString() {
         String[] strings = adString.trim().split("\\s+");
         int counter = 0;
         adViewedList = new ArrayList<>();
@@ -74,11 +79,24 @@ public class CacheView implements Serializable {
 
         adList = cacheBean.getSixDifferentAds(adViewedList);
 
-        button
+        switchButton = true;
+
+        return "view.xhtml?faces-redirect=true";
 
     }
 
-    public void continueConversation(){
+    public void continueConversation() {
+        log.info("continue conversation");
+        for(Ad ad: adList){
+            adViewedList.add(ad.getId());
+        }
+        adList = cacheBean.getSixDifferentAds(adViewedList);
+
+        if(adList.size()<5){
+            disableButton=true;
+            conversation.end();
+
+        }
 
     }
 
@@ -99,12 +117,20 @@ public class CacheView implements Serializable {
         this.adString = adString;
     }
 
-    public Boolean getNextRendered() {
-        return nextRendered;
+    public boolean isSwitchButton() {
+        return switchButton;
     }
 
-    public void setNextRendered(Boolean nextRendered) {
-        this.nextRendered = nextRendered;
+    public void setSwitchButton(boolean switchButton) {
+        this.switchButton = switchButton;
+    }
+
+    public boolean isDisableButton() {
+        return disableButton;
+    }
+
+    public void setDisableButton(boolean disableButton) {
+        this.disableButton = disableButton;
     }
 }
 

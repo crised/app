@@ -12,35 +12,40 @@
     <ui:define name="container">
 
         <h:panelGroup id="adlist">
-        <ul class="thumbnails">
-            <ui:repeat value="#{cacheView.adList}" var="list">
-                <li class="span4">
-                    <div class="thumbnail">
-                        <h:graphicImage value="#{list.pictureList.get(0).path}"/>
-                        <h5><h:outputText value="#{list.shortDescription}"/></h5>
-                        <h6><h:outputText value="#{list.surface}">
-                            <f:convertNumber locale="ES"/>
-                        </h:outputText> Ha</h6>
-                        <h6><h:outputText value="#{list.city.getLabel()}"/></h6>
-                        <h6><h:outputText value="#{list.price}">
-                            <f:convertNumber type="currency" locale="ES"
-                                             maxFractionDigits="0"
-                                             currencySymbol="$"/>
-                        </h:outputText>
-                        </h6>
-                    </div>
-                </li>
-            </ui:repeat>
-        </ul>
+            <ul class="thumbnails">
+                <ui:repeat value="#{cacheView.adList}" var="list">
+                    <li class="span4">
+                        <div class="thumbnail">
+                            <h:graphicImage value="#{list.pictureList.get(0).path}"/>
+                            <h5><h:outputText value="#{list.shortDescription}"/></h5>
+                            <h6><h:outputText value="#{list.surface}">
+                                <f:convertNumber locale="ES"/>
+                            </h:outputText> Ha</h6>
+                            <h6><h:outputText value="#{list.city.getLabel()}"/></h6>
+                            <h6><h:outputText value="#{list.price}">
+                                <f:convertNumber type="currency" locale="ES"
+                                                 maxFractionDigits="0"
+                                                 currencySymbol="$"/>
+                            </h:outputText>
+                            </h6>
+                        </div>
+                    </li>
+                </ui:repeat>
+            </ul>
         </h:panelGroup>
 
         <h:outputText value="#{cacheView.adString}"/>
 
 
-
-       <h:form>
-            <h:inputHidden value="#{cacheView.adString}" />
-            <p:commandButton id="updatebutton" value="next" update=":adlist" actionListener="#{cacheView.readString}"/>
+        <h:form>
+            <h:inputHidden value="#{cacheView.adString}" rendered="#{!cacheView.switchButton}"/>
+            <p:commandButton id="updatebutton" value="next"
+                             update=":adlist" rendered="#{!cacheView.switchButton}"
+                             action="#{cacheView.readString}"/>
+            <p:commandButton id="updatebutton2" value="next"
+                             update=":adlist @this" disabled="#{cacheView.disableButton}"
+                             rendered="#{cacheView.switchButton}"
+                             actionListener="#{cacheView.continueConversation}"/>
         </h:form>
 
 
