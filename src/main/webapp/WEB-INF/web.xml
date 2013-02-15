@@ -42,10 +42,12 @@
         <param-value>redmond</param-value>
     </context-param>
 
+    <!--
     <error-page>
         <exception-type>javax.faces.application.ViewExpiredException</exception-type>
         <location>/view.xhtml</location>
     </error-page>
+
 
     <error-page>
         <exception-type>javax.servlet.ServletException</exception-type>
@@ -55,7 +57,7 @@
     <error-page>
         <error-code>500</error-code>
         <location>/error.xhtml</location>
-    </error-page>
+    </error-page> -->
 
 
     <filter>

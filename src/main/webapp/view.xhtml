@@ -21,13 +21,14 @@
                         <h:outputLabel for="price" value="#{msgs['cacheView.price']}"
                                        style="width:100%"/>
                         <p:selectOneMenu id="price"
-                                         value="#{enumRegistration.selectedRegion}"
+                                         value="#{enum.sel}"
                                          style="width:100%"
-                                converter="surfaceConverter">
-                            <f:selectItems value="#{enum.surfaceArray}"
-                                           var="surface"
-                                           itemValue="#{surface.higherSurface}"
-                                           itemLabel="#{surface.label}"/>
+                                         converter="javax.faces.Integer">
+                            <f:selectItems value="#{enum.priceArray}"
+                                           var="price"
+                                           itemValue="#{price.ordinal()}"
+                                           itemLabel="#{price.label}"
+                                    />
                         </p:selectOneMenu>
                     </div>
 
