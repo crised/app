@@ -28,6 +28,9 @@ public class CacheView implements Serializable {
     CacheBean cacheBean;
 
     @Inject
+    SearchParamBean searchParamBean;
+
+    @Inject
     private Conversation conversation;
 
     private String adString;
@@ -39,8 +42,6 @@ public class CacheView implements Serializable {
     private boolean switchButton, disableButton;
 
 
-
-
     @PostConstruct //After injection is done.
     public void init() {
         adList = cacheBean.getSixAds();
@@ -49,7 +50,7 @@ public class CacheView implements Serializable {
     }
 
     @PreDestroy
-    public void destroy(){
+    public void destroy() {
         log.info("CacheView Destroyed");
     }
 
@@ -87,16 +88,31 @@ public class CacheView implements Serializable {
 
     public void continueConversation() {
         log.info("continue conversation");
-        for(Ad ad: adList){
+        for (Ad ad : adList) {
             adViewedList.add(ad.getId());
         }
         adList = cacheBean.getSixDifferentAds(adViewedList);
 
-        if(adList.size()<5){
-            disableButton=true;
+        if (adList.size() < 5) {
+            disableButton = true;
             conversation.setTimeout(300000); //300 seconds, 5 minutes
         }
 
+    }
+
+    public void getSearchResults() {
+        adList = cacheBean.searchEngine(
+                searchParamBean.getPrice(),
+                searchParamBean.getSurface(),
+                searchParamBean.getRegion(),
+                searchParamBean.getCity(),
+                searchParamBean.isWaterRights(),
+                searchParamBean.isFacilities());
+    }
+
+    public void resetSearch(){
+
+        if(!conversation.isTransient()) conversation.end();
     }
 
 
@@ -131,69 +147,14 @@ public class CacheView implements Serializable {
     public void setDisableButton(boolean disableButton) {
         this.disableButton = disableButton;
     }
+
+    public SearchParamBean getSearchParamBean() {
+        return searchParamBean;
+    }
+
+    public void setSearchParamBean(SearchParamBean searchParamBean) {
+        this.searchParamBean = searchParamBean;
+    }
 }
 
- /*
-
-  public Cache<Integer, Ad> getCache() {
-
-        if (!cache.containsKey(-1))   //Check Expiration
-            fillAdListFromDB();
-
-        return cache;
-
-    }
-
-  @CacheEntryCreated
-    public void goofyEntryCreated(CacheEntryCreatedEvent event) {
-        log.info("inside event");
-        if (event.getKey().equals(-1))
-            log.info("Goofy Entry Created");
-    }
-
-    @CacheEntryRemoved
-    public void goofyEntryRemoved(CacheEntryRemovedEvent event) {
-        log.info("inside event");
-
-        if (event.getKey().equals(-1))
-            log.info("Goofy Entry Created");
-    }
-
-}
-
-
-
-
-
-
-    public Cache<Integer, Ad> getCacheMethod() {
-
-
-        for (Map.Entry<Integer, Ad> entry : cache.entrySet()) {
-            Integer key = entry.getKey();
-            Ad value = entry.getValue();
-            log.info("key: " + key + "value: " + value.getShortDescription());
-        }
-        fillAdListFromDB();
-        return cache;
-    }
-
-
-
-      public List<Ad> getSubList(int fromIndex, int toIndex) {
-
-        log.info("Cache List Size from getSublist: " + getCacheMethod().size());
-        log.info("Complete List Size from getSublist:" + getAdList().size());
-
-
-        if (getAdList().size() >= 1) {
-            int maxToIndex = getAdList().size() - 1;
-            if (toIndex > maxToIndex) toIndex = maxToIndex;
-
-        } else return null; //Empty List
-
-        return getAdList().subList(fromIndex, toIndex);
-
-    }
-     */
 

@@ -1,5 +1,9 @@
 package web;
 
+import enums.City;
+import enums.Price;
+import enums.Region;
+import enums.Surface;
 import model.Ad;
 import org.infinispan.Cache;
 import org.jboss.logging.Logger;
@@ -9,7 +13,6 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -47,13 +50,25 @@ public class CacheBean implements Serializable {
 
 
     public void fillAdListFromDB() {
+        long t1 = System.currentTimeMillis();
         adList = adService.getAll();
+        long t2 = System.currentTimeMillis();
+        long time = t2 - t1;
+        log.info("time to get Ads from Db: ");
+        log.info(time);
+
     }
 
     public void fillAdListFromCache() {
+        long t1 = System.currentTimeMillis();
         cleanCache();
-        if(adList!=null) adList=null;  //adList can be stale
+        if (adList != null) adList = null;  //adList can be stale
         adList = new ArrayList<Ad>(cleanCache.values());
+        long t2 = System.currentTimeMillis();
+        long time = t2 - t1;
+        log.info("time to get Ads from Cache: ");
+        log.info(time);
+
     }
 
     public void fillCache() {  //Cache always get filled from List.
@@ -118,18 +133,38 @@ public class CacheBean implements Serializable {
 
     }
 
-    public boolean isExpired(){
+    public boolean isExpired() {
         if (!cache.containsKey(-1))
             return true;
         return false;
     }
 
-    public void cleanCache(){ //remove goofy entrance
+    public void cleanCache() { //remove goofy entrance
         cleanCache = cache;
         cache.remove(-1);
     }
 
+    public List<Ad> searchEngine(Price price, Surface surface, Region region,
+                                 City city, boolean waterRights,
+                                 boolean facilities) {
 
+        List<Ad> search = new ArrayList<>();
+
+        for (Ad ad : getAdList()) {
+            while (ad != null) {
+                if (facilities==true){
+
+                }
+                if (ad.getFacilities() == facilities) {
+                    if (ad.getWaterRights() == waterRights) {
+                        search.add(ad);
+                    }
+                }
+                break;
+            }
+        }
+        return search;
+    }
 
 
 }

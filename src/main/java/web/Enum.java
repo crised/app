@@ -19,9 +19,7 @@ import javax.inject.Named;
 public class Enum {
 
 
-    private Price selectedPrice;
-    private Surface selectedSurface;
-    private City selectedCity;
+
     private Region selectedRegion;
 
 
@@ -47,37 +45,4 @@ public class Enum {
         return Region.values();
     }
 
-
-
-    public City getSelectedCity() {
-        return selectedCity;
-    }
-
-    public void setSelectedCity(City selectedCity) {
-        this.selectedCity = selectedCity;
-    }
-
-    public Region getSelectedRegion() {
-        return selectedRegion;
-    }
-
-    public void setSelectedRegion(Region selectedRegion) {
-        this.selectedRegion = selectedRegion;
-    }
-
-    public Price getSelectedPrice() {
-        return selectedPrice;
-    }
-
-    public void setSelectedPrice(Price selectedPrice) {
-        this.selectedPrice = selectedPrice;
-    }
-
-    public Surface getSelectedSurface() {
-        return selectedSurface;
-    }
-
-    public void setSelectedSurface(Surface selectedSurface) {
-        this.selectedSurface = selectedSurface;
-    }
 }
