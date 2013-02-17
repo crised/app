@@ -26,7 +26,7 @@ public class ViewBean extends CacheView {
     public void init() {
 
         //adSubList = getSubList(0,5); // Get the first 6
-        //adSubList = completeList();
+        //adSubList = getAdList();
         //log2.info("ViewBean Created");
 
 

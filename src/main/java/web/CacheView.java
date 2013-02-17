@@ -138,7 +138,7 @@ public class CacheView implements Serializable {
   public Cache<Integer, Ad> getCache() {
 
         if (!cache.containsKey(-1))   //Check Expiration
-            refreshCache();
+            fillAdListFromDB();
 
         return cache;
 
@@ -174,7 +174,7 @@ public class CacheView implements Serializable {
             Ad value = entry.getValue();
             log.info("key: " + key + "value: " + value.getShortDescription());
         }
-        refreshCache();
+        fillAdListFromDB();
         return cache;
     }
 
@@ -183,16 +183,16 @@ public class CacheView implements Serializable {
       public List<Ad> getSubList(int fromIndex, int toIndex) {
 
         log.info("Cache List Size from getSublist: " + getCacheMethod().size());
-        log.info("Complete List Size from getSublist:" + completeList().size());
+        log.info("Complete List Size from getSublist:" + getAdList().size());
 
 
-        if (completeList().size() >= 1) {
-            int maxToIndex = completeList().size() - 1;
+        if (getAdList().size() >= 1) {
+            int maxToIndex = getAdList().size() - 1;
             if (toIndex > maxToIndex) toIndex = maxToIndex;
 
         } else return null; //Empty List
 
-        return completeList().subList(fromIndex, toIndex);
+        return getAdList().subList(fromIndex, toIndex);
 
     }
      */

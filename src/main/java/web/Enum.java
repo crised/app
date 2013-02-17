@@ -6,14 +6,16 @@ import enums.Region;
 import enums.Surface;
 import org.jboss.logging.Logger;
 
-import javax.faces.bean.ManagedBean;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Named;
 
 /**
  * Date: 2/15/13
  * Time: 2:24 PM
  */
 
-@ManagedBean
+@Named
+@RequestScoped
 public class Enum {
 
 

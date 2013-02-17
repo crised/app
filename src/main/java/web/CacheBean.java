@@ -6,10 +6,10 @@ import org.jboss.logging.Logger;
 import service.AdService;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -18,9 +18,9 @@ import java.util.List;
  * Time: 11:45 AM
  */
 
-@ApplicationScoped
 public class CacheBean implements Serializable {
 
+    static final Logger log = Logger.getLogger(CacheBean.class);
 
     @Inject
     Cache<Integer, Ad> cache;
@@ -28,9 +28,9 @@ public class CacheBean implements Serializable {
     @Inject
     AdService adService;
 
+    private Cache<Integer, Ad> cleanCache; //Without Goofy
     private List<Ad> adList;
 
-    static final Logger log = Logger.getLogger(CacheBean.class);
 
     public CacheBean() {
         log.info("CacheBean constructor!");
@@ -46,35 +46,53 @@ public class CacheBean implements Serializable {
        directly from CriteriaQuery.*/
 
 
-    public List<Ad> refreshCache() {
+    public void fillAdListFromDB() {
         adList = adService.getAll();
-        cache.put(-1, new Ad()); // Goofy entrance, just to check if it has expired.
+    }
+
+    public void fillAdListFromCache() {
+        cleanCache();
+        if(adList!=null) adList=null;  //adList can be stale
+        adList = new ArrayList<Ad>(cleanCache.values());
+    }
+
+    public void fillCache() {  //Cache always get filled from List.
+
+        cache.put(-1, new Ad()); // Goofy entrance, used to check if it has expired.
         for (Ad ad : adList) {
             cache.put(ad.getId(), ad);
         }
-        return adList;
+
     }
 
-    public List<Ad> completeList() {
-        if (!cache.containsKey(-1)) {
+    public List<Ad> getAdList() {
+
+        // Data can come from DB or Cache.
+
+        if (isExpired()) {
             log.info("cache has expired");
-            return refreshCache();
+            fillAdListFromDB();
+            fillCache();
+            return adList;
         }
 
         log.info("cache hasn't expired");
+        if (adList == null) fillAdListFromCache();
         return adList;
     }
 
     public List<Ad> getSixAds() {
 
-        List<Ad> sixAdsList = completeList();
-        Collections.shuffle(completeList());
-        return sixAdsList.subList(0, 6);
+        List<Ad> sixAdsList = getAdList().subList(0, 6);
+        Collections.shuffle(sixAdsList);
+        return sixAdsList;
     }
 
     public List<Ad> getSixDifferentAds(List<Integer> adViewedList) {
 
-        Cache<Integer, Ad> temp = getCache();
+        //Easier to Work directly with a Map (Cache)
+
+        Cache<Integer, Ad> temp = getCleanCache();
 
         for (Integer adId : adViewedList) {
             temp.remove(adId);
@@ -89,20 +107,29 @@ public class CacheBean implements Serializable {
         return sixDiffAdsList;
     }
 
-    public Cache<Integer, Ad> getCache() {
-        if (!cache.containsKey(-1))
-            refreshCache();
-        Cache<Integer, Ad> cleanCache = cache;
-        cleanCache.remove(-1);
+    public Cache<Integer, Ad> getCleanCache() {
+        if (isExpired()) {
+            fillAdListFromDB();
+            fillCache();
+        }
+
+        cleanCache();
         return cleanCache;
 
     }
 
-    /*List<Ad> sixDiffAdsList = completeList();
-        for (Integer adId : adViewedList) {
-            for (Ad ad : sixDiffAdsList) {
-                if (ad.getId() == adId) sixDiffAdsList.remove(ad);
-            }
-        }*/
+    public boolean isExpired(){
+        if (!cache.containsKey(-1))
+            return true;
+        return false;
+    }
+
+    public void cleanCache(){ //remove goofy entrance
+        cleanCache = cache;
+        cache.remove(-1);
+    }
+
+
+
 
 }
