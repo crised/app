@@ -16,12 +16,6 @@ public enum City {
     private Region region;
     private Boolean isGroup;
 
-    //Inner static class to avoid Illegal Forward reference
-    //Replaced by Interface Constants.Fixed
-    /*private static class Fixed {
-        private static final String allCities = "All Cities ";
-        private static final String citiesIn = "All Cities in ";
-    }  */
 
 
     private City(Region region, String label) {
@@ -33,6 +27,25 @@ public enum City {
         this.region = region;
         this.label = label + region.getLabel();
         this.isGroup = isGroup;
+    }
+
+    public static City[] getCityArrayByRegion(Region region) {
+
+        if(region == Region.ALL){
+            return City.values();
+        }
+
+        List<City> citiesList = new ArrayList<City>();
+
+        for(City city : City.values()){
+            if(city.getRegion()==region){
+                citiesList.add(city);
+            }
+        }
+
+        City[] cities =  citiesList.toArray(new City[0]);
+        return cities;
+
     }
 
     public static List<City> getAllCities() {

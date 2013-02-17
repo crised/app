@@ -15,21 +15,19 @@
         <h:form>
 
 
-            <h:outputLabel for="price" value="#{msgs['cacheView.price']}"
-                           style="width:100%"/>
-            <p:selectOneMenu id="price"
-                             value="#{enum.sel}"
-                             style="width:100%"
-                             converter="javax.faces.Integer">
-                <f:selectItems value="#{enum.priceArray}"
-                               var="price"
-                               itemValue="#{price.ordinal()}"
-                               itemLabel="#{price.label}"/>
-            </p:selectOneMenu>
+        <h:outputLabel for="price" value="#{msgs['cacheView.price']}"
+                       style="width:100%"/>
+        <p:selectOneMenu id="price"
+                         value="#{enum.selectedPrice}"
+                         style="width:100%">
+            <f:selectItems value="#{enum.priceArray}"
+                           var="price"
+                           itemValue="#{price}"
+                           itemLabel="#{price.label}"/>
+        </p:selectOneMenu>
 
-            <p:commandButton value="log"
-                                 actionListener="#{enum.actionListener}"/>
-
+        <p:commandButton value="log"
+                         actionListener="#{enum.actionListener}"/>
         </h:form>
 
 

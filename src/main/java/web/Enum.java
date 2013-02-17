@@ -1,12 +1,12 @@
 package web;
 
+import enums.City;
 import enums.Price;
+import enums.Region;
 import enums.Surface;
 import org.jboss.logging.Logger;
 
-import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedBean;
-import javax.inject.Named;
 
 /**
  * Date: 2/15/13
@@ -16,8 +16,12 @@ import javax.inject.Named;
 @ManagedBean
 public class Enum {
 
-    private String selection;
-    private Integer sel;
+
+    private Price selectedPrice;
+    private Surface selectedSurface;
+    private City selectedCity;
+    private Region selectedRegion;
+
 
     static final Logger log = Logger.getLogger(Enum.class);
 
@@ -25,33 +29,53 @@ public class Enum {
         return Price.values();
     }
 
-    public Surface[] getSurfaceArray(){
-        Surface[] hola = Surface.values();
-        return hola;
-        // return Surface.values();
+    public Surface[] getSurfaceArray() {
+        return Surface.values();
     }
 
-    public void actionListener(){
-
-        log.info(selection);
-        log.info(sel);
-
+    public City[] getCityArray() {
+        if (selectedRegion == null) {
+            return City.values();
+        }
+        return City.getCityArrayByRegion(this.selectedRegion);
 
     }
 
-    public String getSelection() {
-        return selection;
+    public Region[] getRegionArray() {
+        return Region.values();
     }
 
-    public void setSelection(String selection) {
-        this.selection = selection;
+
+
+    public City getSelectedCity() {
+        return selectedCity;
     }
 
-    public Integer getSel() {
-        return sel;
+    public void setSelectedCity(City selectedCity) {
+        this.selectedCity = selectedCity;
     }
 
-    public void setSel(Integer sel) {
-        this.sel = sel;
+    public Region getSelectedRegion() {
+        return selectedRegion;
+    }
+
+    public void setSelectedRegion(Region selectedRegion) {
+        this.selectedRegion = selectedRegion;
+    }
+
+    public Price getSelectedPrice() {
+        return selectedPrice;
+    }
+
+    public void setSelectedPrice(Price selectedPrice) {
+        this.selectedPrice = selectedPrice;
+    }
+
+    public Surface getSelectedSurface() {
+        return selectedSurface;
+    }
+
+    public void setSelectedSurface(Surface selectedSurface) {
+        this.selectedSurface = selectedSurface;
     }
 }
