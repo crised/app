@@ -7,16 +7,16 @@ package enums;
  */
 public enum Surface {
 
-    ALL("Todas las Superficies", 0f, 0f),
+    ALL("Todas las Superficies", null, null),
     FIRST("2 - 5 Ha.", 2f, 5f),
     SECOND("5 - 10 Ha.", 5f, 10f),
     THIRD("10 - 20 Ha.", 10f, 20f),
     FOURTH("20 - 50 Ha.", 20f, 50f),
     FIFTH("50 - 100 Ha.", 50f, 100f),
-    SIXTH("Sóbre 100 Ha.", 100f, 0f);
+    SIXTH("Sóbre 100 Ha.", 100f, null);
 
     private String label;
-    private float lowerSurface, higherSurface;
+    private Float lowerSurface, higherSurface;
 
     private Surface(String label, Float lowerSurface, Float higherSurface) {
         this.label = label;
@@ -28,11 +28,11 @@ public enum Surface {
         return label;
     }
 
-    public float getLowerSurface() {
+    public Float getLowerSurface() {
         return lowerSurface;
     }
 
-    public float getHigherSurface() {
+    public Float getHigherSurface() {
         return higherSurface;
     }
 }

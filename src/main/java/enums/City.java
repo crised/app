@@ -7,15 +7,18 @@ import java.util.*;
 public enum City {
 
 
-    ALL(Region.ALL, Constants.Fixed.allCities, true), CITYREGIONS1(Region.TARAPACA, Constants.Fixed.citiesIn, true), IQUIQUE(Region.TARAPACA, "Iquique"),
-    CITYREGIONS6(Region.OHIGGINS, Constants.Fixed.citiesIn, true), COINCO(Region.OHIGGINS, "Coinco"), COLTAUCO(Region.OHIGGINS, "Coltauco"),
+    ALL(Region.ALL, Constants.Fixed.allCities, true), CITYREGIONS1(Region.TARAPACA, Constants.Fixed.citiesIn, true),
+
+    IQUIQUE(Region.TARAPACA, "Iquique"), CITYREGIONS6(Region.OHIGGINS, Constants.Fixed.citiesIn, true),
+
+    COINCO(Region.OHIGGINS, "Coinco"), COLTAUCO(Region.OHIGGINS, "Coltauco"),
+
     QUINTADETILCOCO(Region.OHIGGINS, "Quinta de Tilcoco");
 
 
     private String label;
     private Region region;
     private Boolean isGroup;
-
 
 
     private City(Region region, String label) {
@@ -29,21 +32,22 @@ public enum City {
         this.isGroup = isGroup;
     }
 
+
     public static City[] getCityArrayByRegion(Region region) {
 
-        if(region == Region.ALL){
+        if (region == Region.ALL) {
             return City.values();
         }
 
         List<City> citiesList = new ArrayList<City>();
 
-        for(City city : City.values()){
-            if(city.getRegion()==region){
+        for (City city : City.values()) {
+            if (city.getRegion() == region) {
                 citiesList.add(city);
             }
         }
 
-        City[] cities =  citiesList.toArray(new City[0]);
+        City[] cities = citiesList.toArray(new City[0]);
         return cities;
 
     }
@@ -124,7 +128,7 @@ public enum City {
 
         } else {
             for (City c : City.values()) {
-                if (c.region == region && c.isGroup == null){
+                if (c.region == region && c.isGroup == null) {
                     cityListByRegion.add(c);
                 }
 

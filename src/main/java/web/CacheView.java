@@ -100,19 +100,18 @@ public class CacheView implements Serializable {
 
     }
 
-    public void getSearchResults() {
+    public void searchResults() {
         adList = cacheBean.searchEngine(
                 searchParamBean.getPrice(),
                 searchParamBean.getSurface(),
-                searchParamBean.getRegion(),
                 searchParamBean.getCity(),
                 searchParamBean.isWaterRights(),
                 searchParamBean.isFacilities());
     }
 
-    public void resetSearch(){
+    public void resetSearch() {
 
-        if(!conversation.isTransient()) conversation.end();
+        if (!conversation.isTransient()) conversation.end();
     }
 
 

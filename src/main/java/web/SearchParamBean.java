@@ -16,7 +16,7 @@ public class SearchParamBean implements Serializable {
 
     private Price price;
     private Surface surface;
-    private Region region;
+    private Region region;   // Not really using it
     private City city;
     private boolean waterRights;
     private boolean facilities;

@@ -2,7 +2,6 @@ package web;
 
 import enums.City;
 import enums.Price;
-import enums.Region;
 import enums.Surface;
 import model.Ad;
 import org.infinispan.Cache;
@@ -12,6 +11,7 @@ import service.AdService;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -144,27 +144,113 @@ public class CacheBean implements Serializable {
         cache.remove(-1);
     }
 
-    public List<Ad> searchEngine(Price price, Surface surface, Region region,
-                                 City city, boolean waterRights,
+
+    public List<Ad> searchEngine(Price price, Surface surface, City city,
+                                 boolean waterRights,
                                  boolean facilities) {
 
         List<Ad> search = new ArrayList<>();
 
-        for (Ad ad : getAdList()) {
-            while (ad != null) {
-                if (facilities==true){
 
-                }
-                if (ad.getFacilities() == facilities) {
-                    if (ad.getWaterRights() == waterRights) {
-                        search.add(ad);
-                    }
-                }
+        for (Ad ad : getAdList()) {
+            log.info("inside for");
+            while (true) {
+
+
+
+                if (!isInPriceRange(
+                        price.getLowerPrice(),
+                        ad.getPrice(),
+                        price.getHigherPrice()))
+                    break;
+
+                log.info("passed pricefilter for");
+
+
+
+
+                if (!isInSurfaceRange(
+                        surface.getLowerSurface(),
+                        ad.getSurface(),
+                        surface.getHigherSurface()))
+
+                    break;
+
+                if (!isInCity(city,
+                        ad.getCity()))
+                    break;
+
+                if (!checkBoolean(waterRights,
+                        ad.getWaterRights()))
+                    break;
+
+                if(!checkBoolean(facilities,
+                        ad.getFacilities()))
+                    break;
+
+                search.add(ad);
+                log.info("added to search result");
+
                 break;
+
             }
         }
         return search;
     }
+
+    public boolean isInPriceRange(BigDecimal lowerRange,
+                                  BigDecimal price,
+                                  BigDecimal higherRange) {
+        if (lowerRange == null && higherRange == null) return true;
+
+        if (price.compareTo(lowerRange) >= 0) {
+            if (higherRange == null) return true;
+            if (price.compareTo(higherRange) == -1) return true;
+        }
+        return false;
+    }
+
+    public boolean isInSurfaceRange(Float lowerSurface,
+                                    Float surface,
+                                    Float highSurface) {
+        if (lowerSurface == null && highSurface == null) return true;
+
+        if (surface >= lowerSurface) {
+            if (highSurface == null) return true;
+            if (surface > highSurface) return true;
+
+        }
+        return false;
+    }
+
+    public boolean isInCity(City selectedCity, City adCity) {
+
+        if (selectedCity == City.ALL) return true;
+
+        if (selectedCity.getGroup())
+        //Whether is all cities of a region
+        {
+            if (selectedCity.getRegion() == adCity.getRegion()) {
+                return true;
+            }
+            return false;
+
+        }
+
+        if (selectedCity == adCity) return true;
+
+        return false;
+    }
+
+    public boolean checkBoolean(boolean selectedWaterRights,
+                                boolean adWaterRights) {
+        if (selectedWaterRights == false) return true; //No option Selected
+        if (adWaterRights == true) return true;
+        return false;
+    }
+
+
+
 
 
 }
