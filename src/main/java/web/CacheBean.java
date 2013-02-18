@@ -217,7 +217,7 @@ public class CacheBean implements Serializable {
 
         if (surface >= lowerSurface) {
             if (highSurface == null) return true;
-            if (surface > highSurface) return true;
+            if (surface < highSurface) return true;
 
         }
         return false;
@@ -227,7 +227,7 @@ public class CacheBean implements Serializable {
 
         if (selectedCity == City.ALL) return true;
 
-        if (selectedCity.getGroup())
+        if (selectedCity.getGroup()!=null)
         //Whether is all cities of a region
         {
             if (selectedCity.getRegion() == adCity.getRegion()) {

@@ -107,6 +107,8 @@ public class CacheView implements Serializable {
                 searchParamBean.getCity(),
                 searchParamBean.isWaterRights(),
                 searchParamBean.isFacilities());
+        if (conversation.isTransient())
+            conversation.begin();
     }
 
     public void resetSearch() {
