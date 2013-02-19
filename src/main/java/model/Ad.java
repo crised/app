@@ -60,8 +60,6 @@ public class Ad implements Serializable {
 
     private Boolean published;
 
-
-
     @Version
     private long version;
 

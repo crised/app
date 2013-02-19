@@ -220,6 +220,16 @@ public class CacheBean implements Serializable {
         return false;
     }
 
+    /*
+    SingleAd
+     */
+
+    public Ad getAd(int adId){
+
+        return getCleanCache().get(adId);
+
+    }
+
 
 
 
