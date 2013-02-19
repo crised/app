@@ -1,0 +1,49 @@
+<ui:composition template="/layout/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <ui:define name="title">
+        <h:outputText value="#{msgs['ad.title']}"/>
+    </ui:define>
+
+    <ui:define name="script">
+        <h:outputScript library="js" name="galleria-1.2.9.min.js"/>
+        <h:outputStylesheet library="css" name="galleria.twelve.css"/>
+        <h:outputScript library="js" name="galleria.twelve.min.js"/>
+    </ui:define>
+
+    <ui:define name="container">
+
+        <h2>Show Images</h2>
+
+
+
+        <div id="galleria">
+            <a href="http://192.168.1.10/11.jpg"><img src="http://192.168.1.10/11_tn.jpg" data-big="http://192.168.1.10/11.jpg"/></a>
+            <a href="http://192.168.1.10/12.jpg"><img src="http://192.168.1.10/12_tn.jpg" data-big="http://192.168.1.10/12.jpg"/></a>
+            <a href="http://192.168.1.10/13.jpg"><img src="http://192.168.1.10/13_tn.jpg" data-big="http://192.168.1.10/13.jpg"/></a>
+            <a href="http://192.168.1.10/14.jpg"><img src="http://192.168.1.10/14_tn.jpg" data-big="http://192.168.1.10/14.jpg"/></a>
+
+
+
+        </div>
+
+        <script>
+            Galleria.loadTheme('http://localhost:8080/app-1.0/javax.faces.resource/galleria.twelve.min.js.xhtml?ln=js');
+            Galleria.run('#galleria');
+        </script>
+
+        <h4>Bonito Campo Sandial</h4>
+
+        <h6>Ha: 15.</h6>
+
+        <h6>Quinta de Tilcoco</h6>
+
+
+        <h6>$400.000.000</h6>
+
+
+    </ui:define>
+
+</ui:composition>

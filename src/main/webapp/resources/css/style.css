@@ -25,8 +25,15 @@ body {
 .show-grid1 {
     background-color: #fafad2;
 }
+
 .show-grid {
     background-color: #add8e6;
+}
+
+#galleria {
+    width: 700px;
+    height: 400px;
+    background: #000;
 }
 
 

@@ -92,7 +92,7 @@ public class CacheView implements Serializable {
         adShowList = cacheBean.getSixDifferentAds(adViewedList);
 
         if (adShowList.size() <= 6) {
-            //disableButton = true;
+            nextHide=true;
             conversation.setTimeout(300000); //300 seconds, 5 minutes
         }
 
@@ -167,9 +167,10 @@ public class CacheView implements Serializable {
 
     }
 
-    public void resetSearch() {
+    public String reset() {
 
         if (!conversation.isTransient()) conversation.end();
+        return "index?faces-redirect=true";
     }
 
 

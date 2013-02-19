@@ -87,8 +87,8 @@
                     </div>
                     <div class="span1 extra-padd2">
                         <p:commandButton value="Reset"
-                                         actionListener="#{cacheView.resetSearch}"
-                                         update=":searchBar"/>
+                                         ajax="false"
+                                         action="#{cacheView.reset}"/>
                     </div>
                     <div class="span4 extra-padd2 offset-special">
                         <p:commandButton styleClass="pull-right" value="Search"
