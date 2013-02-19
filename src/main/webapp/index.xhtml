@@ -1,68 +1,142 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html
-        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/layout/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
 
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core">
+    <f:metadata>
+        <f:viewParam name="mp" value="#{cacheView.mp}"/>
+    </f:metadata>
 
-<h:head>
-    <title>#{msgs.title}</title>
-    <h:outputStylesheet name="css/bootstrap.css">
-    </h:outputStylesheet>
+    <ui:define name="title">
+        <h:outputText value="#{msgs['cacheView.title']}"/>
+    </ui:define>
 
-</h:head>
+    <ui:define name="container">
 
-<h:body>
+        <h:panelGroup id="searchBar">
+            <h:form id="searchForm">
+                <div class="row">
+
+                    <div class="span3">
+                        <h:outputLabel for="price" value="#{msgs['cacheView.price']}"
+                                       style="width:100%"/>
+                        <p:selectOneMenu id="price"
+                                         value="#{cacheView.searchParamBean.price}"
+                                         style="width:100%">
+                            <f:selectItems value="#{enum.priceArray}"
+                                           var="price"
+                                           itemValue="#{price}"
+                                           itemLabel="#{price.label}"/>
+                        </p:selectOneMenu>
+                    </div>
+                    <div class="span3">
+                        <h:outputLabel for="surface" value="#{msgs['cacheView.surface']}" style="width:100%"/>
+                        <p:selectOneMenu id="surface" value="#{cacheView.searchParamBean.surface}"
+                                         style="width:100%">
+                            <f:selectItems value="#{enum.surfaceArray}"
+                                           var="surface"
+                                           itemValue="#{surface}"
+                                           itemLabel="#{surface.label}"/>
+                        </p:selectOneMenu>
+                    </div>
+                    <div class="span3 offset-special">
+                        <h:outputLabel for="region" value="#{msgs['cacheView.region']}"
+                                       style="width:100%"/>
+                        <p:selectOneMenu id="region" value="#{cacheView.searchParamBean.region}"
+                                         style="width:100%">
+                            <f:selectItems value="#{enum.regionArray}"
+                                           var="region"
+                                           itemValue="#{region}"
+                                           itemLabel="#{region.label}"/>
+                            <f:ajax listener="#{enum.getCityArray()}" render="citiesMenu"/>
+                        </p:selectOneMenu>
+                    </div>
+                    <div class="span3">
+                        <h:outputLabel for="citiesMenu" value="#{msgs['cacheView.city']}"
+                                       style="width:100%; overflow:hidden;"/>
+                        <p:selectOneMenu id="citiesMenu" value="#{cacheView.searchParamBean.city}"
+                                         style="width:100%; overflow:hidden;">
+                            <f:selectItems value="#{enum.cityArray}" var="city"
+                                           itemValue="#{city}"
+                                           itemLabel="#{city.label}"/>
+                        </p:selectOneMenu>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="span3 extra-padd">
+                        <h:outputText value="#{msgs['cacheView.waterRights']}"/>
+                    </div>
+                    <div class="span1 extra-padd">
+                        <p:selectBooleanCheckbox id="waterRights"
+                                                 onLabel="Yes" offLabel="No"
+                                                 onIcon="ui-icon-check"
+                                                 offIcon="ui-icon-close"
+                                                 value="#{cacheView.searchParamBean.waterRights}"/>
+                    </div>
+                    <div class="span2 extra-padd">
+                        <h:outputText value="#{msgs['cacheView.facilities']}"/>
+                    </div>
+                    <div class="span1 extra-padd">
+                        <p:selectBooleanCheckbox id="facilities"
+                                                 onLabel="Yes" offLabel="No" onIcon="ui-icon-check"
+                                                 offIcon="ui-icon-close"
+                                                 value="#{cacheView.searchParamBean.facilities}"/>
+                    </div>
+                    <div class="span1 extra-padd2">
+                        <p:commandButton value="Reset"
+                                         actionListener="#{cacheView.resetSearch}"
+                                         update=":searchBar"/>
+                    </div>
+                    <div class="span4 extra-padd2 offset-special">
+                        <p:commandButton styleClass="pull-right" value="Search"
+                                         action="#{cacheView.searchResults()}"
+                                         ajax="false"/>
+                    </div>
+                </div>
+            </h:form>
+
+        </h:panelGroup>
+
+        <h:form>
+            <h:inputHidden value="#{cacheView.adString}"/>
+            <ui:param name="method" value=""/>
+            <p:commandButton id="updatebutton"
+                             ajax="false"
+                             value="next"
+                             rendered="#{!cacheView.nextHide}"
+                             action="#{cacheView.next}"/>
+        </h:form>
 
 
-    <div class="wrapper">
-
-        <div class="header">
-
-            <h:outputText value="#{bean.test}">
-                <f:convertNumber type="currency" locale="ES" maxFractionDigits="0"
-                        currencySymbol="$"/>
-            </h:outputText>
-
-            <h:panelGrid columns="2">
-                <h:link value="Protected Resources" outcome="/auth/HomePage.xhtml"/>
-                <h:link value="Register" outcome="/adduser.xhtml"/>
-                <h:link value="Login" outcome="/login.xhtml"/>
-                <h:link value="Show" outcome="/show.xhtml"/>
-
-                <h:form>
-                    <h:commandLink value="Add ad" action="#{adBean.initConversation}"/>
-                </h:form>
+        <!--
+        -->
 
 
+        <h:panelGroup id="adlist">
+            <ul class="thumbnails">
+                <ui:repeat value="#{cacheView.adList}" var="list">
+                    <li class="span4">
+                        <div class="thumbnail">
+                            <h:graphicImage value="#{list.pictureList.get(0).path}"/>
+                            <h5><h:outputText value="#{list.shortDescription}"/></h5>
+                            <h6 class="text-left"><h:outputText value="#{list.surface}">
+                                <f:convertNumber locale="ES"/>
+                            </h:outputText> Ha</h6>
+                            <h6 class="text-left"><h:outputText value="#{list.city.getLabel()}"/></h6>
+                            <h6 class="text-left"><h:outputText value="#{list.price}">
+                                <f:convertNumber type="currency" locale="ES"
+                                                 maxFractionDigits="0"
+                                                 currencySymbol="$"/>
+                            </h:outputText>
+                            </h6>
+                        </div>
+                    </li>
+                </ui:repeat>
+            </ul>
+        </h:panelGroup>
 
-                <h:form>
-                    <h:commandButton value="Send Mail" action="#{mail.SendMail}"/>
-                </h:form>
-
-
-            </h:panelGrid>
-        </div>
-
-        <div class="content">
-
-            <h:outputText value="#{bean.hello}"/>
-
-            <p:galleria value="#{galleriaBean.pictureAll}" var="path">
-                <p:graphicImage value="#{path.path}"/>
-            </p:galleria>
-
-
-        </div>
-
-        <div class="footer">
-            <p:growl id="messages" showDetail="true"/>
-            <h:outputText value="Bydfffffffffe bye..."/>
-        </div>
-    </div>
-
-</h:body>
-
-
-</html>
+    </ui:define>
+</ui:composition>

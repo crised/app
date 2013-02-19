@@ -35,39 +35,20 @@ public class CacheBean implements Serializable {
     private List<Ad> adList;
 
 
-    public CacheBean() {
-        log.info("CacheBean constructor!");
-    }
-
-    @PostConstruct
-    public void initCaches() {
-        log.info("CacheBean AppScoped constructed");
-    }
-
     /* Never use cache.values()!
        Values are stored in a list and in the cached
        directly from CriteriaQuery.*/
 
 
     public void fillAdListFromDB() {
-        long t1 = System.currentTimeMillis();
         adList = adService.getAll();
-        long t2 = System.currentTimeMillis();
-        long time = t2 - t1;
-        log.info("time to get Ads from Db: ");
-        log.info(time);
-
     }
 
     public void fillAdListFromCache() {
-        long t1 = System.currentTimeMillis();
         cleanCache();
         if (adList != null) adList = null;  //adList can be stale
         adList = new ArrayList<Ad>(cleanCache.values());
-        long t2 = System.currentTimeMillis();
-        long time = t2 - t1;
-        log.info("time to get Ads from Cache: ");
-        log.info(time);
+
 
     }
 
@@ -153,21 +134,13 @@ public class CacheBean implements Serializable {
 
 
         for (Ad ad : getAdList()) {
-            log.info("inside for");
             while (true) {
-
-
 
                 if (!isInPriceRange(
                         price.getLowerPrice(),
                         ad.getPrice(),
                         price.getHigherPrice()))
                     break;
-
-                log.info("passed pricefilter for");
-
-
-
 
                 if (!isInSurfaceRange(
                         surface.getLowerSurface(),
@@ -189,8 +162,6 @@ public class CacheBean implements Serializable {
                     break;
 
                 search.add(ad);
-                log.info("added to search result");
-
                 break;
 
             }

@@ -31,37 +31,37 @@ public class CacheView implements Serializable {
     SearchParamBean searchParamBean;
 
     @Inject
-    private Conversation conversation;
+    Conversation conversation;
 
     private String adString;
 
-    private List<Ad> adList;
+    private List<Ad> adShowList;
 
     private List<Ad> searchResult;
 
     private List<Integer> adViewedList;
 
-    private int state;
+    private int state, fromIndex, toIndex, mp;
 
-
-    private int fromIndex, toIndex;
-
+    private boolean nextHide;
 
     @PostConstruct //After injection is done.
     public void init() {
-        adList = cacheBean.getSixAds();
+        adShowList = cacheBean.getSixAds();
         buildString();
         log.info("CacheView Constructed");
     }
+
 
     @PreDestroy
     public void destroy() {
         log.info("CacheView Destroyed");
     }
 
+
     public void buildString() {
         adString = "";
-        for (Ad ad : adList) {
+        for (Ad ad : adShowList) {
             adString = adString + " " + ad.getId();
         }
     }
@@ -77,23 +77,26 @@ public class CacheView implements Serializable {
         if (conversation.isTransient())
             conversation.begin();
 
-        adList = cacheBean.getSixDifferentAds(adViewedList);
+        adShowList = cacheBean.getSixDifferentAds(adViewedList);
 
-        state = 1; //1 -> Conversational State
+        state = 1; // Browsing
+        mp++; //multiplier, first 6 of the viewed List.
         log.info("state: " + state);
     }
 
-    public void continueConversation() {
+    public void normalNextAds() {
         log.info("continue conversation");
-        for (Ad ad : adList) {
+        for (Ad ad : adShowList) {
             adViewedList.add(ad.getId());
         }
-        adList = cacheBean.getSixDifferentAds(adViewedList);
+        adShowList = cacheBean.getSixDifferentAds(adViewedList);
 
-        if (adList.size() < 5) {
+        if (adShowList.size() <= 6) {
             //disableButton = true;
             conversation.setTimeout(300000); //300 seconds, 5 minutes
         }
+
+        mp++;
 
     }
 
@@ -103,16 +106,30 @@ public class CacheView implements Serializable {
         switch (state) {
             case 0:
                 readString();
-                return "view.xhtml?faces-redirect=true"; //To initiate conversation
+                return "index?faces-redirect=true&includeViewParams=true";//&IncludeViewParams=true"; //To initiate conversation
             case 1:
-                continueConversation();
-                return null;
+                normalNextAds();
+                return "index?faces-redirect=true&includeViewParams=true";
+            case 2:
+                digestSearchView();
+                return "index?faces-redirect=true&includeViewParams=true";
 
-            default: return null;
+            default:
+                return null;
         }
     }
 
-    public void searchResults() {
+    public String searchResults() {
+
+        if (!conversation.isTransient()) {
+            conversation.end();
+        }
+        //New Conversation - Every time search Button is clicked.
+        conversation.begin();
+
+        state = 2; // Search Result State
+
+
         if (searchResult == null) {
             searchResult = cacheBean.searchEngine(
                     searchParamBean.getPrice(),
@@ -122,19 +139,32 @@ public class CacheView implements Serializable {
                     searchParamBean.isFacilities());
         }
 
-        if (searchResult.size() > 6) {
-            if (toIndex == 0) toIndex = 6;
-            adList = searchResult.subList(fromIndex, toIndex);
+        digestSearchView();
+        return "index?faces-redirect=true&includeViewParams=true"; //To initiate conversation
+
+
+    }
+
+    public void digestSearchView() {
+
+        if (toIndex == 0) toIndex = 6;
+        if (searchResult.size() <= toIndex) {
+            nextHide = true;
+
+            if (!conversation.isTransient())
+                conversation.setTimeout(300000);
+
+            adShowList = searchResult.subList(fromIndex, searchResult.size());
+
+        } else {
+            adShowList = searchResult.subList(fromIndex, toIndex);
             fromIndex = fromIndex + 6;
-            toIndex = toIndex + 5;
+            toIndex = toIndex + 6;
         }
 
+        mp++;
 
-        if (!conversation.isTransient()) {
-            conversation.end();
-        }
-        //New Conversation - Every time search Button is clicked.
-        conversation.begin();
+
     }
 
     public void resetSearch() {
@@ -144,11 +174,11 @@ public class CacheView implements Serializable {
 
 
     public List<Ad> getAdList() {
-        return adList;
+        return adShowList;
     }
 
     public void setAdList(List<Ad> adList) {
-        this.adList = adList;
+        this.adShowList = adList;
     }
 
     public String getAdString() {
@@ -171,6 +201,21 @@ public class CacheView implements Serializable {
         return state;
     }
 
+    public boolean isNextHide() {
+        return nextHide;
+    }
+
+    public void setNextHide(boolean nextHide) {
+        this.nextHide = nextHide;
+    }
+
+    public int getMp() {
+        return mp;
+    }
+
+    public void setMp(int mp) {
+        this.mp = mp;
+    }
 }
 
 
