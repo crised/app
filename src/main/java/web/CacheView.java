@@ -37,9 +37,14 @@ public class CacheView implements Serializable {
 
     private List<Ad> adList;
 
+    private List<Ad> searchResult;
+
     private List<Integer> adViewedList;
 
-    private boolean switchButton, disableButton;
+    private int state;
+
+
+    private int fromIndex, toIndex;
 
 
     @PostConstruct //After injection is done.
@@ -59,20 +64,14 @@ public class CacheView implements Serializable {
         for (Ad ad : adList) {
             adString = adString + " " + ad.getId();
         }
-        log.info("Render List: " + adString);
     }
 
-    public String readString() {
+    public void readString() {
         String[] strings = adString.trim().split("\\s+");
         int counter = 0;
         adViewedList = new ArrayList<>();
         for (String s : strings) {
             adViewedList.add(counter, new Integer(s));
-        }
-        log.info("Viewed Ads id: ");
-
-        for (Integer i : adViewedList) {
-            log.info(i);
         }
 
         if (conversation.isTransient())
@@ -80,10 +79,8 @@ public class CacheView implements Serializable {
 
         adList = cacheBean.getSixDifferentAds(adViewedList);
 
-        switchButton = true;
-
-        return "view.xhtml?faces-redirect=true";
-
+        state = 1; //1 -> Conversational State
+        log.info("state: " + state);
     }
 
     public void continueConversation() {
@@ -94,21 +91,50 @@ public class CacheView implements Serializable {
         adList = cacheBean.getSixDifferentAds(adViewedList);
 
         if (adList.size() < 5) {
-            disableButton = true;
+            //disableButton = true;
             conversation.setTimeout(300000); //300 seconds, 5 minutes
         }
 
     }
 
+    public String next() {
+        log.info("state: " + state);
+
+        switch (state) {
+            case 0:
+                readString();
+                return "view.xhtml?faces-redirect=true"; //To initiate conversation
+            case 1:
+                continueConversation();
+                return null;
+
+            default: return null;
+        }
+    }
+
     public void searchResults() {
-        adList = cacheBean.searchEngine(
-                searchParamBean.getPrice(),
-                searchParamBean.getSurface(),
-                searchParamBean.getCity(),
-                searchParamBean.isWaterRights(),
-                searchParamBean.isFacilities());
-        if (conversation.isTransient())
-            conversation.begin();
+        if (searchResult == null) {
+            searchResult = cacheBean.searchEngine(
+                    searchParamBean.getPrice(),
+                    searchParamBean.getSurface(),
+                    searchParamBean.getCity(),
+                    searchParamBean.isWaterRights(),
+                    searchParamBean.isFacilities());
+        }
+
+        if (searchResult.size() > 6) {
+            if (toIndex == 0) toIndex = 6;
+            adList = searchResult.subList(fromIndex, toIndex);
+            fromIndex = fromIndex + 6;
+            toIndex = toIndex + 5;
+        }
+
+
+        if (!conversation.isTransient()) {
+            conversation.end();
+        }
+        //New Conversation - Every time search Button is clicked.
+        conversation.begin();
     }
 
     public void resetSearch() {
@@ -133,22 +159,6 @@ public class CacheView implements Serializable {
         this.adString = adString;
     }
 
-    public boolean isSwitchButton() {
-        return switchButton;
-    }
-
-    public void setSwitchButton(boolean switchButton) {
-        this.switchButton = switchButton;
-    }
-
-    public boolean isDisableButton() {
-        return disableButton;
-    }
-
-    public void setDisableButton(boolean disableButton) {
-        this.disableButton = disableButton;
-    }
-
     public SearchParamBean getSearchParamBean() {
         return searchParamBean;
     }
@@ -156,6 +166,11 @@ public class CacheView implements Serializable {
     public void setSearchParamBean(SearchParamBean searchParamBean) {
         this.searchParamBean = searchParamBean;
     }
+
+    public int getState() {
+        return state;
+    }
+
 }
 
 

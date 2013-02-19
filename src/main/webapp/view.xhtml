@@ -110,6 +110,14 @@
 
         </h:panelGroup>
 
+        <h:form>
+            <h:inputHidden value="#{cacheView.adString}"/>
+            <ui:param name="method" value=""/>
+            <p:commandButton id="updatebutton" value="next"
+                             update=":adlist"
+                             action="#{cacheView.next}"/>
+        </h:form>
+
 
         <!--
         -->
@@ -139,16 +147,17 @@
         </h:panelGroup>
 
 
-        <h:form>
-            <h:inputHidden value="#{cacheView.adString}" rendered="#{!cacheView.switchButton}"/>
-            <p:commandButton id="updatebutton" value="next"
-                             update=":adlist" rendered="#{!cacheView.switchButton}"
-                             action="#{cacheView.readString}"/>
-            <p:commandButton id="updatebutton2" value="next"
-                             update=":adlist @this" disabled="#{cacheView.disableButton}"
-                             rendered="#{cacheView.switchButton}"
-                             actionListener="#{cacheView.continueConversation}"/>
-        </h:form>
+
+
+        <!--
+        <h:inputHidden value="#{cacheView.adString}" rendered="#{!cacheView.switchButton}"/>
+        <p:commandButton id="updatebutton" value="next"
+                         update=":adlist" rendered="#{!cacheView.switchButton}"
+                         action="#{cacheView.readString}"/>
+        <p:commandButton id="updatebutton2" value="next"
+                         update=":adlist @this" disabled="#{cacheView.disableButton}"
+                         rendered="#{cacheView.switchButton}"
+                         actionListener="#{cacheView.continueConversation}"/>-->
 
 
     </ui:define>
