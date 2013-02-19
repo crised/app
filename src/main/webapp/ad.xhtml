@@ -24,7 +24,50 @@
 
     <ui:define name="container">
 
-        <h2>#{singleAd.ad.shortDescription}</h2>
+        <div class="row span10 show-grid">
+
+            <h2>#{singleAd.ad.shortDescription}</h2>
+
+
+            <div class="span5">
+
+                <h6><h:outputText value="Has: #{singleAd.ad.surface}"/></h6>
+
+                <h6><h:outputText value="Empresa: #{singleAd.ad.user.businessName}"/></h6>
+
+                <h6><h:outputText value="Phone: #{singleAd.ad.user.phoneNumber1}"/></h6>
+            </div>
+
+            <div class="span5">
+
+                <h6><h:outputText value="Mail: #{singleAd.ad.user.id}"/></h6>
+
+
+                <h6><h:outputText value="#{singleAd.ad.city.getLabel()}"/></h6>
+
+                <h6><h:outputText value="Tiene derechos de Agua Inscritos."
+                                  rendered="#{singleAd.ad.waterRights}"/></h6>
+
+                <h6><h:outputText value="Tiene Construcciones."
+                                  rendered="#{singleAd.ad.facilities}"/></h6>
+
+                <h6><h:outputText value="#{singleAd.ad.price}">
+                    <f:convertNumber type="currency" locale="ES"
+                                     maxFractionDigits="0"
+                                     currencySymbol="$"/>
+                </h:outputText></h6>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="span10">
+
+
+                <h6>#{singleAd.ad.longDescription}</h6>
+            </div>
+        </div>
+
 
         <div id="galleria">
             <ui:repeat value="#{singleAd.pictureList}" var="picture">
@@ -40,17 +83,6 @@
             Galleria.run('#galleria');
         </script>
 
-
-        <h6><h:outputText value="Has: #{singleAd.ad.surface}"/></h6>
-
-
-        <h6><h:outputText value="#{singleAd.ad.city.getLabel()}"/></h6>
-
-        <h6><h:outputText value="#{singleAd.ad.price}">
-            <f:convertNumber type="currency" locale="ES"
-                             maxFractionDigits="0"
-                             currencySymbol="$"/>
-        </h:outputText></h6>
 
         <p:gmap id="map_canvas"
                 center="#{singleAd.mapBeanSimple.mapCentered}"

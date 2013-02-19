@@ -120,7 +120,9 @@
                 <ui:repeat value="#{cacheView.adList}" var="list">
                     <li class="span4">
                         <div class="thumbnail">
+                            <h:link outcome="#{'ad?id='.concat(list.id)}">
                             <h:graphicImage value="#{list.pictureList.get(0).path}"/>
+                            </h:link>
                             <h5><h:outputText value="#{list.shortDescription}"/></h5>
                             <h6 class="text-left"><h:outputText value="#{list.surface}">
                                 <f:convertNumber locale="ES"/>
