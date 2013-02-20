@@ -24,72 +24,89 @@
 
     <ui:define name="container">
 
-        <div class="row span10 show-grid">
 
-            <h2>#{singleAd.ad.shortDescription}</h2>
+        <p:panel header="#{singleAd.ad.shortDescription}">
 
+            <div class="row extra-padd">
+                <div class="span10">
+                    <div id="galleria">
+                        <ui:repeat value="#{singleAd.pictureList}" var="picture">
+                            <a href="#{picture.path}">
+                                <img src="#{picture.getPathThumbNail()}"
+                                     data-big="#{picture.path}"/></a>
+                        </ui:repeat>
+                    </div>
 
-            <div class="span5">
-
-                <h6><h:outputText value="Has: #{singleAd.ad.surface}"/></h6>
-
-                <h6><h:outputText value="Empresa: #{singleAd.ad.user.businessName}"/></h6>
-
-                <h6><h:outputText value="Phone: #{singleAd.ad.user.phoneNumber1}"/></h6>
+                    <script>
+                        Galleria.loadTheme('http://localhost/galleria/galleria.twelve.min.js');
+                        Galleria.run('#galleria');
+                    </script>
+                </div>
             </div>
 
-            <div class="span5">
-
-                <h6><h:outputText value="Mail: #{singleAd.ad.user.id}"/></h6>
-
-
-                <h6><h:outputText value="#{singleAd.ad.city.getLabel()}"/></h6>
-
-                <h6><h:outputText value="Tiene derechos de Agua Inscritos."
-                                  rendered="#{singleAd.ad.waterRights}"/></h6>
-
-                <h6><h:outputText value="Tiene Construcciones."
-                                  rendered="#{singleAd.ad.facilities}"/></h6>
-
-                <h6><h:outputText value="#{singleAd.ad.price}">
-                    <f:convertNumber type="currency" locale="ES"
-                                     maxFractionDigits="0"
-                                     currencySymbol="$"/>
-                </h:outputText></h6>
+            <div class="row extra-padd">
+                <div class="span10">
+                    <h4>Datos: </h4>
+                </div>
             </div>
-        </div>
 
-        <div class="row">
+            <div class="row">
 
-            <div class="span10">
+                <div class="span5">
 
 
-                <h6>#{singleAd.ad.longDescription}</h6>
+                    <h6><h:outputText value="Has: #{singleAd.ad.surface}">
+                        <f:convertNumber locale="ES"/>
+                    </h:outputText></h6>
+
+                    <h6><h:outputText value="Empresa: #{singleAd.ad.user.businessName}"/></h6>
+
+                    <h6><h:outputText value="Phone: #{singleAd.ad.user.phoneNumber1}"/></h6>
+                </div>
+
+                <div class="span5">
+                    <h6><h:outputText value="Mail: #{singleAd.ad.user.id}"/></h6>
+
+                    <h6><h:outputText value="#{singleAd.ad.city.getLabel()}"/></h6>
+
+                    <h6><h:outputText value="Tiene derechos de Agua Inscritos."
+                                      rendered="#{singleAd.ad.waterRights}"/></h6>
+
+                    <h6><h:outputText value="Tiene Construcciones."
+                                      rendered="#{singleAd.ad.facilities}"/></h6>
+
+                    <h6><h:outputText value="#{singleAd.ad.price}">
+                        <f:convertNumber type="currency" locale="ES"
+                                         maxFractionDigits="0"
+                                         currencySymbol="$"/>
+                    </h:outputText></h6>
+                </div>
             </div>
-        </div>
+
+            <div class="row extra-pad">
+
+                <div class="span9">
+                    <h6>#{singleAd.ad.longDescription}</h6>
+                </div>
+            </div>
+
+            <div class="row extra-padd">
+                <div class="span10">
+                    <h4>Ubicación: </h4>
+                </div>
+            </div>
 
 
-        <div id="galleria">
-            <ui:repeat value="#{singleAd.pictureList}" var="picture">
-                <a href="#{picture.path}">
-                    <img src="#{picture.getPathThumbNail()}"
-                         data-big="#{picture.path}"/></a>
-            </ui:repeat>
-
-        </div>
-
-        <script>
-            Galleria.loadTheme('http://localhost/galleria/galleria.twelve.min.js');
-            Galleria.run('#galleria');
-        </script>
-
-
-        <p:gmap id="map_canvas"
-                center="#{singleAd.mapBeanSimple.mapCentered}"
-                zoom="10" type="ROADMAP"
-                style="width:700px;height:400px" styleClass="gmap"
-                model="#{singleAd.mapBeanSimple.simpleModel}">
-        </p:gmap>
+            <div class="row extra-padd">
+                <div class="span10">
+                    <p:gmap id="map_canvas"
+                            center="#{singleAd.mapBeanSimple.mapCentered}"
+                            zoom="10" type="ROADMAP"
+                            style="width:700px;height:400px" model="#{singleAd.mapBeanSimple.simpleModel}">
+                    </p:gmap>
+                </div>
+            </div>
+        </p:panel>
 
 
     </ui:define>

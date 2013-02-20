@@ -45,4 +45,11 @@ public class Enum {
         return Region.values();
     }
 
+    public Region getSelectedRegion() {
+        return selectedRegion;
+    }
+
+    public void setSelectedRegion(Region selectedRegion) {
+        this.selectedRegion = selectedRegion;
+    }
 }

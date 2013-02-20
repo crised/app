@@ -44,7 +44,7 @@
                     <div class="span3 offset-special">
                         <h:outputLabel for="region" value="#{msgs['cacheView.region']}"
                                        style="width:100%"/>
-                        <p:selectOneMenu id="region" value="#{cacheView.searchParamBean.region}"
+                        <p:selectOneMenu id="region" value="#{enum.selectedRegion}"
                                          style="width:100%">
                             <f:selectItems value="#{enum.regionArray}"
                                            var="region"
@@ -100,22 +100,13 @@
 
         </h:panelGroup>
 
-        <h:form>
-            <h:inputHidden value="#{cacheView.adString}"/>
-            <ui:param name="method" value=""/>
-            <p:commandButton id="updatebutton"
-                             ajax="false"
-                             value="next"
-                             rendered="#{!cacheView.nextHide}"
-                             action="#{cacheView.next}"/>
-        </h:form>
-
 
         <!--
         -->
 
 
         <h:panelGroup id="adlist">
+            <h4><h:outputText value="No hay resultados" rendered="#{cacheView.noResults}"/></h4>
             <ul class="thumbnails">
                 <ui:repeat value="#{cacheView.adList}" var="list">
                     <li class="span4">
@@ -139,6 +130,22 @@
                 </ui:repeat>
             </ul>
         </h:panelGroup>
+
+        <div class="row">
+            <div class="span12 offset11">
+                <h:form>
+                    <h:inputHidden value="#{cacheView.adString}"/>
+                    <ui:param name="method" value=""/>
+                    <p:commandButton id="updatebutton"
+                                     ajax="false"
+                                     value="next"
+                                     rendered="#{!cacheView.nextHide}"
+                                     action="#{cacheView.next}"/>
+                </h:form>
+            </div>
+        </div>
+
+
 
     </ui:define>
 </ui:composition>

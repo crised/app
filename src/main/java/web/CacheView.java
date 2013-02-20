@@ -43,7 +43,7 @@ public class CacheView implements Serializable {
 
     private int state, fromIndex, toIndex, mp;
 
-    private boolean nextHide;
+    private boolean nextHide, noResults;
 
     @PostConstruct //After injection is done.
     public void init() {
@@ -92,7 +92,7 @@ public class CacheView implements Serializable {
         adShowList = cacheBean.getSixDifferentAds(adViewedList);
 
         if (adShowList.size() <= 6) {
-            nextHide=true;
+            nextHide = true;
             conversation.setTimeout(300000); //300 seconds, 5 minutes
         }
 
@@ -121,25 +121,30 @@ public class CacheView implements Serializable {
 
     public String searchResults() {
 
-        if (!conversation.isTransient()) {
-            conversation.end();
-        }
         //New Conversation - Every time search Button is clicked.
-        conversation.begin();
+
+        reset();
+
+
+        if (conversation.isTransient()) {
+            conversation.begin();
+        }
+
+        mp++;
 
         state = 2; // Search Result State
 
 
-        if (searchResult == null) {
-            searchResult = cacheBean.searchEngine(
-                    searchParamBean.getPrice(),
-                    searchParamBean.getSurface(),
-                    searchParamBean.getCity(),
-                    searchParamBean.isWaterRights(),
-                    searchParamBean.isFacilities());
-        }
+        searchResult = cacheBean.searchEngine(
+                searchParamBean.getPrice(),
+                searchParamBean.getSurface(),
+                searchParamBean.getCity(),
+                searchParamBean.isWaterRights(),
+                searchParamBean.isFacilities());
 
-        digestSearchView();
+
+        if (searchResult.size() > 0) digestSearchView();
+        if (searchResult.isEmpty()) noResults = true;
         return "index?faces-redirect=true&includeViewParams=true"; //To initiate conversation
 
 
@@ -160,14 +165,19 @@ public class CacheView implements Serializable {
             adShowList = searchResult.subList(fromIndex, toIndex);
             fromIndex = fromIndex + 6;
             toIndex = toIndex + 6;
+            nextHide=false;
         }
-
-        mp++;
-
-
     }
 
     public String reset() {
+
+        searchResult = null;
+        adShowList = null;
+        adViewedList = null;
+        fromIndex=0;
+        toIndex=0;
+        mp=0;
+        noResults = false;
 
         if (!conversation.isTransient()) conversation.end();
         return "index?faces-redirect=true";
@@ -216,6 +226,14 @@ public class CacheView implements Serializable {
 
     public void setMp(int mp) {
         this.mp = mp;
+    }
+
+    public boolean isNoResults() {
+        return noResults;
+    }
+
+    public void setNoResults(boolean noResults) {
+        this.noResults = noResults;
     }
 }
 

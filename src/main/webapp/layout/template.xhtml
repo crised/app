@@ -15,37 +15,25 @@
 </h:head>
 
 <h:body>
-
     <h:outputStylesheet name="css/style.css"/>
 
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="navbar-inner">
-            <div class="container">
-                <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <p class="brand">#{msgs['title']}</p>
+    <div class="container">
+        <div class="navbar">
+            <div class="navbar-inner">
+                <h:link value="#{msgs['title']}" outcome="index" styleClass="brand"/>
+                <h:link value="#{msgs['title.description']}" outcome="index" styleClass="brand" style="float:right"/>
 
-                <div class="nav-collapse collapse">
-                    <ul class="nav">
-                        <li><h:link value="Home" outcome="/index.xhtml"/></li>
-                    </ul>
-                </div>
+
+                <ul class="nav">
+                    <li><h:link value="#{msgs['title.publish']}" outcome="adduser" styleClass=""/></li>
+                </ul>
+
             </div>
         </div>
-    </div>
-
-
-    <div class="container">
         <p:growl id="messages" showDetail="false" autoUpdate="true"/>
-
         <ui:insert name="container"/>
         <footer>Drip.cl</footer>
     </div>
-
-
 </h:body>
 
 </html>

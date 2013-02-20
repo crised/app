@@ -16,7 +16,6 @@ public class SearchParamBean implements Serializable {
 
     private Price price;
     private Surface surface;
-    private Region region;   // Not really using it
     private City city;
     private boolean waterRights;
     private boolean facilities;
@@ -37,13 +36,6 @@ public class SearchParamBean implements Serializable {
         this.surface = surface;
     }
 
-    public Region getRegion() {
-        return region;
-    }
-
-    public void setRegion(Region region) {
-        this.region = region;
-    }
 
     public City getCity() {
         return city;
