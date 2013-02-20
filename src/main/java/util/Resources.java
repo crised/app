@@ -2,8 +2,6 @@ package util;
 
 import model.Ad;
 import org.infinispan.Cache;
-import org.infinispan.manager.EmbeddedCacheManager;
-import sun.security.krb5.internal.APOptions;
 
 import javax.annotation.Resource;
 import javax.enterprise.context.ApplicationScoped;

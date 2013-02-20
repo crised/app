@@ -61,7 +61,7 @@ public class Login extends Messages {
         try {
             request.login(userId, User.getHashPassword(plainPassword)); //REALM query for only actives user
             log.info(externalContext.getRemoteUser());
-            return "/auth/HomePage.xhtml";
+            return "/auth/home.xhtml";
 
         } catch (ServletException e) {
             String message = rB.getString("user.loginError");

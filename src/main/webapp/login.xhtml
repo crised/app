@@ -12,10 +12,13 @@
 
 
         <p:panel id="panel" header="Login">
+            <h6><h:outputText value="#{msgs['login.registeredMessage']}"/>
+                <h:link value=" aquí." outcome="adduser.xhtml"/>
+            </h6>
             <h:form id="addUser" styleClass="form-horizontal">
                 <div class="control-group">
                     <div class="control-label">
-                        <h:outputLabel for="login" value="#{msgs['NewLogin.user']}"/>
+                        <h:outputLabel for="login" value="#{msgs['login.user']}"/>
                     </div>
                     <div class="controls">
                         <p:inputText id="login" value="#{login.userId}" required="true"/>
@@ -25,7 +28,7 @@
                 <div class="control-group">
 
                     <div class="control-label">
-                        <h:outputLabel for="password" value="#{msgs['NewLogin.password']}"/>
+                        <h:outputLabel for="password" value="Contraseña: "/>
                     </div>
                     <div class="controls">
                         <h:inputSecret id="password" value="#{login.plainPassword}" required="true"/>

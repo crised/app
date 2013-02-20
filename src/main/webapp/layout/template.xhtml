@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html lang="en"
+<html lang="es"
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
@@ -25,14 +25,25 @@
 
 
                 <ul class="nav">
-                    <li><h:link value="#{msgs['title.publish']}" outcome="login" styleClass=""/></li>
+                    <li><h:link value="#{msgs['title.publish']}" outcome="login"/></li>
+
+                    <li><h:link value="#{msgs['title.welcome']}  #{user.userId}"
+                                outcome="/auth/home"
+                                rendered="#{user.userId!=null}"/></li>
+                    <li><h:form>
+                        <h:commandLink action="#{user.logout}"
+                                       value="Cerrar Sesión"
+                                       rendered="#{user.userId!=null}"/>
+                    </h:form></li>
+
                 </ul>
 
             </div>
         </div>
         <p:growl id="messages" showDetail="false" autoUpdate="true"/>
         <ui:insert name="container"/>
-        <footer>Drip.cl</footer>
+
+        <footer>            Drip.cl</footer>
     </div>
 </h:body>
 
