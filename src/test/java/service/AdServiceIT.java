@@ -19,7 +19,7 @@ import javax.inject.Inject;
 import java.util.List;
 import java.util.logging.Logger;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
 @RunWith(Arquillian.class)
 public class AdServiceIT {
@@ -46,13 +46,13 @@ public class AdServiceIT {
     AdService adService;
 
     @Test
-    public void shouldReturnListOfPicturesByAdId(){
+    public void shouldReturnListOfPicturesByAdId() {
 
 
         Ad ad = adService.getAll().get(0);
         log.severe(ad.getId().toString());
         List<Picture> pictureList = adService.getListOfPicsbyAdId(ad.getId());
-        for(Picture p : pictureList){
+        for (Picture p : pictureList) {
             log.info("Picture path: ");
             log.info(p.getPath());
             log.info("Picture by Ad Id: ");
@@ -106,14 +106,13 @@ public class AdServiceIT {
 
             List<Ad> ads = adService.getAdsByUser(user);
 
-            for (Ad p : ads){
+            for (Ad p : ads) {
                 log.info(p.getId().toString());
 
-                for(Picture pic : p.getPictureList()){
+                for (Picture pic : p.getPictureList()) {
                     log.info(pic.getPath());
                 }
             }
-
 
 
         } catch (Throwable cause) {
@@ -122,7 +121,6 @@ public class AdServiceIT {
         }
 
         assertNotNull(ad);
-
 
 
     }

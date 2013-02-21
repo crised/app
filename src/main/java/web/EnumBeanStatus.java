@@ -13,7 +13,7 @@ public class EnumBeanStatus {
     private Region selectedRegion;
     private City selectedCity;
 
-    public String navigate(){
+    public String navigate() {
         return "EnumResult";  //enumresult?faces-redirect=true
     }
 

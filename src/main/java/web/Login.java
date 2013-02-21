@@ -9,7 +9,6 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.security.auth.login.FailedLoginException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
@@ -61,7 +60,7 @@ public class Login extends Messages {
         try {
             request.login(userId, User.getHashPassword(plainPassword)); //REALM query for only actives user
             log.info(externalContext.getRemoteUser());
-            return "/auth/home.xhtml";
+            return "/auth/home.xhtml?userId=" + userId + "faces-redirect=true";
 
         } catch (ServletException e) {
             String message = rB.getString("user.loginError");

@@ -21,7 +21,7 @@ public class Role implements Serializable {
     public Role() {
     }
 
-    public Role(Roles roles){
+    public Role(Roles roles) {
         setRole(roles);
     }
 

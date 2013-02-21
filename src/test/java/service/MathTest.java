@@ -9,11 +9,11 @@ public class MathTest {
 
     @Test
     public void twoPlusTwo() { // Press Ctrl-Shift-F10 here to run only twoPlusTwo test
-        assertThat( 2+2, is( 4 ) );
+        assertThat(2 + 2, is(4));
     }
 
     @Test
     public void twoPlusThree() { // Press Ctrl-Shift-F10 here to run only twoPlusThree test
-        assertThat( 2+3, is( 5 ) );
+        assertThat(2 + 3, is(5));
     }
 }

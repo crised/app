@@ -33,9 +33,9 @@ public class SingleAd {
     public void preRender() {
 
         ad = cacheBean.getAd(id);
-        if(ad!=null){
+        if (ad != null) {
             pictureList = ad.getPictureList();
-            mapBeanSimple.addMarker(ad.getLatitude(),ad.getLongitude());
+            mapBeanSimple.addMarker(ad.getLatitude(), ad.getLongitude());
         }
 
 

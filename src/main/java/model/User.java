@@ -19,7 +19,7 @@ public class User implements Serializable {
     @Id
     @Pattern(regexp = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
             + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$",
-    message = "{user.emailNotValid}")
+            message = "{user.emailNotValid}")
     private String id; //e-mail - username
 
     @NotEmpty
@@ -32,7 +32,7 @@ public class User implements Serializable {
     private Boolean isMailConfirmed;
 
     @NotEmpty(message = "{user.BusinessNameBlank}")
-    @Size(min = 2,max=20,message = "{user.BusinessName}")
+    @Size(min = 2, max = 20, message = "{user.BusinessName}")
     private String businessName; // Corredora
 
     private String phoneNumber1;

@@ -71,48 +71,48 @@
                         $("#email").text("Mail: #{singleAd.ad.user.id}");
                     </script>
 
-                <h6><h:outputText value="#{singleAd.ad.city.getLabel()}"/></h6>
+                    <h6><h:outputText value="#{singleAd.ad.city.getLabel()}"/></h6>
 
-                <h6><h:outputText value="Tiene derechos de Agua Inscritos."
-                                  rendered="#{singleAd.ad.waterRights}"/></h6>
+                    <h6><h:outputText value="Tiene derechos de Agua Inscritos."
+                                      rendered="#{singleAd.ad.waterRights}"/></h6>
 
-                <h6><h:outputText value="Tiene Construcciones."
-                                  rendered="#{singleAd.ad.facilities}"/></h6>
+                    <h6><h:outputText value="Tiene Construcciones."
+                                      rendered="#{singleAd.ad.facilities}"/></h6>
 
-                <h6><h:outputText value="#{singleAd.ad.price}">
-                    <f:convertNumber type="currency" locale="ES"
-                                     maxFractionDigits="0"
-                                     currencySymbol="$"/>
-                </h:outputText></h6>
+                    <h6><h:outputText value="#{singleAd.ad.price}">
+                        <f:convertNumber type="currency" locale="ES"
+                                         maxFractionDigits="0"
+                                         currencySymbol="$"/>
+                    </h:outputText></h6>
+                </div>
             </div>
-        </div>
 
-        <div class="row extra-pad">
+            <div class="row extra-pad">
 
-            <div class="span9">
-                <h6>#{singleAd.ad.longDescription}</h6>
+                <div class="span9">
+                    <h6>#{singleAd.ad.longDescription}</h6>
+                </div>
             </div>
-        </div>
 
-        <div class="row extra-padd">
-            <div class="span10">
-                <h4>Ubicación: </h4>
+            <div class="row extra-padd">
+                <div class="span10">
+                    <h4>Ubicación: </h4>
+                </div>
             </div>
-        </div>
 
 
-        <div class="row extra-padd">
-            <div class="span10">
-                <p:gmap id="map_canvas"
-                        center="#{singleAd.mapBeanSimple.mapCentered}"
-                        zoom="10" type="ROADMAP"
-                        style="width:700px;height:400px" model="#{singleAd.mapBeanSimple.simpleModel}">
-                </p:gmap>
+            <div class="row extra-padd">
+                <div class="span10">
+                    <p:gmap id="map_canvas"
+                            center="#{singleAd.mapBeanSimple.mapCentered}"
+                            zoom="10" type="ROADMAP"
+                            style="width:700px;height:400px" model="#{singleAd.mapBeanSimple.simpleModel}">
+                    </p:gmap>
+                </div>
             </div>
-        </div>
-    </p:panel>
+        </p:panel>
 
 
-</ui:define>
+    </ui:define>
 
-        </ui:composition>
+</ui:composition>

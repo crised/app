@@ -63,16 +63,16 @@
                 </div>
 
                 <div class="control-group">
-                        <h:outputLabel for="password2Input" value="#{msgs['user.confirmPassword']}"
-                                styleClass="control-label"/>
-                        <h:inputSecret id="password2Input" value="#{addUser.password2}"
-                                styleClass="controls"/>
+                    <h:outputLabel for="password2Input" value="#{msgs['user.confirmPassword']}"
+                                   styleClass="control-label"/>
+                    <h:inputSecret id="password2Input" value="#{addUser.password2}"
+                                   styleClass="controls"/>
                 </div>
 
                 <div class="control-group">
-                        <p:commandButton id="submitButton" value="Submit"
-                                         styleClass="controls"
-                                         action="#{addUser.action}" update=":panel :messages"/>
+                    <p:commandButton id="submitButton" value="Submit"
+                                     styleClass="controls"
+                                     action="#{addUser.action}" update=":panel :messages"/>
                 </div>
             </h:form>
 

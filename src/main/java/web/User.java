@@ -14,7 +14,7 @@ import javax.inject.Named;
 @RequestScoped
 public class User {
 
-    String userId;   //Mail
+    private String userId;   //Mail
 
 
     @PostConstruct

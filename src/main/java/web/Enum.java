@@ -19,7 +19,6 @@ import javax.inject.Named;
 public class Enum {
 
 
-
     private Region selectedRegion;
 
 

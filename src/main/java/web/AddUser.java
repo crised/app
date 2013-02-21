@@ -14,7 +14,6 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.text.RuleBasedCollator;
 
 @ManagedBean
 @ViewScoped
@@ -54,7 +53,7 @@ public class AddUser extends Messages implements Serializable {
 
     public String action() {
 
-        if(!user.getId().equals(checkMail)){
+        if (!user.getId().equals(checkMail)) {
             log.info("user.emailDoNotMatch");
             addSimpleMessage(rB.getString("user.emailDoNotMatch"));
             return null;
@@ -65,7 +64,6 @@ public class AddUser extends Messages implements Serializable {
             addSimpleMessage(rB.getString("user.passwordDoNotMatch"));
             return null;
         }
-
 
 
         try {

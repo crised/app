@@ -28,18 +28,18 @@ public class EnumBean {
 
 
     @PostConstruct
-    public void init(){
+    public void init() {
 
         regions = Region.getAllRegionsCleaned();
         cities = City.getAllCities(); // Load all at the beginning..
     }
 
     @PreDestroy
-    public void predstroy(){
+    public void predstroy() {
         logger.info("EnumBean2 is destroyed");
     }
 
-    public void loadCities(){
+    public void loadCities() {
         setCities(City.getCitiesByRegion(enumBeanStatus.getSelectedRegion()));
     }
 

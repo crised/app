@@ -10,124 +10,122 @@
 
     <ui:define name="container">
         <p:panel header="Upload pictures and Verify">
-        <h:form id="inputform" enctype="multipart/form-data">
+            <h:form id="inputform" enctype="multipart/form-data">
 
 
-            <h4>#{msgs['ad.uploadMessage']}"</h4>
-            <p:fileUpload fileUploadListener="#{adBean.handleFileUpload}"
-                          update="counter"
-                          sizeLimit="5000000"
-                          allowTypes="/(\.|\/)(jpe?g)$/"
-                          fileLimit="15"
-                          invalidSizeMessage="#{msgs['ad.uploadFileSize']}"
-                          invalidFileMessage="#{msgs['ad.uploadFileType']}"
-                          fileLimitMessage="#{msgs['ad.uploadFileLimit']}"/>
+                <h4>#{msgs['ad.uploadMessage']}"</h4>
+                <p:fileUpload fileUploadListener="#{adBean.handleFileUpload}"
+                              update="counter"
+                              sizeLimit="5000000"
+                              allowTypes="/(\.|\/)(jpe?g)$/"
+                              fileLimit="15"
+                              invalidSizeMessage="#{msgs['ad.uploadFileSize']}"
+                              invalidFileMessage="#{msgs['ad.uploadFileType']}"
+                              fileLimitMessage="#{msgs['ad.uploadFileLimit']}"/>
 
-            <h5><h:outputText id="counter" value="Images Uploaded: #{adBean.counter}"/></h5>
-
-
-            <h4>#{msgs['ad.uploadFinalChanges']}</h4>
-
-            <div class="control-group">
-                <h:outputLabel for="shortDescriptionInput" value="#{msgs['ad.shortDescription']}"
-                               styleClass="control-label"/>
+                <h5><h:outputText id="counter" value="Images Uploaded: #{adBean.counter}"/></h5>
 
 
-                <p:inputText id="shortDescriptionInput" label="shortDescription"
-                             value="#{adBean.ad.shortDescription}"
-                             title="#{msgs['ad.shortDescription.info']}"
-                             styleClass="controls span7"/>
+                <h4>#{msgs['ad.uploadFinalChanges']}</h4>
+
+                <div class="control-group">
+                    <h:outputLabel for="shortDescriptionInput" value="#{msgs['ad.shortDescription']}"
+                                   styleClass="control-label"/>
 
 
-            </div>
-
-            <div class="control-group">
-                <h:outputLabel for="longDescriptionInput" value="#{msgs['ad.longDescription']}"
-                               styleClass="control-label"/>
-                <p:inputTextarea id="longDescriptionInput" value="#{adBean.ad.longDescription}"
-                                 title="#{msgs['ad.longDescription.info']}" rows="12"
+                    <p:inputText id="shortDescriptionInput" label="shortDescription"
+                                 value="#{adBean.ad.shortDescription}"
+                                 title="#{msgs['ad.shortDescription.info']}"
                                  styleClass="controls span7"/>
-            </div>
 
 
-
-            <div class="row">
-                <div class="span8">
-                    <div class="control-group">
-                        <h:outputLabel for="priceInput" value="#{msgs['ad.price']}"
-                                       styleClass="control-label"/>
-
-                        <p:inputText id="priceInput" value="#{adBean.ad.price}"
-                                     title="#{msgs['ad.price.info']}" styleClass="controls">
-                            <p:ajax event="blur" update="output"/>
-                        </p:inputText>
-                    </div>
                 </div>
 
-                <div class="span2">
+                <div class="control-group">
+                    <h:outputLabel for="longDescriptionInput" value="#{msgs['ad.longDescription']}"
+                                   styleClass="control-label"/>
+                    <p:inputTextarea id="longDescriptionInput" value="#{adBean.ad.longDescription}"
+                                     title="#{msgs['ad.longDescription.info']}" rows="12"
+                                     styleClass="controls span7"/>
+                </div>
+
+
+                <div class="row">
+                    <div class="span8">
+                        <div class="control-group">
+                            <h:outputLabel for="priceInput" value="#{msgs['ad.price']}"
+                                           styleClass="control-label"/>
+
+                            <p:inputText id="priceInput" value="#{adBean.ad.price}"
+                                         title="#{msgs['ad.price.info']}" styleClass="controls">
+                                <p:ajax event="blur" update="output"/>
+                            </p:inputText>
+                        </div>
+                    </div>
+
+                    <div class="span2">
                                 <span class="help-block">
                                 <h:outputText id="output" value="#{adBean.ad.price}">
                                     <f:convertNumber type="currency" locale="ES" maxFractionDigits="0"
                                                      currencySymbol="$"/>
                                 </h:outputText>
                                 </span>
+                    </div>
                 </div>
-            </div>
 
 
-            <div class="control-group">
-                <h:outputLabel for="surfaceInput" value="#{msgs['ad.surface']}"
-                               styleClass="control-label"/>
-                <p:inputText id="surfaceInput" value="#{adBean.ad.surface}"
-                             title="#{msgs['ad.surface.info']}"
-                             styleClass="controls"/>
-            </div>
+                <div class="control-group">
+                    <h:outputLabel for="surfaceInput" value="#{msgs['ad.surface']}"
+                                   styleClass="control-label"/>
+                    <p:inputText id="surfaceInput" value="#{adBean.ad.surface}"
+                                 title="#{msgs['ad.surface.info']}"
+                                 styleClass="controls"/>
+                </div>
 
-            <div class="control-group">
-                <h:outputLabel for="regionMenu" value="#{msgs['ad.selectRegion']}"
-                               styleClass="control-label"/>
-                <p:selectOneMenu id="regionMenu" value="#{enumRegistration.selectedRegion}"
-                                 styleClass="controls">
-                    <f:selectItems value="#{enumRegistration.regionList}"/>
-                    <f:ajax listener="#{enumRegistration.selectCity}" render="citiesMenu"/>
-                </p:selectOneMenu>
-                <h:outputText value="#{msgs['ad.selectRegion.info']}"/>
-            </div>
+                <div class="control-group">
+                    <h:outputLabel for="regionMenu" value="#{msgs['ad.selectRegion']}"
+                                   styleClass="control-label"/>
+                    <p:selectOneMenu id="regionMenu" value="#{enumRegistration.selectedRegion}"
+                                     styleClass="controls">
+                        <f:selectItems value="#{enumRegistration.regionList}"/>
+                        <f:ajax listener="#{enumRegistration.selectCity}" render="citiesMenu"/>
+                    </p:selectOneMenu>
+                    <h:outputText value="#{msgs['ad.selectRegion.info']}"/>
+                </div>
 
-            <div class="control-group">
-                <h:outputLabel for="citiesMenu" value="#{msgs['ad.selectCity']}"
-                               styleClass="control-label"/>
-                <p:selectOneMenu id="citiesMenu" value="#{adBean.ad.city}" styleClass="controls">
-                    <f:selectItems value="#{enumRegistration.cityList}" var="city"
-                                   itemLabel="#{city.label}"/>
-                </p:selectOneMenu>
-                <h:outputText value="#{msgs['ad.selectCity.info']}"/>
-            </div>
+                <div class="control-group">
+                    <h:outputLabel for="citiesMenu" value="#{msgs['ad.selectCity']}"
+                                   styleClass="control-label"/>
+                    <p:selectOneMenu id="citiesMenu" value="#{adBean.ad.city}" styleClass="controls">
+                        <f:selectItems value="#{enumRegistration.cityList}" var="city"
+                                       itemLabel="#{city.label}"/>
+                    </p:selectOneMenu>
+                    <h:outputText value="#{msgs['ad.selectCity.info']}"/>
+                </div>
 
-            <div class="control-group">
-                <h:outputLabel for="surfaceInput" value="#{msgs['ad.waterRights']}"
-                               styleClass="control-label"/>
-                <p:selectBooleanButton onLabel="Yes" offLabel="No" onIcon="ui-icon-check"
-                                       offIcon="ui-icon-close"
-                                       value="#{adBean.ad.waterRights}"
-                                       styleClass="controls"/>
-                <h:outputText value="#{msgs['ad.waterRights.info']}"/>
-            </div>
+                <div class="control-group">
+                    <h:outputLabel for="surfaceInput" value="#{msgs['ad.waterRights']}"
+                                   styleClass="control-label"/>
+                    <p:selectBooleanButton onLabel="Yes" offLabel="No" onIcon="ui-icon-check"
+                                           offIcon="ui-icon-close"
+                                           value="#{adBean.ad.waterRights}"
+                                           styleClass="controls"/>
+                    <h:outputText value="#{msgs['ad.waterRights.info']}"/>
+                </div>
 
-            <div class="control-group">
-                <h:outputLabel for="surfaceInput" value="#{msgs['ad.facilities']}"
-                               styleClass="control-label"/>
-                <p:selectBooleanButton onLabel="Yes" offLabel="No" onIcon="ui-icon-check"
-                                       offIcon="ui-icon-close"
-                                       value="#{adBean.ad.facilities}"
-                                       styleClass="controls"/>
-                <h:outputText value="#{msgs['ad.facilities.info']}"/>
-            </div>
+                <div class="control-group">
+                    <h:outputLabel for="surfaceInput" value="#{msgs['ad.facilities']}"
+                                   styleClass="control-label"/>
+                    <p:selectBooleanButton onLabel="Yes" offLabel="No" onIcon="ui-icon-check"
+                                           offIcon="ui-icon-close"
+                                           value="#{adBean.ad.facilities}"
+                                           styleClass="controls"/>
+                    <h:outputText value="#{msgs['ad.facilities.info']}"/>
+                </div>
 
 
-
-            <p:commandButton id="button" value="Publish!" update=":messages" action="#{adBean.finish}"/>
-        </h:form>
+                <p:commandButton id="button" value="Publish!" update=":messages" action="#{adBean.finish}"/>
+            </h:form>
 
         </p:panel>
 

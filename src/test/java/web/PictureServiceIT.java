@@ -33,7 +33,7 @@ public class PictureServiceIT {
         return ShrinkWrap.create(WebArchive.class, "PictureServiceIT.war").
 
                 //Can be resolved with MavenArtifact as well.
-                addAsLibraries(new File("/home/crised/.m2/repository/org/primefaces/primefaces/3.4.2/primefaces-3.4.2.jar"),
+                        addAsLibraries(new File("/home/crised/.m2/repository/org/primefaces/primefaces/3.4.2/primefaces-3.4.2.jar"),
                         new File("/home/crised/.m2/repository/commons-fileupload/commons-fileupload/1.2.1/commons-fileupload-1.2.1.jar"),
                         new File("/home/crised/.m2/repository/commons-io/commons-io/1.4/commons-io-1.4.jar")).
 

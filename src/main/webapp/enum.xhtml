@@ -4,7 +4,7 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core">
 
 <h:head>
     <title>#{msgs.title}</title>
@@ -31,7 +31,8 @@
                 <h:form prependId="false">
 
                     <h:selectOneMenu value="#{enumBeanStatus.selectedRegion}">
-                        <f:selectItems id="selectItem" value="#{enumBean.regions}" var="region" itemLabel="#{region.label}"/>
+                        <f:selectItems id="selectItem" value="#{enumBean.regions}" var="region"
+                                       itemLabel="#{region.label}"/>
                         <f:ajax execute="selectItem" listener="#{enumBean.loadCities}" render="citiesmenu"/>
                     </h:selectOneMenu>
 

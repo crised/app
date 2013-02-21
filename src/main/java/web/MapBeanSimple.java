@@ -23,8 +23,8 @@ public class MapBeanSimple {
         simpleModel = new DefaultMapModel();
     }
 
-    public void addMarker(double lat, double lng){
-        Marker marker = new Marker(new LatLng(lat,lng));
+    public void addMarker(double lat, double lng) {
+        Marker marker = new Marker(new LatLng(lat, lng));
         simpleModel.addOverlay(marker);
         mapCentered = lat + ", " + lng;
 

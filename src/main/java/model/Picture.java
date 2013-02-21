@@ -23,10 +23,10 @@ public class Picture {
     public Picture() {
     }
 
-    public String getPathThumbNail(){
+    public String getPathThumbNail() {
 
         StringBuffer sb = new StringBuffer(path);
-        sb.insert(sb.lastIndexOf(".jpg"),"_tn");
+        sb.insert(sb.lastIndexOf(".jpg"), "_tn");
         return sb.toString();
     }
 

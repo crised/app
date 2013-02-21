@@ -8,7 +8,6 @@ import org.infinispan.Cache;
 import org.jboss.logging.Logger;
 import service.AdService;
 
-import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -157,7 +156,7 @@ public class CacheBean implements Serializable {
                         ad.getWaterRights()))
                     break;
 
-                if(!checkBoolean(facilities,
+                if (!checkBoolean(facilities,
                         ad.getFacilities()))
                     break;
 
@@ -198,7 +197,7 @@ public class CacheBean implements Serializable {
 
         if (selectedCity == City.ALL) return true;
 
-        if (selectedCity.getGroup()!=null)
+        if (selectedCity.getGroup() != null)
         //Whether is all cities of a region
         {
             if (selectedCity.getRegion() == adCity.getRegion()) {
@@ -224,12 +223,32 @@ public class CacheBean implements Serializable {
     SingleAd
      */
 
-    public Ad getAd(int adId){
+    public Ad getAd(int adId) {
 
         return getCleanCache().get(adId);
 
     }
 
+    /*
+    UserAd
+     */
+
+    public List<Ad> getAdsByUser(String userId) {
+
+        List<Ad> filteredList = new ArrayList<>();
+
+        for (Ad ad : getAdList()) {
+            if (ad.getUser().getId().trim().equals(userId.trim())) filteredList.add(ad);
+
+        }
+        log.info(filteredList.size());
+        Collections.sort(filteredList);
+        return filteredList;
+    }
+
+    public void removeAd(Ad ad){
+        cache.remove(ad.getId());
+    }
 
 
 

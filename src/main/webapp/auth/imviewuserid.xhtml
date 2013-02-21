@@ -28,20 +28,19 @@
         <div class="content">
 
             <h:panelGrid columns="2">
-            <ui:repeat var="ad" value="#{galleriaBean.adsByUser}">
-                <h:panelGrid columns="1">
-                    <h:outputText value="#{msgs.viewAdId}  #{ad.id}"/>
-                    <h:outputText value="#{msgs.viewShortDescription}  #{ad.shortDescription}"/>
-                    <h:outputText value="#{msgs.viewLongDescription}  #{ad.longDescription}"/>
-                    <h:outputText value="#{msgs.viewPrice} #{ad.price}"/>
-                    <h:outputText value="#{msgs.viewCity}  #{ad.city}"/>
-                    <p:galleria value="#{galleriaBean.getPathImageByAd(ad)}" var="path">
-                        <p:graphicImage value="#{path}"/>
-                    </p:galleria>
-                </h:panelGrid>
-            </ui:repeat>
+                <ui:repeat var="ad" value="#{galleriaBean.adsByUser}">
+                    <h:panelGrid columns="1">
+                        <h:outputText value="#{msgs.viewAdId}  #{ad.id}"/>
+                        <h:outputText value="#{msgs.viewShortDescription}  #{ad.shortDescription}"/>
+                        <h:outputText value="#{msgs.viewLongDescription}  #{ad.longDescription}"/>
+                        <h:outputText value="#{msgs.viewPrice} #{ad.price}"/>
+                        <h:outputText value="#{msgs.viewCity}  #{ad.city}"/>
+                        <p:galleria value="#{galleriaBean.getPathImageByAd(ad)}" var="path">
+                            <p:graphicImage value="#{path}"/>
+                        </p:galleria>
+                    </h:panelGrid>
+                </ui:repeat>
             </h:panelGrid>
-
 
 
         </div>

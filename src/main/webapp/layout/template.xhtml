@@ -4,7 +4,8 @@
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+        >
 
 <h:head>
     <title>
@@ -20,15 +21,19 @@
     <div class="container">
         <div class="navbar">
             <div class="navbar-inner">
-                <h:link value="#{msgs['title']}" outcome="index" styleClass="brand"/>
-                <h:link value="#{msgs['title.description']}" outcome="index" styleClass="brand" style="float:right"/>
+                <h:link value="#{msgs['title']}" outcome="/index" styleClass="brand"/>
+                <h:link value="#{msgs['title.description']}" outcome="/index" styleClass="brand" style="float:right"/>
 
 
                 <ul class="nav">
-                    <li><h:link value="#{msgs['title.publish']}" outcome="login"/></li>
+                    <li>
+                        <h:form styleClass="navbar-form">
+                            <h:commandLink action="#{adBean.initConversation()}"
+                                           value="#{msgs['title.publish']}" styleClass="brand"/>
+                        </h:form></li>
 
                     <li><h:link value="#{msgs['title.welcome']}  #{user.userId}"
-                                outcome="/auth/home"
+                                outcome="#{'/auth/home?userId='.concat(user.userId)}"
                                 rendered="#{user.userId!=null}"/></li>
                     <li><h:form>
                         <h:commandLink action="#{user.logout}"
@@ -41,9 +46,10 @@
             </div>
         </div>
         <p:growl id="messages" showDetail="false" autoUpdate="true"/>
+        <ui:debug rendered="#{initParam['javax.faces.PROJECT_STAGE'] eq 'Development'}" />
         <ui:insert name="container"/>
 
-        <footer>            Drip.cl</footer>
+        <footer> Drip.cl</footer>
     </div>
 </h:body>
 

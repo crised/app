@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-public class Ad implements Serializable {
+public class Ad implements Serializable, Comparable<Ad> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -70,7 +70,7 @@ public class Ad implements Serializable {
     @OneToMany(mappedBy = "ad", fetch = FetchType.EAGER)
     private List<Picture> pictureList;
 
-    @ManyToOne
+    @ManyToOne       // fetch = eager by default
     private User user;
 
     public Ad() {
@@ -79,8 +79,11 @@ public class Ad implements Serializable {
 
     @PostConstruct
     public void init() {
-
         setDateRegistered(new Date());
+    }
+
+    public int compareTo(Ad compareAd) {
+        return this.getId() - compareAd.getId();
     }
 
     public Integer getId() {

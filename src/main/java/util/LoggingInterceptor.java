@@ -20,13 +20,12 @@ public class LoggingInterceptor implements Serializable {
         logger.entering(ic.getTarget().getClass().getName(), ic.getMethod().getName());
         logger.info(">>> " + ic.getTarget().getClass().getName() + "-" + ic.getMethod().getName());
 
-        try{
+        try {
             return ic.proceed();
         } finally {
-            logger.exiting(ic.getTarget().getClass().getName(),ic.getMethod().getName());
+            logger.exiting(ic.getTarget().getClass().getName(), ic.getMethod().getName());
             logger.info("<<< " + ic.getTarget().getClass().getName() + "-" + ic.getMethod().getName());
         }
-
 
 
     }

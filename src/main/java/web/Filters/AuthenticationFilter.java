@@ -18,7 +18,7 @@ public class AuthenticationFilter implements Filter {
     public AuthenticationFilter() {
     }
 
-    public void init(FilterConfig filterConfig) throws ServletException{
+    public void init(FilterConfig filterConfig) throws ServletException {
 
         contextPath = filterConfig.getServletContext().getContextPath();
 
@@ -31,13 +31,13 @@ public class AuthenticationFilter implements Filter {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
 
-        if (httpRequest.getUserPrincipal() == null){
+        if (httpRequest.getUserPrincipal() == null) {
 
             httpResponse.sendRedirect(contextPath + "/login.xhtml");
             return;
         }
 
-        chain.doFilter(request,response);
+        chain.doFilter(request, response);
 
     }
 

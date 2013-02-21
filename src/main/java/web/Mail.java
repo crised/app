@@ -6,14 +6,12 @@ import org.jboss.logging.Logger;
 
 import javax.annotation.Resource;
 import javax.inject.Inject;
-import javax.inject.Named;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.ResourceBundle;
-
 
 
 public class Mail {
@@ -25,12 +23,11 @@ public class Mail {
     private ResourceBundle rB;
 
 
-
     @Resource(mappedName = "java:jboss/mail/gmail")
     javax.mail.Session mailSession;
 
 
-    public String SendMail(User user, String link){  //should be static method
+    public String SendMail(User user, String link) {  //should be static method
 
 
         try {
@@ -45,7 +42,7 @@ public class Mail {
             message.setSubject(rB.getString("mail.confirmLink"));
 
             message.setText(rB.getString("mail.message")
-            + "\n \n" + link);
+                    + "\n \n" + link);
 
             Transport.send(message);
 

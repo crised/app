@@ -38,7 +38,7 @@ public class PictureService implements Serializable {
         return em.find(Picture.class, pic.getId());
     }
 
-    public void updatePicture(Picture pic){
+    public void updatePicture(Picture pic) {
         em.merge(pic);
     }
 

@@ -2,7 +2,6 @@ package web;
 
 import enums.City;
 import enums.Price;
-import enums.Region;
 import enums.Surface;
 
 import java.io.Serializable;

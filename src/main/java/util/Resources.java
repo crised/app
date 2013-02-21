@@ -21,7 +21,7 @@ public class Resources implements Serializable {
 
     @Produces
     @ApplicationScoped
-    public Cache<Integer,Ad> producesCache(){
+    public Cache<Integer, Ad> producesCache() {
         return this.cache;
     }
 
@@ -35,11 +35,6 @@ public class Resources implements Serializable {
     public ResourceBundle producesResourceBundle() {
         return ResourceBundle.getBundle("messages", Locale.getDefault());
     }
-
-
-
-
-
 
 
 }

@@ -17,7 +17,8 @@ import util.Resources;
 import javax.inject.Inject;
 import java.util.logging.Logger;
 
-import static junit.framework.Assert.*;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
 
 
 @RunWith(Arquillian.class)
@@ -63,7 +64,7 @@ public class UserServiceIT {
 
         log.info(user.getId());
         try {
-           userService.createUser(user);
+            userService.createUser(user);
             assertNotNull(user.getId());
 
         } catch (Exception e) {
@@ -71,7 +72,7 @@ public class UserServiceIT {
             log.severe(e.getMessage());
 
         }
-      //  log.info(user.getId().toString()); //takes an id
+        //  log.info(user.getId().toString()); //takes an id
     }
 
     @Test

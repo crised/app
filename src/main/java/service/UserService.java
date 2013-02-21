@@ -73,6 +73,8 @@ public class UserService implements Serializable {
 
     }
 
+    //TODO: Reset Password 4 numbers sent to mail.
+
     @RolesAllowed({"REGISTERED"})
     public User modifyPassword(User user) {
 

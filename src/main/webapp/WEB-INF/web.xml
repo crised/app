@@ -48,7 +48,6 @@
     </context-param>
 
 
-
     <!--
     <error-page>
         <exception-type>javax.faces.application.ViewExpiredException</exception-type>

@@ -1,7 +1,5 @@
 package web;
 
-import org.jboss.logging.Logger;
-
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -18,11 +16,11 @@ abstract class Messages {
     transient ResourceBundle rB;
 
 
-    protected void addSimpleMessage(String message){
+    protected void addSimpleMessage(String message) {
 
         FacesContext facesContext = FacesContext.getCurrentInstance();
         FacesMessage facesMessage = new FacesMessage(message);
-        facesContext.addMessage(null,facesMessage);
+        facesContext.addMessage(null, facesMessage);
 
 
     }

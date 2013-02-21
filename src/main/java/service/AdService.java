@@ -1,49 +1,62 @@
 package service;
 
+import exception.AppException;
 import model.*;
+import org.jboss.logging.Logger;
 
+import javax.annotation.Resource;
+import javax.annotation.security.RolesAllowed;
+import javax.ejb.EJBContext;
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import java.io.Serializable;
 import java.util.List;
-import java.util.logging.Logger;
 
 @Stateless
-//@Loggable
 public class AdService implements Serializable {
 
     @PersistenceContext
     private EntityManager em;
 
-    @Inject
-    private Logger log;
+    @Resource
+    private EJBContext context;
 
+    static final Logger log = Logger.getLogger(AdService.class);
+
+
+    @RolesAllowed("REGISTERED")
     public Ad createAd(Ad ad) {
         em.persist(ad);
         return ad;
     }
 
+    @RolesAllowed("REGISTERED")
     public Ad updateAd(Ad ad) {
+        if (ad.getUser().getId() != null) {
+            if (!ad.getUser().getId().equals(context.getCallerPrincipal().toString()))
+                throw new AppException("Hacking attempt");
+        }
         em.merge(ad);
         return ad;
     }
 
-    public List<Ad> getAll(){
+    public List<Ad> getAll() {
 
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Ad> cq = cb.createQuery(Ad.class);
         Root<Ad> adRoot = cq.from(Ad.class);
+        Join<Ad, Picture> pictureJoin =
+                adRoot.join(Ad_.pictureList, JoinType.LEFT); //All Ads, even if no match in picture
+
         cq.select(adRoot);
         cq.where(cb.isNull(adRoot.get(Ad_.removed)));
+        cq.where(cb.isNull(pictureJoin.get(Picture_.removed)));
+        cq.distinct(true); // To avoid duplicates
         return em.createQuery(cq).getResultList();
     }
+
 
 
     public Ad getAdById(int IdAd) {
@@ -57,7 +70,7 @@ public class AdService implements Serializable {
         return em.createQuery(cq).getSingleResult();
     }
 
-    public List<Ad> getAdsByUser(User user){
+    public List<Ad> getAdsByUser(User user) {
 
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Ad> cq = cb.createQuery(Ad.class);

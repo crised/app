@@ -25,12 +25,12 @@ public class Timer {
     }
 
     @PostConstruct
-    public void build(){
+    public void build() {
         log.info("Timer Singleton just built");
     }
 
     @PreDestroy
-    public void destroy(){
+    public void destroy() {
         log.info("Timer Singleton just destroyed");
     }
 }

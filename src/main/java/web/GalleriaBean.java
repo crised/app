@@ -11,7 +11,6 @@ import javax.annotation.PreDestroy;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Logger;
@@ -97,10 +96,10 @@ public class GalleriaBean implements Serializable {
             i++;
         }
 
-        i=0;
+        i = 0;
         for (Picture p : pictureAll) {
 
-            if(p == pictureSelected){
+            if (p == pictureSelected) {
                 pictureAll.remove(i);
             }
             i++;
@@ -108,7 +107,6 @@ public class GalleriaBean implements Serializable {
 
         pictureSelected.setRemoved(true);
         pictureService.updatePicture(pictureSelected);
-
 
 
     }

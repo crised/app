@@ -12,7 +12,7 @@ import java.io.IOException;
  */
 
 @WebFilter(filterName = "UserRedirectFilter")
-public class UserRedirectFilter implements Filter{
+public class UserRedirectFilter implements Filter {
 
     private String contextPath;
 
