@@ -6,6 +6,7 @@ import service.AdService;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -19,7 +20,7 @@ import java.util.List;
  */
 
 @Named
-@RequestScoped
+@SessionScoped //this bean is only in auth accessible, so not too much memory bloat
 public class UserAd extends Messages implements Serializable {
 
     static final Logger log = Logger.getLogger(UserAd.class);
