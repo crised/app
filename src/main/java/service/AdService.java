@@ -49,13 +49,16 @@ public class AdService implements Serializable {
         Root<Ad> adRoot = cq.from(Ad.class);
         Join<Ad, Picture> pictureJoin =
                 adRoot.join(Ad_.pictureList, JoinType.LEFT); //All Ads, even if no match in picture
-
         cq.select(adRoot);
-        cq.where(cb.isNull(adRoot.get(Ad_.removed)));
-        cq.where(cb.isNull(pictureJoin.get(Picture_.removed)));
+        Predicate predicate1 = cb.isNull(adRoot.get(Ad_.removed));
+        Predicate predicate2 = cb.isNull(pictureJoin.get(Picture_.removed));
+        cq.where(cb.and(predicate1,predicate2));
         cq.distinct(true); // To avoid duplicates
         return em.createQuery(cq).getResultList();
     }
+
+    /*cq.where(cb.isNull(adRoot.get(Ad_.removed))); // This restriction is not working as it should
+        cq.where(cb.isNull(pictureJoin.get(Picture_.removed)));*/
 
 
 
