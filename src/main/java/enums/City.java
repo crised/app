@@ -13,7 +13,7 @@ public enum City {
 
     COINCO(Region.OHIGGINS, "Coinco"), COLTAUCO(Region.OHIGGINS, "Coltauco"),
 
-    QUINTADETILCOCO(Region.OHIGGINS, "Quinta de Tilcoco");
+    QUINTADETILCOCO(Region.OHIGGINS, "Quinta de Tilcoco"), GULTRO(Region.OHIGGINS,"Gultro");
 
 
     private String label;
