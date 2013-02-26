@@ -78,9 +78,13 @@ public class CacheBean implements Serializable {
 
     public List<Ad> getSixAds() {
 
-        List<Ad> sixAdsList = getAdList().subList(0, 6);
-        Collections.shuffle(sixAdsList);
-        return sixAdsList;
+        adList = getAdList();
+        if (adList.size() > 6) {
+            List<Ad> sixAdsList = adList.subList(0, 6);
+            Collections.shuffle(sixAdsList);
+            return sixAdsList;
+        } else return adList;
+
     }
 
     public List<Ad> getSixDifferentAds(List<Integer> adViewedList) {
@@ -246,11 +250,9 @@ public class CacheBean implements Serializable {
         return filteredList;
     }
 
-    public void removeAd(Ad ad){
+    public void removeAd(Ad ad) {
         cache.remove(ad.getId());
     }
-
-
 
 
 }

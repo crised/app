@@ -5,9 +5,12 @@ import java.util.*;
 
 public enum Region {
 
-    ALL("All Regions", "All"), TARAPACA("Tarapacá", "I"), ANTOFAGASTA("Antofagasta", "II"),
-    ATACAMA("Atacama", "III"), COQUIMBO("Coquimbo", "IV"), VALPARAISO("Valparaíso", "V"),
-    OHIGGINS("O'Higgins", "VI");
+    ALL("Todas", "All"), ARICA("Arica", "XV"), TARAPACA("Tarapacá", "I"),
+    ANTOFAGASTA("Antofagasta", "II"), ATACAMA("Atacama", "III"), COQUIMBO("Coquimbo", "IV"),
+    VALPARAISO("Valparaíso", "V"), OHIGGINS("O'Higgins", "VI"), MAULE("Maule", "VII"),
+    BIOBIO("Biobío", "VIII"), ARAUCANIA("Araucanía", "IX"), RIOS("Ríos", "XIV"),
+    LAGOS("Lagos", "X"), AYSEN("Aysén", "XI"), MAGALLANES("Magallanes", "XII"),
+    METROPOLITANA("Metropolitana", "RM");
 
 
     private String label;
