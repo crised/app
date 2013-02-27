@@ -22,6 +22,23 @@ public enum Region {
         this.romanNumber = romanNumber;
     }
 
+    public static Region[] getCleanRegionArray() {
+
+
+        List<Region> regionList = new ArrayList<>();
+
+        for (Region region : Region.values()) {
+            if (region.getLabel() != "Todas") {
+                regionList.add(region);
+            }
+        }
+
+        Region[] regions = regionList.toArray(new Region[0]);
+        return regions;
+
+    }
+
+
     public static Map<String, String> getMapAllRegions() {
 
         Map<String, String> map = new LinkedHashMap<>();

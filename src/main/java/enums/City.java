@@ -202,6 +202,61 @@ public enum City {
 
     }
 
+    public static City[] getCleanCityArrayByRegion(Region region) {
+
+        if (region == Region.ALL) {
+            return getCleanCityArray();
+        }
+
+        List<City> citiesList = new ArrayList<City>();
+
+        for (City city : getCleanCityArray()) {
+            if (city.getRegion() == region) {
+                citiesList.add(city);
+            }
+        }
+
+        City[] cities = citiesList.toArray(new City[0]);
+        return cities;
+
+    }
+
+    public static City[] getCleanCityArray() {
+
+
+        List<City> citiesList = new ArrayList<City>();
+
+        for (City city : City.values()) {
+            if (city.getGroup() == null) {
+                citiesList.add(city);
+            }
+        }
+
+        City[] cities = citiesList.toArray(new City[0]);
+        return cities;
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     public static List<City> getAllCities() {
 
         List<City> cityList = new LinkedList<City>(); //LinkedHashSet los deja en el orden del ENUM, HashSet -> aleatorio

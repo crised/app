@@ -83,22 +83,10 @@
                 </div>
 
                 <div class="control-group">
-                    <h:outputLabel for="regionMenu" value="#{msgs['ad.selectRegion']}"
-                                   styleClass="control-label"/>
-                    <p:selectOneMenu id="regionMenu"
-                                     value="#{adBean.enumRegistration.selectedRegion}"
-                                     styleClass="controls">
-                        <f:selectItems value="#{enumRegistration.regionList}"/>
-                        <f:ajax listener="#{enumRegistration.selectCity}" render="citiesMenu"/>
-                    </p:selectOneMenu>
-                    <h:outputText value="#{msgs['ad.selectRegion.info']}"/>
-                </div>
-
-                <div class="control-group">
                     <h:outputLabel for="citiesMenu" value="#{msgs['ad.selectCity']}"
                                    styleClass="control-label"/>
                     <p:selectOneMenu id="citiesMenu" value="#{adBean.ad.city}" styleClass="controls">
-                        <f:selectItems value="#{enumRegistration.cityList}" var="city"
+                        <f:selectItems value="#{enum.getCleanCityArray()}" var="city"
                                        itemLabel="#{city.label}"/>
                     </p:selectOneMenu>
                     <h:outputText value="#{msgs['ad.selectCity.info']}"/>

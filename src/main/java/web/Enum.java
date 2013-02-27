@@ -44,6 +44,20 @@ public class Enum {
         return Region.values();
     }
 
+
+    public City[] getCleanCityArray() {
+        if (selectedRegion == null) {
+            return City.getCleanCityArray();
+        }
+        return City.getCityArrayByRegion(this.selectedRegion);
+
+    }
+
+    public Region[] getCleanRegionArray() {
+        return Region.getCleanRegionArray();
+    }
+
+
     public Region getSelectedRegion() {
         return selectedRegion;
     }
