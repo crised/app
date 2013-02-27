@@ -86,7 +86,7 @@ public class Ad implements Serializable, Comparable<Ad> {
         return this.getId() - compareAd.getId();
     }
 
-    //If adId && shortdescription && long description are the same -> they are equal.
+    //If adId && short description && long description are the same -> they are equal.
     //adId can be null, when recently created.
     @Override
     public boolean equals(Object o) {
