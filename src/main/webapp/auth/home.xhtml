@@ -1,11 +1,8 @@
 <ui:composition template="/layout/template.xhtml" xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui">
+                xmlns:p="http://primefaces.org/ui">
 
-    <f:metadata>
-        <f:viewParam name="userId" value="#{userAd.userId}"/>
-        <f:event type="preRenderView" listener="#{userAd.preRender()}"/>
-    </f:metadata>
+
 
     <ui:define name="title">
         <h:outputText value="#{msgs['ad.title']}"/>
@@ -20,32 +17,45 @@
         <p:panel id="panel" header="Avisos de #{userAd.userId}">
 
             <div class="row extra-padd">
+
                 <div class="span12">
+
+                    <h4><h:outputText value="No tiene Avisos"
+                                      rendered="#{empty userAd.adList}"/></h4>
                     <ol>
-                        <ui:repeat value="#{userAd.adList}" var="ad">
+                        <ui:repeat id="repeat" value="#{userAd.adList}" var="ad">
 
                             <ul class="inline">
-                                <li class="span4">
+                                <li class="span7 extra-padd2">
                                     <h:link outcome="#{'/ad?id='.concat(ad.id)}"
-                                            value="#{ad.shortDescription}"/></li>
+                                            value="Número: #{ad.id} #{ad.shortDescription}"/></li>
+
                                 <li class="span1">
-                                    <h:link outcome="/index" value="Editar"/></li>
+                                    <h:button outcome="/index" value="Editar"/></li>
                                 <li class="span2">
                                     <h:link outcome="/index" value="Borrar Fotos"/></li>
-                                <li class="span1">
-                                    <h:form>
-                                        <h:commandButton value="Borrar"
-                                                         actionListener="#{test.hello('hello!')}"
-                                                immediate="true">
-                                            <p:ajax event="click" />
-
-                                        </h:commandButton>
-                                    </h:form></li>
                             </ul>
                         </ui:repeat>
                     </ol>
-
                 </div>
+
+            <div class="span4 offset1 extra-padd">
+
+            <h:form prependId="false">
+                        <p:commandButton id="showDialogButton" value="Borrar un Aviso"
+                                         onclick="confirmation.show()" type="button"/>
+
+                        <p:confirmDialog id="confirmDialog" message="Favor escriba número de aviso a borrar"
+                                         header="Ingrese numero de aviso" severity="alert" widgetVar="confirmation">
+                            <h:inputText id="adIdString" value="#{userAd.adIdString}"/>
+
+                            <p:commandButton id="confirm" value="Borrar!" update=":panel"
+                                             oncomplete="confirmation.hide()"
+                                             actionListener="#{userAd.softRemove}"/>
+                        </p:confirmDialog>
+                    </h:form>
+                </div>
+
             </div>
         </p:panel>
     </ui:define>

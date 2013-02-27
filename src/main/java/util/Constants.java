@@ -2,7 +2,6 @@ package util;
 
 public final class Constants {
 
-    private String label;
 
     private Constants() {
 

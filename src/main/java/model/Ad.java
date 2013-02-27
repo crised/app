@@ -86,6 +86,32 @@ public class Ad implements Serializable, Comparable<Ad> {
         return this.getId() - compareAd.getId();
     }
 
+    //If adId && shortdescription && long description are the same -> they are equal.
+    //adId can be null, when recently created.
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Ad ad = (Ad) o;
+
+        if (id != null ? !id.equals(ad.id) : ad.id != null) return false;
+        if (longDescription != null ? !longDescription.equals(ad.longDescription) : ad.longDescription != null)
+            return false;
+        if (shortDescription != null ? !shortDescription.equals(ad.shortDescription) : ad.shortDescription != null)
+            return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (shortDescription != null ? shortDescription.hashCode() : 0);
+        result = 31 * result + (longDescription != null ? longDescription.hashCode() : 0);
+        return result;
+    }
+
     public Integer getId() {
         return id;
     }

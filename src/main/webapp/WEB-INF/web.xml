@@ -91,6 +91,11 @@
         <url-pattern>/auth/*</url-pattern>
     </filter-mapping>
 
+    <filter-mapping>
+        <filter-name>NoCacheFilter</filter-name>
+        <url-pattern>/auth/*</url-pattern>
+    </filter-mapping>
+
 
     <security-constraint>
         <web-resource-collection>

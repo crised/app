@@ -6,13 +6,15 @@
               version="2.0">
 
     <application>
-        <locale-config>
-            <default-locale>es</default-locale>
-        </locale-config>
         <resource-bundle>
             <base-name>messages</base-name>
             <var>msgs</var>
         </resource-bundle>
+        <locale-config>
+            <default-locale>es</default-locale>
+            <supported-locale>es</supported-locale>
+        </locale-config>
+
     </application>
 
     <converter>

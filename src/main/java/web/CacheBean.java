@@ -245,13 +245,13 @@ public class CacheBean implements Serializable {
             if (ad.getUser().getId().trim().equals(userId.trim())) filteredList.add(ad);
 
         }
-        log.info(filteredList.size());
         Collections.sort(filteredList);
         return filteredList;
     }
 
     public void removeAd(Ad ad) {
-        cache.remove(ad.getId());
+        adService.updateAd(ad); //Deleted from DB
+        cache.remove(ad.getId()); // Delete from Cache
     }
 
 

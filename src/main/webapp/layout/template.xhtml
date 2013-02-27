@@ -33,7 +33,7 @@
                         </h:form></li>
 
                     <li><h:link value="#{msgs['title.welcome']}  #{user.userId}"
-                                outcome="#{'/auth/home?userId='.concat(user.userId)}"
+                                outcome="/auth/home"
                                 rendered="#{user.userId!=null}"/></li>
                     <li><h:form>
                         <h:commandLink action="#{user.logout}"

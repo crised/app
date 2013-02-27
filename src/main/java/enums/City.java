@@ -7,7 +7,9 @@ import java.util.*;
 public enum City {
 
 
-    ALL(Region.ALL, Constants.Fixed.allCities, true), CITYREGIONS15(Region.ARICA, Constants.Fixed.citiesIn, true),
+    ALL(Region.ALL, "", true), CITYREGIONS15(Region.ARICA, Constants.Fixed.citiesIn, true),
+
+    ARICA(Region.ARICA,"Arica"),
 
     CITYREGIONS1(Region.TARAPACA, Constants.Fixed.citiesIn, true), IQUIQUE(Region.TARAPACA, "Gran Iquique"),
 

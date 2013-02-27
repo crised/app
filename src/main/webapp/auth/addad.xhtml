@@ -35,7 +35,8 @@
                     </p:gmap>
 
 
-                    <p:dialog id="dialog" widgetVar="dlg" effect="FADE" effectDuration="0.5" close="false" fixedCenter="true">
+                    <p:dialog id="dialog" widgetVar="dlg" effect="FADE" effectDuration="0.5" close="false"
+                              fixedCenter="true">
                         <h:form prependId="false">
                             <h:panelGrid columns="1">
                                 <h:outputLabel value="Are you sure?"/>
@@ -56,7 +57,7 @@
                     <h4>#{msgs['ad.fillForm']}</h4>
 
 
-                    <h:form id="addAdForm" enctype="multipart/form-data">
+                    <h:form id="addAdForm">
 
 
                         <div class="control-group">
@@ -114,12 +115,15 @@
                         </div>
 
                         <div class="control-group">
-                            <h:outputLabel for="regionMenu" value="#{msgs['ad.selectRegion']}"
+                            <h:outputLabel for="region" value="#{msgs['ad.selectRegion']}"
                                            styleClass="control-label"/>
-                            <p:selectOneMenu id="regionMenu" value="#{enumRegistration.selectedRegion}"
+                            <p:selectOneMenu id="region" value="#{enum.selectedRegion}"
                                              styleClass="controls">
-                                <f:selectItems value="#{enumRegistration.regionList}"/>
-                                <f:ajax listener="#{enumRegistration.selectCity}" render="citiesMenu"/>
+                                <f:selectItems value="#{enum.regionArray}"
+                                               var="region"
+                                               itemValue="#{region}"
+                                               itemLabel="#{region.label}"/>
+                                <f:ajax listener="#{enum.getCityArray()}" render="citiesMenu"/>
                             </p:selectOneMenu>
                             <h:outputText value="#{msgs['ad.selectRegion.info']}"/>
                         </div>
@@ -127,8 +131,10 @@
                         <div class="control-group">
                             <h:outputLabel for="citiesMenu" value="#{msgs['ad.selectCity']}"
                                            styleClass="control-label"/>
-                            <p:selectOneMenu id="citiesMenu" value="#{adBean.ad.city}" styleClass="controls">
-                                <f:selectItems value="#{enumRegistration.cityList}" var="city"
+                            <p:selectOneMenu id="citiesMenu" value="#{adBean.ad.city}"
+                                             styleClass="controls">
+                                <f:selectItems value="#{enum.cityArray}" var="city"
+                                               itemValue="#{city}"
                                                itemLabel="#{city.label}"/>
                             </p:selectOneMenu>
                             <h:outputText value="#{msgs['ad.selectCity.info']}"/>

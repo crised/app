@@ -2,7 +2,6 @@ package web;
 
 import model.Ad;
 import org.jboss.logging.Logger;
-import service.AdService;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -11,7 +10,6 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,7 +18,7 @@ import java.util.List;
  */
 
 @Named
-@SessionScoped //this bean is only in auth accessible, so not too much memory bloat
+@SessionScoped
 public class UserAd extends Messages implements Serializable {
 
     static final Logger log = Logger.getLogger(UserAd.class);
@@ -28,58 +26,41 @@ public class UserAd extends Messages implements Serializable {
     @Inject
     CacheBean cacheBean;
 
-    @Inject
-    AdService adService;
-
     private String userId;
 
     private List<Ad> adList;
 
-    private Integer adId;
+    private String adIdString;
 
-    List<String> sampleList;
 
     @PostConstruct
-    public void init(){
-        sampleList = new ArrayList<String>();
-        sampleList.add("1");
-        sampleList.add("2");
-        sampleList.add("3");
-    }
-
-
-    //@PostConstruct
     public void preRender() {
 
-        if (FacesContext.getCurrentInstance().getExternalContext().getRemoteUser()
-                .equals(userId)) //logged user must be the same as the requesting user
-            adList = cacheBean.getAdsByUser(userId);
+        String loggedUser = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
+        adList = cacheBean.getAdsByUser(loggedUser);
     }
 
-    public void hello(String h){
+    public void softRemove() {
 
-        log.info(h);
+        try {
+            Integer adId = new Integer(adIdString);
+            Ad ad = cacheBean.getAd(adId);
+            if (ad != null && ad.getRemoved() != Boolean.TRUE) {
 
-    }
+                log.info(adList.remove(ad));
+                ad.setRemoved(Boolean.TRUE);
+                cacheBean.removeAd(ad); // Deleted from Cache & DB, takes time to get deleted
+                addSimpleMessage(ad.getShortDescription());
+                addSimpleMessage(rB.getString("userAd.removed"));
+                log.info(adList.size());
+            } else addSimpleMessage(rB.getString("error"));
 
-    public String softRemove() {
 
-        Ad ad;
-        if (adId != null)
-            ad = cacheBean.cache.get(adId);
-        else ad = null;
-
-        if (ad != null && ad.getRemoved() != Boolean.TRUE) {
-
-            ad.setRemoved(Boolean.TRUE);
-            adService.updateAd(ad); //Deleted from DB
-            cacheBean.removeAd(ad); // Deleted from Cache
-            addSimpleMessage(ad.getShortDescription());
-            addSimpleMessage(rB.getString("userAd.removed"));
-
+        } catch (Exception e) {
+            addSimpleMessage(rB.getString("error"));
         }
 
-        return null;
+
     }
 
     public String getUserId() {
@@ -98,19 +79,11 @@ public class UserAd extends Messages implements Serializable {
         this.adList = adList;
     }
 
-    public Integer getAdId() {
-        return adId;
+    public String getAdIdString() {
+        return adIdString;
     }
 
-    public void setAdId(Integer adId) {
-        this.adId = adId;
-    }
-
-    public List<String> getSampleList() {
-        return sampleList;
-    }
-
-    public void setSampleList(List<String> sampleList) {
-        this.sampleList = sampleList;
+    public void setAdIdString(String adIdString) {
+        this.adIdString = adIdString;
     }
 }
