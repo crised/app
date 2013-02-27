@@ -29,16 +29,16 @@
                 <h4>#{msgs['ad.uploadFinalChanges']}</h4>
 
                 <div class="control-group">
-                    <h:outputLabel for="shortDescriptionInput" value="#{msgs['ad.shortDescription']}"
+                    <h:outputLabel for="shortDescriptionInput"
+                                   value="#{msgs['ad.shortDescription']}"
                                    styleClass="control-label"/>
 
 
-                    <p:inputText id="shortDescriptionInput" label="shortDescription"
+                    <p:inputText id="shortDescriptionInput"
+                                 label="shortDescription"
                                  value="#{adBean.ad.shortDescription}"
                                  title="#{msgs['ad.shortDescription.info']}"
                                  styleClass="controls span7"/>
-
-
                 </div>
 
                 <div class="control-group">
@@ -85,7 +85,8 @@
                 <div class="control-group">
                     <h:outputLabel for="regionMenu" value="#{msgs['ad.selectRegion']}"
                                    styleClass="control-label"/>
-                    <p:selectOneMenu id="regionMenu" value="#{enumRegistration.selectedRegion}"
+                    <p:selectOneMenu id="regionMenu"
+                                     value="#{adBean.enumRegistration.selectedRegion}"
                                      styleClass="controls">
                         <f:selectItems value="#{enumRegistration.regionList}"/>
                         <f:ajax listener="#{enumRegistration.selectCity}" render="citiesMenu"/>

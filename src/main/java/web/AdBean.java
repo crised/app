@@ -1,5 +1,6 @@
 package web;
 
+import enums.Region;
 import exception.PictureException;
 import model.Ad;
 import model.User;
@@ -25,13 +26,11 @@ public class AdBean extends Messages implements Serializable {
 
     static final Logger log = Logger.getLogger(AdBean.class);
 
-
     @Inject
     Ad ad;
 
     @Inject
     MapBean mapBean;
-
 
     @Inject
     AdService adService;
@@ -49,6 +48,9 @@ public class AdBean extends Messages implements Serializable {
     Conversation conversation;
 
 
+
+
+
     public AdBean() {
         //ad = new Ad();
     }
@@ -64,7 +66,6 @@ public class AdBean extends Messages implements Serializable {
         log.info("AdBean Destroyed");
     }
 
-
     public void handleFileUpload(FileUploadEvent event) {
 
         try {
@@ -73,8 +74,6 @@ public class AdBean extends Messages implements Serializable {
         } catch (PictureException e) {
             addSimpleMessage(e.getMessage());
         }
-
-
     }
 
     public String initConversation() {
@@ -82,20 +81,14 @@ public class AdBean extends Messages implements Serializable {
         if (conversation.isTransient()) {
             conversation.begin();
         }
-
         return "/auth/addad?faces-redirect=true&amp;includeViewParams=true";
-
     }
 
-
     public String next() {
-
         if (mapBean.getLat() == 0 || mapBean.getLng() == 0) {
-
             addSimpleMessage(rB.getString("ad.mapBean.noPosition"));
             log.info(rB.getString("ad.mapBean.noPosition"));
             return null;
-
         }
 
         ad.setLatitude(mapBean.getLat());
@@ -107,7 +100,6 @@ public class AdBean extends Messages implements Serializable {
         ad = adService.createAd(ad); //Will not pass validation!
         counter = 0;
         return "/auth/next?faces-redirect=true&amp;includeViewParams=true";
-
     }
 
 
@@ -122,8 +114,7 @@ public class AdBean extends Messages implements Serializable {
         adService.updateAd(ad);
 
         conversation.end();
-        return "/index?faces-redirect=true&amp;includeViewParams=true";
-
+        return "/auth/home?pub=true?faces-redirect=true";
     }
 
 

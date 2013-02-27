@@ -4,7 +4,6 @@ import model.Ad;
 import org.jboss.logging.Logger;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -32,9 +31,11 @@ public class UserAd extends Messages implements Serializable {
 
     private String adIdString;
 
+    private String pub;
+
 
     @PostConstruct
-    public void preRender() {
+    public void postConstruct() {
 
         String loggedUser = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
         adList = cacheBean.getAdsByUser(loggedUser);
@@ -61,6 +62,21 @@ public class UserAd extends Messages implements Serializable {
         }
 
 
+    }
+
+    public void publishedMessage(){
+
+        if(pub!=null)
+        addSimpleMessage(rB.getString("userAd.published"));
+
+    }
+
+    public String getPub() {
+        return pub;
+    }
+
+    public void setPub(String pub) {
+        this.pub = pub;
     }
 
     public String getUserId() {

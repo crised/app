@@ -117,7 +117,8 @@
                         <div class="control-group">
                             <h:outputLabel for="region" value="#{msgs['ad.selectRegion']}"
                                            styleClass="control-label"/>
-                            <p:selectOneMenu id="region" value="#{enum.selectedRegion}"
+                            <p:selectOneMenu id="region"
+                                             value="adBean.enumRegistration.selectedRegion"
                                              styleClass="controls">
                                 <f:selectItems value="#{enum.regionArray}"
                                                var="region"

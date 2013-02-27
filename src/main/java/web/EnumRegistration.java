@@ -6,6 +6,7 @@ import enums.Region;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
+import java.io.Serializable;
 import java.util.List;
 
 @Named
@@ -22,7 +23,6 @@ public class EnumRegistration {
     public void init() {
 
         regionList = Region.getAllRealRegions();
-        selectedRegion = Region.OHIGGINS;
         selectCity();
     }
 

@@ -1,8 +1,12 @@
 <ui:composition template="/layout/template.xhtml" xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:p="http://primefaces.org/ui">
+                xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core">
 
 
+    <f:metadata>
+        <f:viewParam name="pub" value="#{userAd.pub}"/>
+        <f:event type="preRenderView" listener="#{userAd.publishedMessage()}"/>
+    </f:metadata>
 
     <ui:define name="title">
         <h:outputText value="#{msgs['ad.title']}"/>
@@ -13,7 +17,6 @@
 
     <ui:define name="container">
 
-
         <p:panel id="panel" header="Avisos de #{userAd.userId}">
 
             <div class="row extra-padd">
@@ -22,27 +25,32 @@
 
                     <h4><h:outputText value="No tiene Avisos"
                                       rendered="#{empty userAd.adList}"/></h4>
+
                     <ol>
                         <ui:repeat id="repeat" value="#{userAd.adList}" var="ad">
 
                             <ul class="inline">
                                 <li class="span7 extra-padd2">
                                     <h:link outcome="#{'/ad?id='.concat(ad.id)}"
-                                            value="Número: #{ad.id} #{ad.shortDescription}"/></li>
+                                            value="Número: #{ad.id} #{ad.shortDescription}"/>
+                                </li>
 
-                                <li class="span1">
-                                    <h:button outcome="/index" value="Editar"/></li>
-                                <li class="span2">
-                                    <h:link outcome="/index" value="Borrar Fotos"/></li>
                             </ul>
                         </ui:repeat>
                     </ol>
+
+                </div>
+                <div class="span12 extra-padd">
+                    <h5><h:outputText value="Para editar, elimine y agregue un nuevo aviso."
+                                      rendered="#{!empty userAd.adList}"/></h5>
                 </div>
 
-            <div class="span4 offset1 extra-padd">
 
-            <h:form prependId="false">
-                        <p:commandButton id="showDialogButton" value="Borrar un Aviso"
+
+                <div class="span4 offset1 extra-padd">
+
+                    <h:form prependId="false">
+                        <p:commandButton id="showDialogButton" value="Eliminar un Aviso"
                                          onclick="confirmation.show()" type="button"/>
 
                         <p:confirmDialog id="confirmDialog" message="Favor escriba número de aviso a borrar"
