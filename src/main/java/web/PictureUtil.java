@@ -6,6 +6,7 @@ import model.Picture;
 import org.jboss.logging.Logger;
 import org.primefaces.model.UploadedFile;
 import service.PictureService;
+import util.Constants;
 import util.Loggable;
 
 import javax.imageio.ImageIO;
@@ -38,9 +39,9 @@ public class PictureUtil implements Serializable {
 
         pic = pictureService.newPic();
 
-        String imgPath = "/var/www/html/" + pic.getId() + ".jpg";
-        String imgPathTn = "/var/www/html/" + pic.getId() + "_tn" + ".jpg";
-        String webImgPath = "http://192.168.1.10/" + pic.getId() + ".jpg";  // absolute path
+        String imgPath = Constants.Fixed.imgDirectory + pic.getId() + ".jpg";
+        String imgPathTn = Constants.Fixed.imgDirectory + pic.getId() + "_tn" + ".jpg";
+        String webImgPath = Constants.Fixed.webPath + pic.getId() + ".jpg";  // absolute path
 
         BufferedImage img = compressWriteImage(uploadedFile, Paths.get(imgPath));
 
