@@ -21,16 +21,19 @@
                               fileLimit="15"
                               invalidSizeMessage="#{msgs['ad.uploadFileSize']}"
                               invalidFileMessage="#{msgs['ad.uploadFileType']}"
-                              fileLimitMessage="#{msgs['ad.uploadFileLimit']}"/>
+                              fileLimitMessage="#{msgs['ad.uploadFileLimit']}"
+                              label="Seleccionar"
+                              uploadLabel="Subir"
+                              cancelLabel="Cancelar"/>
 
-                <h5><h:outputText id="counter" value="Images Uploaded: #{adBean.counter}"/></h5>
+                <h5><h:outputText id="counter" value="Fotos subidas: #{adBean.counter}"/></h5>
 
 
                 <h4>#{msgs['ad.uploadFinalChanges']}</h4>
 
                 <div class="control-group">
                     <h:outputLabel for="shortDescriptionInput"
-                                   value="#{msgs['ad.shortDescription']}"
+                                   value="Título: *"
                                    styleClass="control-label"/>
 
 
@@ -42,7 +45,7 @@
                 </div>
 
                 <div class="control-group">
-                    <h:outputLabel for="longDescriptionInput" value="#{msgs['ad.longDescription']}"
+                    <h:outputLabel for="longDescriptionInput" value="Descripción: *"
                                    styleClass="control-label"/>
                     <p:inputTextarea id="longDescriptionInput" value="#{adBean.ad.longDescription}"
                                      title="#{msgs['ad.longDescription.info']}" rows="12"
@@ -66,7 +69,8 @@
                     <div class="span2">
                                 <span class="help-block">
                                 <h:outputText id="output" value="#{adBean.ad.price}">
-                                    <f:convertNumber type="currency" locale="ES" maxFractionDigits="0"
+                                    <f:convertNumber type="currency" locale="ES"
+                                                     maxFractionDigits="0"
                                                      currencySymbol="$"/>
                                 </h:outputText>
                                 </span>
@@ -85,11 +89,11 @@
                 <div class="control-group">
                     <h:outputLabel for="citiesMenu" value="#{msgs['ad.selectCity']}"
                                    styleClass="control-label"/>
-                    <p:selectOneMenu id="citiesMenu" value="#{adBean.ad.city}" styleClass="controls">
+                    <p:selectOneMenu id="citiesMenu" value="#{adBean.ad.city}"
+                                     styleClass="controls">
                         <f:selectItems value="#{enum.getCleanCityArray()}" var="city"
                                        itemLabel="#{city.label}"/>
                     </p:selectOneMenu>
-                    <h:outputText value="#{msgs['ad.selectCity.info']}"/>
                 </div>
 
                 <div class="control-group">
@@ -99,7 +103,6 @@
                                            offIcon="ui-icon-close"
                                            value="#{adBean.ad.waterRights}"
                                            styleClass="controls"/>
-                    <h:outputText value="#{msgs['ad.waterRights.info']}"/>
                 </div>
 
                 <div class="control-group">
@@ -109,11 +112,11 @@
                                            offIcon="ui-icon-close"
                                            value="#{adBean.ad.facilities}"
                                            styleClass="controls"/>
-                    <h:outputText value="#{msgs['ad.facilities.info']}"/>
                 </div>
 
 
-                <p:commandButton id="button" value="Publish!" update=":messages" action="#{adBean.finish}"/>
+                <p:commandButton id="button" value="Publicar!" update=":messages"
+                                 action="#{adBean.finish}"/>
             </h:form>
 
         </p:panel>
