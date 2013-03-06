@@ -41,12 +41,16 @@ public class AddUser extends Messages implements Serializable {
     @NotEmpty(message = "{user.passwordError}")
     private String password2;
 
-    public void actionListener() {
+    public void editUser() {
 
-        if (!password1.equals(password2)) {
-            log.info("user.passwordDoNotMatch");
-            addSimpleMessage(rB.getString("user.passwordDoNotMatch"));
-        }
+        String loggedUser = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
+        user = userService.findUser(loggedUser);
+
+    }
+
+    public void updateUser(){
+        user = userService.updateUser(user);
+        addSimpleMessage(rB.getString("user.update"));
 
     }
 

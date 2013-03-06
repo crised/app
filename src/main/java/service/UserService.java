@@ -47,6 +47,11 @@ public class UserService implements Serializable {
 
     }
 
+    public User updateUser(User user){
+
+        return em.merge(user);
+    }
+
     @PermitAll
     public User signUpUser(User user)
             throws UserException {
