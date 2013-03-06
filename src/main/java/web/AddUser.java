@@ -93,7 +93,7 @@ public class AddUser extends Messages implements Serializable {
 
     public String getActivationLink() {
 
-        return "http://localhost:8080/app-1.0/confirm/" +
+        return "https://drip.cl/app-1.0/confirm/" +
                 User.getHashPassword(user.getId() + System.currentTimeMillis());
 
     }
