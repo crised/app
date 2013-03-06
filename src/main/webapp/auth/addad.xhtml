@@ -24,7 +24,7 @@
             <div class="span12 show-grid1">
                 <p:panel id="panel" header="Add new Ad">
 
-                    <h4>#{msgs['ad.setMapPosition']}</h4>
+                    <h4>Seleccione Ubicación del Campo</h4>
 
                     <p:gmap id="map_canvas" center="#{adBean.mapBean.mapCentered}" zoom="10" type="ROADMAP"
                             style="width:800px;height:400px" styleClass="gmap"
@@ -61,7 +61,7 @@
 
 
                         <div class="control-group">
-                            <h:outputLabel for="shortDescriptionInput" value="#{msgs['ad.shortDescription']}"
+                            <h:outputLabel for="shortDescriptionInput" value="Título: *"
                                            styleClass="control-label"/>
 
 
@@ -74,7 +74,7 @@
                         </div>
 
                         <div class="control-group">
-                            <h:outputLabel for="longDescriptionInput" value="#{msgs['ad.longDescription']}"
+                            <h:outputLabel for="longDescriptionInput" value="Descripción: *"
                                            styleClass="control-label"/>
                             <p:inputTextarea id="longDescriptionInput" value="#{adBean.ad.longDescription}"
                                              title="#{msgs['ad.longDescription.info']}" rows="12" autoResize="FALSE"
@@ -115,7 +115,7 @@
                         </div>
 
                         <div class="control-group">
-                            <h:outputLabel for="region" value="#{msgs['ad.selectRegion']}"
+                            <h:outputLabel for="region" value="Región: *"
                                            styleClass="control-label"/>
                             <p:selectOneMenu id="region"
                                              value="#{enum.selectedRegion}"
