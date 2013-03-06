@@ -8,7 +8,7 @@
         <connection-url>jdbc:postgresql://localhost:5432/app</connection-url>
         <driver>postgresql</driver>
         <security>
-            <user-name>postgresql</user-name>
+            <user-name>postgres</user-name>
             <password>parlante</password>
         </security>
     </datasource>

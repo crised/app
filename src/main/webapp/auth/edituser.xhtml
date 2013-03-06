@@ -1,0 +1,56 @@
+<ui:composition template="/layout/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core">
+
+    <f:metadata>
+        <f:event type="preRenderView" listener="#{addUser.editUser}"/>
+    </f:metadata>
+
+    <ui:define name="title">
+        <h:outputText value="#{msgs['user.title']}"/>
+    </ui:define>
+
+    <ui:define name="container">
+
+
+        <p:panel id="panel" header="Add User">
+
+
+            <h:form id="addUser" styleClass="form-horizontal">
+
+
+                <div class="control-group">
+                    <h:outputLabel for="userNameInput" value="#{msgs['user.enterName']}"
+                                   styleClass="control-label"/>
+                    <p:inputText id="userNameInput" value="#{addUser.user.name}" styleClass="controls"/>
+                </div>
+
+                <div class="control-group">
+                    <h:outputLabel for="businessNameInput" value="#{msgs['user.enterBusinessName']}"
+                                   styleClass="control-label"/>
+
+                    <p:inputText id="businessNameInput" value="#{addUser.user.businessName}" styleClass="controls"/>
+
+                </div>
+
+                <div class="control-group">
+                    <h:outputLabel for="phoneNumber1Input" value="#{msgs['user.enterPhoneNumber1']}"
+                                   styleClass="control-label"/>
+
+                    <p:inputText id="phoneNumber1Input" value="#{addUser.user.phoneNumber1}" styleClass="controls"/>
+
+                </div>
+
+
+                <div class="control-group">
+                    <p:commandButton id="submitButton" value="Submit"
+                                     styleClass="controls"
+                                     action="#{addUser.updateUser}" update=":panel :messages"/>
+                </div>
+            </h:form>
+
+        </p:panel>
+    </ui:define>
+</ui:composition>
