@@ -84,13 +84,6 @@ public class AddUser extends Messages implements Serializable {
 
     }
 
-
-    public String logout() {
-        //Only works on FacesContext
-        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-        return "/index?faces-redirect=true";
-    }
-
     public String getActivationLink() {
 
         return "https://drip.cl/app-1.0/confirm/" +
