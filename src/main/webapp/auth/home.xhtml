@@ -23,7 +23,7 @@
 
                 <div class="span12">
 
-                    <h4><h:link outcome="/auth/edituser" value="Editar Usuario"/></h4>
+                    <h2><h:link outcome="/auth/edituser" value="Editar Usuario"/></h2>
 
                     <h4><h:outputText value="No tiene Avisos"
                                       rendered="#{empty userAd.adList}"/></h4>
@@ -63,6 +63,8 @@
                                              oncomplete="confirmation.hide()"
                                              actionListener="#{userAd.softRemove}"/>
                         </p:confirmDialog>
+
+                        <p>admin@drip.cl</p>
                     </h:form>
                 </div>
 
