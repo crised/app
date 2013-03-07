@@ -23,7 +23,8 @@ public class Ad implements Serializable, Comparable<Ad> {
 
     @Size(min = 80, max = 5_000, message = "{ad.longDescription.size}")
     @NotNull
-    @Lob
+    //@Lob bug!
+    @Column(columnDefinition = "TEXT")
     private String longDescription;
 
     @Max(value = 10_000_000_000L, message = "{ad.price.max}")
