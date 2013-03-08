@@ -48,6 +48,7 @@ public class CacheView implements Serializable {
     @PostConstruct //After injection is done.
     public void init() {
         adShowList = cacheBean.getSixAds();
+        if (adShowList.size() <= 6) nextHide = true;
         buildString();
         log.info("CacheView Constructed");
     }
